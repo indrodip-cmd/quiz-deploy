@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Find Your $10K/Month Blueprint | The5th</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0d1208;--bg2:#131a0e;--green:#5c7a5f;--green2:#3d5440;--green3:#7a9e7d;
+  --gold:#c9a84c;--cream:#faf5ef;--text:#ffffff;--text2:rgba(255,255,255,0.65);
+  --text3:rgba(255,255,255,0.35);--border:rgba(255,255,255,0.1);
+  --card:rgba(255,255,255,0.06);--card-hover:rgba(255,255,255,0.1);
+  --sel:rgba(92,122,95,0.3);--sel-b:#5c7a5f;
+}
+html,body{height:100%;font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 32px;background:rgba(13,18,8,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:"Cormorant Garant",serif;font-size:20px;font-weight:700;color:var(--cream);}
+.logo em{color:var(--green3);font-style:normal;}
+.hdr-right{display:flex;align-items:center;gap:12px;}
+.step-lbl{font-size:12px;color:var(--text3);letter-spacing:.08em;}
+.back-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:18px;transition:all .2s;}
+.back-btn:hover{background:var(--card);}
+.back-btn.vis{display:flex;}
+.prog{position:fixed;top:61px;left:0;right:0;z-index:99;height:2px;background:rgba(255,255,255,0.08);}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 40px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateY(20px);}
+.screen.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.screen.exit{opacity:0;transform:translateY(-20px);}
+.wrap{max-width:580px;width:100%;}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;border:1px solid rgba(92,122,95,0.4);background:rgba(92,122,95,0.12);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green3);margin-bottom:28px;}
+.dot{width:6px;height:6px;border-radius:50%;background:#7ef083;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.h1{font-family:"Cormorant Garant",serif;font-size:clamp(48px,8vw,80px);font-weight:900;line-height:.95;letter-spacing:-.02em;margin-bottom:22px;color:var(--cream);}
+.h1 .g{color:var(--green3);font-style:italic;}
+.sub{font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:36px;}
+.sub strong{color:var(--cream);}
+.sp{display:flex;align-items:center;gap:12px;margin-bottom:36px;}
+.avs{display:flex;}
+.av{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;margin-left:-8px;}
+.av:first-child{margin-left:0;}
+.sp-txt{font-size:13px;color:var(--text2);}
+.sp-txt strong{color:var(--cream);}
+.stars{color:var(--gold);font-size:11px;display:block;margin-bottom:2px;}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:380px;padding:20px 32px;border-radius:60px;background:var(--cream);color:var(--bg);border:none;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:16px;font-weight:700;transition:all .25s;box-shadow:0 0 40px rgba(250,245,239,0.12);}
+.btn:hover{background:#fff;transform:translateY(-2px);}
+.btn-note{font-size:12px;color:var(--text3);margin-top:12px;letter-spacing:.04em;}
+.stats{display:flex;gap:40px;margin-top:48px;padding-top:40px;border-top:1px solid var(--border);}
+.stat-n{font-family:"Cormorant Garant",serif;font-size:36px;font-weight:900;color:var(--cream);line-height:1;}
+.stat-n em{color:var(--green3);font-style:normal;}
+.stat-l{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;}
+.q-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green3);font-weight:600;margin-bottom:18px;}
+.q-h{font-family:"Cormorant Garant",serif;font-size:clamp(26px,4vw,42px);font-weight:700;line-height:1.1;color:var(--cream);margin-bottom:8px;}
+.q-s{font-size:14px;color:var(--text2);margin-bottom:32px;line-height:1.6;}
+.opts{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-radius:14px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .18s;width:100%;text-align:left;}
+.opt:hover{border-color:rgba(92,122,95,0.5);background:var(--card-hover);}
+.opt.sel{border-color:var(--sel-b);background:var(--sel);}
+.opt-l{display:flex;align-items:center;gap:13px;}
+.opt-ico{font-size:20px;width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.opt-title{font-size:14px;font-weight:500;color:var(--cream);}
+.opt-desc{font-size:12px;color:var(--text3);margin-top:2px;}
+.chk{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;transition:all .2s;}
+.opt.sel .chk{background:var(--green);border-color:var(--green);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3 3 7-7' stroke='white' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:10px;}
+.next-btn{width:100%;padding:18px;border-radius:60px;border:none;background:var(--cream);color:var(--bg);font-family:"DM Sans",sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:22px;}
+.next-btn:hover{background:#fff;transform:translateY(-2px);}
+.next-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+.q-err{color:#ff6b6b;font-size:13px;text-align:center;margin-top:8px;opacity:0;transition:opacity .3s;}
+.q-ta{width:100%;padding:16px 18px;border-radius:13px;border:1.5px solid var(--border);background:var(--card);color:var(--cream);font-family:"DM Sans",sans-serif;font-size:14px;resize:none;outline:none;transition:border-color .2s;min-height:115px;line-height:1.6;}
+.q-ta::placeholder{color:var(--text3);}
+.q-ta:focus{border-color:var(--green);}
+.q-in{width:100%;padding:15px 18px;border-radius:13px;border:1.5px solid var(--border);background:var(--card);color:var(--cream);font-family:"DM Sans",sans-serif;font-size:14px;outline:none;transition:border-color .2s;margin-bottom:10px;}
+.q-in::placeholder{color:var(--text3);}
+.q-in:focus{border-color:var(--green);}
+.inter-icon{font-size:60px;margin-bottom:20px;display:block;text-align:center;}
+.inter-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green3);font-weight:600;margin-bottom:14px;text-align:center;}
+.inter-h{font-family:"Cormorant Garant",serif;font-size:clamp(30px,5vw,48px);font-weight:900;color:var(--cream);line-height:1.05;margin-bottom:14px;text-align:center;}
+.inter-p{font-size:15px;color:var(--text2);line-height:1.7;max-width:400px;margin:0 auto 32px;text-align:center;}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:28px;}
+.pc-q{font-family:"Cormorant Garant",serif;font-size:17px;font-style:italic;color:var(--text2);line-height:1.6;margin-bottom:18px;}
+.pc-au{display:flex;align-items:center;gap:11px;}
+.pc-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.pc-name{font-size:13px;font-weight:600;color:var(--cream);}
+.pc-role{font-size:11px;color:var(--text3);}
+.pc-price{font-size:11px;color:var(--gold);font-weight:700;margin-top:2px;}
+.int-btn{width:100%;padding:19px;border-radius:60px;border:none;background:var(--cream);color:var(--bg);font-family:"DM Sans",sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.int-btn:hover{background:#fff;transform:translateY(-2px);}
+.f-lbl{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
+.prev-box{background:var(--card);border:1px solid rgba(92,122,95,0.3);border-radius:15px;padding:18px;margin-bottom:24px;}
+.prev-lbl{font-size:10px;font-weight:700;color:var(--green3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
+.prev-item{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:13px;color:var(--text2);}
+.prev-item::before{content:"";width:15px;height:15px;border-radius:50%;background:var(--green2);flex-shrink:0;}
+.load-wrap{max-width:440px;width:100%;text-align:center;}
+.load-h{font-family:"Cormorant Garant",serif;font-size:clamp(26px,4vw,38px);font-weight:900;color:var(--cream);margin-bottom:8px;}
+.load-s{font-size:13px;color:var(--text3);margin-bottom:44px;}
+.lb-bg{width:100%;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:7px;}
+.lb-f{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:2px;width:0%;transition:width .4s ease;}
+.lb-pct{font-size:11px;color:var(--text3);text-align:right;margin-bottom:36px;}
+.ls-steps{display:flex;flex-direction:column;gap:13px;text-align:left;}
+.ls{display:flex;align-items:center;gap:13px;font-size:14px;color:var(--text3);transition:color .4s;}
+.ls.done{color:var(--text2);}
+.ls-dot{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:all .4s;}
+.ls.done .ls-dot{background:var(--green2);border-color:var(--green);color:#fff;}
+.result-screen{position:fixed;inset:0;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .5s;}
+.result-screen.active{opacity:1;pointer-events:all;}
+.r-hero{background:linear-gradient(160deg,#0d1a0d,#1a2f1a 50%,#0d1208);padding:120px 24px 70px;text-align:center;position:relative;overflow:hidden;}
+.r-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(92,122,95,0.2),transparent 60%);}
+.r-inner{position:relative;z-index:1;max-width:680px;margin:0 auto;}
+.r-badge{display:inline-block;padding:7px 18px;border-radius:20px;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;}
+.r-h{font-family:"Cormorant Garant",serif;font-size:clamp(32px,5vw,58px);font-weight:900;color:var(--cream);line-height:1;margin-bottom:14px;}
+.r-h em{color:var(--green3);font-style:italic;}
+.r-desc{font-size:15px;color:var(--text2);line-height:1.8;max-width:520px;margin:0 auto 44px;}
+.r-scores{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;max-width:480px;margin:0 auto;}
+.sc-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;}
+.sc-lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;display:flex;justify-content:space-between;}
+.sc-lbl span:last-child{color:var(--green3);font-weight:700;}
+.sc-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.sc-f{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:2px;width:0%;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.r-body{max-width:720px;margin:0 auto;padding:56px 24px 80px;}
+.s-eye{font-size:11px;font-weight:700;color:var(--green3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
+.s-h{font-family:"Cormorant Garant",serif;font-size:clamp(26px,3.5vw,38px);font-weight:900;color:var(--cream);margin-bottom:28px;line-height:1.1;}
+.week-lbl{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.week-lbl::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.08);}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:9px;display:flex;align-items:flex-start;gap:14px;}
+.tc-n{width:26px;height:26px;border-radius:50%;background:var(--green2);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.tc-title{font-size:14px;font-weight:600;color:var(--cream);margin-bottom:4px;}
+.tc-desc{font-size:13px;color:var(--text2);line-height:1.6;}
+.tc-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:9px;margin-top:7px;}
+.tag-c{background:rgba(92,122,95,0.2);color:var(--green3);}
+.tag-s{background:rgba(201,168,76,0.15);color:var(--gold);}
+.tag-o{background:rgba(100,120,200,0.15);color:#a0b0f0;}
+.tag-m{background:rgba(200,100,100,0.15);color:#f0a0a0;}
+.book-box{background:linear-gradient(135deg,var(--green2),#1a2f1a);border-radius:22px;padding:44px 36px;text-align:center;margin-bottom:44px;position:relative;overflow:hidden;}
+.book-box::before{content:"";position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(92,122,95,0.12);}
+.book-in{position:relative;z-index:1;}
+.book-tag{font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
+.book-h{font-family:"Cormorant Garant",serif;font-size:clamp(26px,4vw,38px);font-weight:900;color:#fff;margin-bottom:10px;}
+.book-p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.6;}
+.book-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 36px;border-radius:60px;background:var(--cream);color:var(--bg);border:none;font-family:"DM Sans",sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.book-btn:hover{background:#fff;transform:translateY(-2px);}
+.skip-btn{display:block;font-size:12px;color:rgba(255,255,255,0.3);margin-top:14px;cursor:pointer;background:none;border:none;font-family:"DM Sans",sans-serif;transition:color .2s;}
+.skip-btn:hover{color:rgba(255,255,255,0.55);}
+.ai-gen{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px;margin-bottom:20px;text-align:center;}
+.spinner{width:38px;height:38px;border:2px solid rgba(92,122,95,0.2);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-lbl{font-size:13px;color:var(--text2);}
+.ep-item{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:9px;}
+.ep-day{width:32px;height:32px;border-radius:50%;background:var(--green2);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ep-title{font-size:14px;font-weight:600;color:var(--cream);margin-bottom:2px;}
+.ep-desc{font-size:12px;color:var(--text3);}
+.ep-badge{margin-left:auto;font-size:10px;font-weight:700;color:var(--green3);background:rgba(92,122,95,0.15);padding:3px 10px;border-radius:9px;white-space:nowrap;flex-shrink:0;}
+@media(max-width:600px){
+  .hdr{padding:16px 20px;}
+  .screen{padding:70px 18px 30px;}
+  .stats{gap:18px;}
+  .stat-n{font-size:28px;}
+  .r-hero{padding:100px 20px 56px;}
+  .r-scores{grid-template-columns:1fr 1fr;}
+  .r-body{padding:36px 18px 56px;}
+  .book-box{padding:32px 20px;}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">The<em>5th</em></div>
+  <div class="hdr-right">
+    <span class="step-lbl" id="stepLbl"></span>
+    <button class="back-btn" id="backBtn" onclick="goBack()">&#8592;</button>
+  </div>
+</header>
+<div class="prog"><div class="prog-f" id="progF"></div></div>
+
+<!-- LANDING -->
+<div class="screen active" id="s0">
+<div class="wrap" style="max-width:540px;text-align:left;">
+  <div class="badge"><span class="dot"></span> AI Blueprint Quiz</div>
+  <h1 class="h1">Discover Your<br><span class="g">$10K/Month</span><br>Blueprint</h1>
+  <p class="sub">Answer <strong>12 questions</strong> and get your personalised blueprint plus a <strong>7-day AI coaching series</strong> built from your answers.</p>
+  <div class="sp">
+    <div class="avs">
+      <div class="av" style="background:#5c7a5f">A</div>
+      <div class="av" style="background:#8b7fcf">L</div>
+      <div class="av" style="background:#c9826b">S</div>
+      <div class="av" style="background:#5c7a9e">M</div>
+    </div>
+    <div class="sp-txt"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><strong>2,400+ women</strong> got their blueprint</div>
+  </div>
+  <button class="btn" onclick="go('s1')">Find My Blueprint &nbsp;&#8594;</button>
+  <p class="btn-note">Free &bull; 5 minutes &bull; 7-day AI coaching included</p>
+  <div class="stats">
+    <div><div class="stat-n"><em>$15</em>M+</div><div class="stat-l">Data trained</div></div>
+    <div><div class="stat-n"><em>4</em></div><div class="stat-l">Revenue tiers</div></div>
+    <div><div class="stat-n"><em>93</em>%</div><div class="stat-l">Clarity achieved</div></div>
+  </div>
+</div>
+</div>
+
+<!-- Q1: REVENUE -->
+<div class="screen" id="s1">
+<div class="wrap">
+  <div class="q-tag">Question 1 of 12</div>
+  <h2 class="q-h">What is your current monthly revenue from coaching?</h2>
+  <p class="q-s">Be honest. This calibrates your entire blueprint.</p>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'revenue','0-2k','s2')"><div class="opt-l"><div class="opt-ico">&#127793;</div><div><div class="opt-title">Just starting out</div><div class="opt-desc">$0 to $2,000 per month</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'revenue','2k-5k','s2')"><div class="opt-l"><div class="opt-ico">&#127800;</div><div><div class="opt-title">Growing steadily</div><div class="opt-desc">$2,000 to $5,000 per month</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'revenue','5k-7k','s2')"><div class="opt-l"><div class="opt-ico">&#11088;</div><div><div class="opt-title">Established coach</div><div class="opt-desc">$5,000 to $7,000 per month</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'revenue','7k+','s2')"><div class="opt-l"><div class="opt-ico">&#128293;</div><div><div class="opt-title">High performer</div><div class="opt-desc">$7,000+ per month</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- Q2: NICHE -->
+<div class="screen" id="s2">
+<div class="wrap">
+  <div class="q-tag">Question 2 of 12</div>
+  <h2 class="q-h">What is your coaching niche?</h2>
+  <p class="q-s">The more specific, the more accurate your blueprint.</p>
+  <textarea class="q-ta" id="t2" placeholder="I help women over 40 who have corporate experience transition into online coaching and build a premium business around their expertise..."></textarea>
+  <button class="next-btn" onclick="nxt(2,'s3','text','niche')">Continue &#8594;</button>
+  <div class="q-err" id="e2">Please describe your niche before continuing</div>
+</div>
+</div>
+
+<!-- Q3: OFFER -->
+<div class="screen" id="s3">
+<div class="wrap">
+  <div class="q-tag">Question 3 of 12</div>
+  <h2 class="q-h">What does your current offer look like?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'offer','none','si1')"><div class="opt-l"><div class="opt-ico">&#10067;</div><div><div class="opt-title">No clear offer yet</div><div class="opt-desc">Still figuring out what to sell</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'offer','hourly','si1')"><div class="opt-l"><div class="opt-ico">&#128336;</div><div><div class="opt-title">Hourly or per session</div><div class="opt-desc">Charging by the hour</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'offer','low','si1')"><div class="opt-l"><div class="opt-ico">&#128230;</div><div><div class="opt-title">Package under $2,000</div><div class="opt-desc">Fixed package but priced low</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'offer','high','si1')"><div class="opt-l"><div class="opt-ico">&#128176;</div><div><div class="opt-title">High ticket package $2K+</div><div class="opt-desc">Premium offer already in place</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- INTER 1 -->
+<div class="screen" id="si1">
+<div class="wrap" style="max-width:520px;text-align:center;">
+  <span class="inter-icon">&#10003;</span>
+  <div class="inter-tag">Section 1 of 3 Complete</div>
+  <h2 class="inter-h">You have something real.</h2>
+  <p class="inter-p">Most coaches who take this quiz have more expertise than they realise. Now let us find what is holding you back.</p>
+  <div class="pc">
+    <p class="pc-q">"The biggest shift was not learning something new. It was finally seeing the value I already had and charging what I was worth."</p>
+    <div class="pc-au"><div class="pc-av" style="background:#5c7a5f">A</div><div><div class="pc-name">Amelia Ramsey</div><div class="pc-role">Health Coach</div><div class="pc-price">From $80/hr to $8,500 VIP packages</div></div></div>
+  </div>
+  <button class="int-btn" onclick="go('s4')">Continue to Section 2 &#8594;</button>
+</div>
+</div>
+
+<!-- Q4: BLOCK -->
+<div class="screen" id="s4">
+<div class="wrap">
+  <div class="q-tag">Question 4 of 12</div>
+  <h2 class="q-h">What is your biggest block to reaching $10K per month?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'block','leads','s5')"><div class="opt-l"><div class="opt-ico">&#128270;</div><div><div class="opt-title">Not enough leads or visibility</div><div class="opt-desc">People do not know I exist</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'block','pricing','s5')"><div class="opt-l"><div class="opt-ico">&#128178;</div><div><div class="opt-title">Pricing confidence</div><div class="opt-desc">I know I undercharge</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'block','sales','s5')"><div class="opt-l"><div class="opt-ico">&#128222;</div><div><div class="opt-title">Closing sales on calls</div><div class="opt-desc">I lose people at the price conversation</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'block','niche','s5')"><div class="opt-l"><div class="opt-ico">&#127919;</div><div><div class="opt-title">No clear niche or offer</div><div class="opt-desc">Still figuring out what I do</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'block','consistency','s5')"><div class="opt-l"><div class="opt-ico">&#128201;</div><div><div class="opt-title">Inconsistency and self-doubt</div><div class="opt-desc">I start and stop repeatedly</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- Q5: CONTENT -->
+<div class="screen" id="s5">
+<div class="wrap">
+  <div class="q-tag">Question 5 of 12</div>
+  <h2 class="q-h">How consistent is your content right now?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'content','never','s6')"><div class="opt-l"><div class="opt-ico">&#128064;</div><div><div class="opt-title">Rarely or never posting</div><div class="opt-desc">Content feels overwhelming</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'content','sometimes','s6')"><div class="opt-l"><div class="opt-ico">&#128260;</div><div><div class="opt-title">Posting when inspired</div><div class="opt-desc">No real system</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'content','weekly','s6')"><div class="opt-l"><div class="opt-ico">&#128200;</div><div><div class="opt-title">1 to 3 times per week</div><div class="opt-desc">Getting more consistent</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'content','daily','s6')"><div class="opt-l"><div class="opt-ico">&#128293;</div><div><div class="opt-title">Daily and systematic</div><div class="opt-desc">Content machine is running</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- Q6: CALLS -->
+<div class="screen" id="s6">
+<div class="wrap">
+  <div class="q-tag">Question 6 of 12</div>
+  <h2 class="q-h">How many discovery calls do you have per month?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'calls','0','si2')"><div class="opt-l"><div class="opt-ico">&#128263;</div><div><div class="opt-title">Zero calls</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'calls','1-3','si2')"><div class="opt-l"><div class="opt-ico">&#128267;</div><div><div class="opt-title">1 to 3 calls</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'calls','4-8','si2')"><div class="opt-l"><div class="opt-ico">&#128266;</div><div><div class="opt-title">4 to 8 calls</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'calls','8+','si2')"><div class="opt-l"><div class="opt-ico">&#128293;</div><div><div class="opt-title">8 or more calls</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- INTER 2 -->
+<div class="screen" id="si2">
+<div class="wrap" style="max-width:520px;text-align:center;">
+  <span class="inter-icon">&#128200;</span>
+  <div class="inter-tag">Section 2 of 3 Complete</div>
+  <h2 class="inter-h">The pattern is becoming clear.</h2>
+  <p class="inter-p">Your answers reveal a specific gap. The next questions will lock in your exact 2-week action plan.</p>
+  <div class="pc">
+    <p class="pc-q">"I was charging $200 per session. Two weeks after getting my blueprint I sold a $4,500 package in one conversation."</p>
+    <div class="pc-au"><div class="pc-av" style="background:#8b7fcf">L</div><div><div class="pc-name">Laurie Gerber</div><div class="pc-role">Relationships Coach</div><div class="pc-price">$4,500 per client</div></div></div>
+  </div>
+  <button class="int-btn" onclick="go('s7')">Continue to Section 3 &#8594;</button>
+</div>
+</div>
+
+<!-- Q7: GOAL -->
+<div class="screen" id="s7">
+<div class="wrap">
+  <div class="q-tag">Question 7 of 12</div>
+  <h2 class="q-h">What is your revenue target for the next 90 days?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'goal','3k','s8')"><div class="opt-l"><div class="opt-ico">&#127919;</div><div><div class="opt-title">$3,000 per month</div><div class="opt-desc">First consistent income milestone</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'goal','5k','s8')"><div class="opt-l"><div class="opt-ico">&#127919;</div><div><div class="opt-title">$5,000 per month</div><div class="opt-desc">Part-time replacement income</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'goal','10k','s8')"><div class="opt-l"><div class="opt-ico">&#128293;</div><div><div class="opt-title">$10,000 per month</div><div class="opt-desc">Full-time freedom milestone</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'goal','20k+','s8')"><div class="opt-l"><div class="opt-ico">&#128640;</div><div><div class="opt-title">$20,000+ per month</div><div class="opt-desc">Scaling to multiple six figures</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- Q8: HOURS -->
+<div class="screen" id="s8">
+<div class="wrap">
+  <div class="q-tag">Question 8 of 12</div>
+  <h2 class="q-h">How many hours per week can you dedicate to building your business?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'hours','1-5','s9')"><div class="opt-l"><div class="opt-ico">&#128336;</div><div><div class="opt-title">1 to 5 hours</div><div class="opt-desc">Tight schedule, side hustle mode</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'hours','5-15','s9')"><div class="opt-l"><div class="opt-ico">&#128336;</div><div><div class="opt-title">5 to 15 hours</div><div class="opt-desc">Part-time dedicated time</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'hours','15-30','s9')"><div class="opt-l"><div class="opt-ico">&#128293;</div><div><div class="opt-title">15 to 30 hours</div><div class="opt-desc">Serious commitment</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'hours','30+','s9')"><div class="opt-l"><div class="opt-ico">&#128640;</div><div><div class="opt-title">30 or more hours</div><div class="opt-desc">Full focus on this</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- Q9: TRANSFORMATION -->
+<div class="screen" id="s9">
+<div class="wrap">
+  <div class="q-tag">Question 9 of 12</div>
+  <h2 class="q-h">Describe the transformation you create for clients.</h2>
+  <p class="q-s">Complete this: I help [who] go from [pain] to [result].</p>
+  <textarea class="q-ta" id="t9" placeholder="I help women over 40 who feel invisible in their industry go from undercharging and overworking to running a premium coaching practice at $5K+ per client..."></textarea>
+  <button class="next-btn" onclick="nxt(9,'s10','text','transformation')">Continue &#8594;</button>
+  <div class="q-err" id="e9">Please describe your transformation</div>
+</div>
+</div>
+
+<!-- Q10: PLATFORM -->
+<div class="screen" id="s10">
+<div class="wrap">
+  <div class="q-tag">Question 10 of 12</div>
+  <h2 class="q-h">Where do most of your leads currently come from?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'platform','referrals','s11')"><div class="opt-l"><div class="opt-ico">&#129309;</div><div><div class="opt-title">Word of mouth and referrals</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'platform','instagram','s11')"><div class="opt-l"><div class="opt-ico">&#128247;</div><div><div class="opt-title">Instagram</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'platform','linkedin','s11')"><div class="opt-l"><div class="opt-ico">&#128188;</div><div><div class="opt-title">LinkedIn</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'platform','facebook','s11')"><div class="opt-l"><div class="opt-ico">&#127760;</div><div><div class="opt-title">Facebook Groups</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'platform','none','s11')"><div class="opt-l"><div class="opt-ico">&#128269;</div><div><div class="opt-title">Nowhere consistent yet</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- Q11: WIN -->
+<div class="screen" id="s11">
+<div class="wrap">
+  <div class="q-tag">Question 11 of 12</div>
+  <h2 class="q-h">What is the biggest result a client has achieved working with you?</h2>
+  <p class="q-s">Be specific with numbers if you have them.</p>
+  <textarea class="q-ta" id="t11" placeholder="My client went from charging $150 per session to closing a $6,000 package in 6 weeks. She now has a waitlist..."></textarea>
+  <button class="next-btn" onclick="nxt(11,'s12','text','win')">Continue &#8594;</button>
+  <div class="q-err" id="e11">Please share a client result</div>
+</div>
+</div>
+
+<!-- Q12: SUPPORT -->
+<div class="screen" id="s12">
+<div class="wrap">
+  <div class="q-tag">Question 12 of 12</div>
+  <h2 class="q-h">What kind of support would help you most right now?</h2>
+  <div class="opts">
+    <button class="opt" onclick="sel(this,'support','strategy','slead')"><div class="opt-l"><div class="opt-ico">&#129504;</div><div><div class="opt-title">A clear strategy and plan</div><div class="opt-desc">I know what to do but need direction</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'support','accountability','slead')"><div class="opt-l"><div class="opt-ico">&#128170;</div><div><div class="opt-title">Accountability and coaching</div><div class="opt-desc">I need someone in my corner</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'support','community','slead')"><div class="opt-l"><div class="opt-ico">&#129331;</div><div><div class="opt-title">A community of peers</div><div class="opt-desc">I work better with others around me</div></div></div><div class="chk"></div></button>
+    <button class="opt" onclick="sel(this,'support','tools','slead')"><div class="opt-l"><div class="opt-ico">&#128295;</div><div><div class="opt-title">Systems and tools</div><div class="opt-desc">Help setting up the infrastructure</div></div></div><div class="chk"></div></button>
+  </div>
+</div>
+</div>
+
+<!-- LEAD CAPTURE -->
+<div class="screen" id="slead">
+<div class="wrap" style="max-width:480px;">
+  <h2 class="q-h" style="margin-bottom:10px;">Your blueprint is ready.</h2>
+  <p class="q-s" style="margin-bottom:22px;">Enter your details and The5th AI will generate your personalised 2-week plan and start your 7-day coaching series tonight.</p>
+  <div class="prev-box">
+    <div class="prev-lbl">What you are about to receive</div>
+    <div class="prev-item">Your personalised revenue tier profile</div>
+    <div class="prev-item">A 2-week AI-generated action plan from your answers</div>
+    <div class="prev-item">7-day email coaching series with daily tasks</div>
+    <div class="prev-item">Your recommended offer and pricing strategy</div>
+  </div>
+  <div class="f-lbl">Your First Name</div>
+  <input class="q-in" id="lName" type="text" placeholder="Jennifer">
+  <div class="f-lbl">Email Address</div>
+  <input class="q-in" id="lEmail" type="email" placeholder="jennifer@email.com">
+  <div class="f-lbl">Phone Number (optional)</div>
+  <input class="q-in" id="lPhone" type="tel" placeholder="+1 555 000 0000">
+  <button class="next-btn" style="margin-top:6px;" onclick="submitLead()">Show My Blueprint &#8594;</button>
+  <div class="q-err" id="elead">Please enter your name and email</div>
+  <p class="btn-note" style="margin-top:14px;text-align:center;">No spam. Unsubscribe any time.</p>
+</div>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="sload">
+<div class="load-wrap">
+  <h2 class="load-h">Building your blueprint...</h2>
+  <p class="load-s">The5th AI is analysing your 12 answers</p>
+  <div class="lb-bg"><div class="lb-f" id="lbF"></div></div>
+  <div class="lb-pct" id="lbP">0%</div>
+  <div class="ls-steps">
+    <div class="ls" id="ls1"><div class="ls-dot">1</div>Identifying your revenue tier and profile</div>
+    <div class="ls" id="ls2"><div class="ls-dot">2</div>Mapping your biggest revenue opportunity</div>
+    <div class="ls" id="ls3"><div class="ls-dot">3</div>Generating your personalised 2-week tasks</div>
+    <div class="ls" id="ls4"><div class="ls-dot">4</div>Building your 7-day coaching series</div>
+    <div class="ls" id="ls5"><div class="ls-dot">5</div>Saving your profile</div>
+  </div>
+</div>
+</div>
+
+<!-- RESULT -->
+<div class="result-screen" id="sresult">
+  <div class="r-hero">
+    <div class="r-inner">
+      <div class="r-badge" id="rBadge">YOUR PROFILE</div>
+      <h1 class="r-h" id="rH">Your Blueprint</h1>
+      <p class="r-desc" id="rDesc"></p>
+      <div class="r-scores" id="rScores"></div>
+    </div>
+  </div>
+  <div class="r-body">
+    <div class="book-box" id="bookBox">
+      <div class="book-in">
+        <div class="book-tag">Recommended Next Step</div>
+        <h2 class="book-h">Implement this plan with us.</h2>
+        <p class="book-p">Book a free 45-minute strategy call. We will review your blueprint together and show you exactly how to implement it this month.</p>
+        <button class="book-btn" onclick="bookCall()">&#128222;&nbsp; Book My Free Strategy Call</button>
+        <button class="skip-btn" onclick="skipBook()">No thanks, I will implement this myself</button>
+      </div>
+    </div>
+    <div id="tasksWrap">
+      <div class="s-eye">Your Personalised Plan</div>
+      <h2 class="s-h">Your 2-Week Action Plan</h2>
+      <div class="ai-gen" id="aiGen"><div class="spinner"></div><div class="ai-lbl">The5th AI is generating your personalised tasks...</div></div>
+      <div id="tasksOut"></div>
+    </div>
+    <div style="margin-top:48px;padding-top:44px;border-top:1px solid rgba(255,255,255,0.08)">
+      <div class="s-eye">Your Revenue Strategy</div>
+      <h2 class="s-h">Recommended Offer and Pricing</h2>
+      <div class="tc"><div class="tc-n">&#128176;</div><div><div class="tc-title" id="offerT"></div><div class="tc-desc" id="offerD"></div></div></div>
+    </div>
+    <div style="margin-top:48px;padding-top:44px;border-top:1px solid rgba(255,255,255,0.08)">
+      <div class="s-eye">Your 7-Day Coaching Series</div>
+      <h2 class="s-h">What lands in your inbox</h2>
+      <div id="emailPrev"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var A = {};
+var cur = "s0";
+var hist = ["s0"];
+var PROGS = {"s1":8,"s2":16,"s3":22,"si1":26,"s4":34,"s5":42,"s6":50,"si2":54,"s7":62,"s8":70,"s9":76,"s10":82,"s11":88,"s12":94,"slead":97,"sload":100};
+var TIERS = {"0-2k":"beginner","2k-5k":"intermediate","5k-7k":"advanced","7k+":"pro"};
+var TIER_LABELS = {"beginner":"Beginner Builder","intermediate":"Intermediate Grower","advanced":"Advanced Coach","pro":"Pro Scaler"};
+
+function go(id) {
+  var c = document.getElementById(cur);
+  var n = document.getElementById(id);
+  if (!n) return;
+  if (c) { c.classList.add("exit"); setTimeout(function(){ c.classList.remove("active","exit"); }, 320); }
+  setTimeout(function(){
+    n.classList.add("active");
+    cur = id;
+    if (hist[hist.length-1] !== id) hist.push(id);
+    var pf = document.getElementById("progF");
+    if (pf) pf.style.width = (PROGS[id] || 0) + "%";
+    var sl = document.getElementById("stepLbl");
+    if (sl) { var m={"s1":"1 of 12","s2":"2 of 12","s3":"3 of 12","s4":"4 of 12","s5":"5 of 12","s6":"6 of 12","s7":"7 of 12","s8":"8 of 12","s9":"9 of 12","s10":"10 of 12","s11":"11 of 12","s12":"12 of 12"}; sl.textContent = m[id] ? ("Question " + m[id]) : ""; }
+    var bb = document.getElementById("backBtn");
+    if (bb) { if(id==="s0"||id==="sload"||id==="sresult") bb.classList.remove("vis"); else bb.classList.add("vis"); }
+  }, 80);
+}
+
+function goBack() {
+  if (hist.length < 2) return;
+  hist.pop();
+  var p = hist[hist.length-1];
+  var c = document.getElementById(cur);
+  var pe = document.getElementById(p);
+  if (!pe) return;
+  if (c) c.classList.remove("active");
+  pe.classList.add("active");
+  cur = p;
+  var pf = document.getElementById("progF");
+  if (pf) pf.style.width = (PROGS[p] || 0) + "%";
+}
+
+function sel(el, key, val, next) {
+  var container = el.closest(".opts");
+  container.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("sel"); });
+  el.classList.add("sel");
+  A[key] = val;
+  setTimeout(function(){ go(next); }, 220);
+}
+
+function nxt(from, to, type, key) {
+  if (type === "text") {
+    var el = document.getElementById("t" + from);
+    if (!el || !el.value.trim()) {
+      var e = document.getElementById("e" + from);
+      if (e) { e.style.opacity = "1"; setTimeout(function(){ e.style.opacity = "0"; }, 2500); }
+      return;
+    }
+    A[key] = el.value.trim();
+  }
+  go(to);
+}
+
+function submitLead() {
+  var name = document.getElementById("lName").value.trim();
+  var email = document.getElementById("lEmail").value.trim();
+  var phone = document.getElementById("lPhone").value.trim();
+  if (!name || !email || !email.includes("@")) {
+    var e = document.getElementById("elead");
+    e.style.opacity = "1"; setTimeout(function(){ e.style.opacity="0"; }, 2500);
+    return;
+  }
+  A.name = name; A.email = email; A.phone = phone;
+  A.tier = TIERS[A.revenue] || "beginner";
+  go("sload");
+  runLoad();
+}
+
+function runLoad() {
+  var lbF = document.getElementById("lbF");
+  var lbP = document.getElementById("lbP");
+  var steps = [1,2,3,4,5].map(function(i){ return document.getElementById("ls"+i); });
+  var p = 0;
+  [800,1800,3000,4400,5600].forEach(function(t,i){
+    setTimeout(function(){ if(steps[i]) steps[i].classList.add("done"); }, t);
+  });
+  var iv = setInterval(function(){
+    p += 1.5;
+    if (p > 100) { p = 100; clearInterval(iv); }
+    if (lbF) lbF.style.width = p + "%";
+    if (lbP) lbP.textContent = Math.round(p) + "%";
+  }, 90);
+  saveData();
+  setTimeout(function(){ showResult(); genTasks(); }, 7000);
+}
+
+function saveData() {
+  var sb = "https://hlcvxeujqjhropiignjq.supabase.co";
+  var sbk = "";
+  var bk = "";
+  if (sbk) {
+    fetch(sb + "/rest/v1/quiz_leads", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":sbk,"Authorization":"Bearer "+sbk,"Prefer":"return=minimal"},
+      body:JSON.stringify({email:A.email,full_name:A.name,phone:A.phone||"",tier:A.tier,revenue:A.revenue,niche:A.niche,block:A.block,goal:A.goal,answers:A})
+    }).catch(function(){});
+  }
+  if (bk) {
+    var fn = A.name.split(" ")[0];
+    var ln = A.name.split(" ").slice(1).join(" ") || "";
+    fetch("https://api.brevo.com/v3/contacts", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","api-key":bk},
+      body:JSON.stringify({email:A.email,updateEnabled:true,attributes:{FIRSTNAME:fn,LASTNAME:ln,PHONE:A.phone||"",QUIZ_TIER:A.tier,QUIZ_REVENUE:A.revenue||"",QUIZ_GOAL:A.goal||"",QUIZ_BLOCK:A.block||"",QUIZ_NICHE:A.niche||"",QUIZ_HOURS:A.hours||"",QUIZ_PLATFORM:A.platform||"",QUIZ_SUPPORT:A.support||""}})
+    }).catch(function(){});
+  }
+}
+
+function showResult() {
+  var tier = A.tier || "beginner";
+  var name = A.name ? A.name.split(" ")[0] : "You";
+  var profiles = {
+    beginner:{desc:"You have real expertise and deep potential. The gap right now is not knowledge - it is packaging and visibility. Your first goal is clear: get your first premium client at $2,000 or more. Everything else builds from there.",scores:{Clarity:42,Offer:32,Visibility:28,Sales:24},offer:"1:1 Premium Package: $2,000 to $3,500 for 6 to 8 weeks",offerD:"Do not build a course or group program yet. Sell your expertise directly in a focused 1:1 package at minimum $2,000. One client at this price beats what most beginners make in a month."},
+    intermediate:{desc:"You have proven the concept. Clients come in and results happen. The challenge is inconsistency and pricing. Raise your rates, build a repeatable lead flow, and close more of the calls you are already having.",scores:{Clarity:64,Offer:54,Visibility:48,Sales:44},offer:"Premium 3-Month Package: $3,500 to $6,000",offerD:"You are leaving money behind. A 3-month package positions you as an expert. Raise your price now. Your existing client results prove the value is there."},
+    advanced:{desc:"You have real traction and strong results. The next level requires leverage. You need systems that generate leads without you and an offer structure that scales beyond your hours.",scores:{Clarity:76,Offer:70,Visibility:64,Sales:68},offer:"Group Accelerator or VIP Package: $5,000 to $12,000",offerD:"Pre-sell a group program to your warm audience. 8 to 10 people at $5,000 each is a $40K to $50K launch using no new audience - just a new offer."},
+    pro:{desc:"You have a real business. The work now is leverage, systems, and scale. Group offers, a content ecosystem that compounds, and removing yourself from the delivery of every component.",scores:{Clarity:87,Offer:81,Visibility:74,Sales:79},offer:"Mastermind or Annual Program: $8,000 to $25,000+",offerD:"You are ready to go from trading time to building leverage. A high-ticket mastermind monetises your authority at scale. Pre-sell it to 5 clients before building anything."}
+  };
+  var p = profiles[tier] || profiles.beginner;
+  var label = TIER_LABELS[tier] || "Beginner Builder";
+  var rb = document.getElementById("rBadge");
+  var rh = document.getElementById("rH");
+  var rd = document.getElementById("rDesc");
+  var rs = document.getElementById("rScores");
+  var ot = document.getElementById("offerT");
+  var od = document.getElementById("offerD");
+  if (rb) rb.textContent = label.toUpperCase();
+  if (rh) rh.innerHTML = name + ", here is your <em>" + label + "</em> blueprint.";
+  if (rd) rd.textContent = p.desc;
+  if (ot) ot.textContent = p.offer;
+  if (od) od.textContent = p.offerD;
+  if (rs) {
+    rs.innerHTML = Object.entries(p.scores).map(function(e){ return "<div class='sc-card'><div class='sc-lbl'><span>"+e[0]+" Readiness</span><span>"+e[1]+"%</span></div><div class='sc-bar'><div class='sc-f' data-w='"+e[1]+"'></div></div></div>"; }).join("");
+    setTimeout(function(){ rs.querySelectorAll(".sc-f").forEach(function(el){ el.style.width = el.getAttribute("data-w") + "%"; }); }, 500);
+  }
+  var ep = document.getElementById("emailPrev");
+  if (ep) {
+    var days = [["1","Your Profile and First Priority"],["2","Your Offer Reframe"],["3","Pricing Confidence"],["4","Your Content System"],["5","Sales Made Simple"],["6","Your Mindset Shift"],["7","Your 30-Day Sprint"]];
+    ep.innerHTML = days.map(function(d){ return "<div class='ep-item'><div class='ep-day'>"+d[0]+"</div><div><div class='ep-title'>Day "+d[0]+": "+d[1]+"</div><div class='ep-desc'>Personalised coaching email built from your quiz answers</div></div><div class='ep-badge'>In your inbox</div></div>"; }).join("");
+  }
+  var rs2 = document.getElementById("sresult");
+  if (rs2) rs2.classList.add("active");
+  var sl = document.getElementById("sload");
+  if (sl) sl.classList.remove("active");
+}
+
+function genTasks() {
+  var ak = "";
+  if (!ak) { fallbackTasks(); return; }
+  var tier = A.tier || "beginner";
+  var prompt = "You are an expert business coach for women over 40 monetizing expertise through coaching. Generate a specific 2-week action plan.\n\nProfile:\n- Tier: " + tier + " (beginner=$0-2K/mo, intermediate=$2K-5K/mo, advanced=$5K-7K/mo, pro=$7K+/mo)\n- Revenue: " + (A.revenue||"unknown") + "\n- Niche: " + (A.niche||"coaching") + "\n- Biggest block: " + (A.block||"unknown") + "\n- Calls per month: " + (A.calls||"unknown") + "\n- Hours per week: " + (A.hours||"unknown") + "\n- Goal: " + (A.goal||"unknown") + "\n- Platform: " + (A.platform||"unknown") + "\n\nGenerate exactly 6 tasks for Week 1 and 6 tasks for Week 2. Each task must be specific, actionable, and calibrated to their exact tier and situation.\n\nRespond ONLY in this JSON format:\n{"week1":[{"title":"Task title","desc":"Specific action under 25 words","tag":"content|sales|offer|mindset"}],"week2":[{"title":"Task title","desc":"Specific action under 25 words","tag":"content|sales|offer|mindset"}]}";
+  fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1200,messages:[{role:"user",content:prompt}]})}).then(function(r){return r.json();}).then(function(d){
+    var txt = d.content && d.content[0] ? d.content[0].text : "";
+    try { renderTasks(JSON.parse(txt.replace(/```json|```/g,"").trim())); } catch(e){ fallbackTasks(); }
+  }).catch(function(){ fallbackTasks(); });
+}
+
+function renderTasks(data) {
+  var ag = document.getElementById("aiGen");
+  var to = document.getElementById("tasksOut");
+  if (ag) ag.style.display = "none";
+  if (!data||!data.week1||!data.week2){ fallbackTasks(); return; }
+  var tc = {"content":"tag-c","sales":"tag-s","offer":"tag-o","mindset":"tag-m"};
+  var html = "<div style='margin-bottom:32px'><div class='week-lbl'>Week 1: Foundation</div>";
+  data.week1.forEach(function(t,i){ html += "<div class='tc'><div class='tc-n'>"+(i+1)+"</div><div><div class='tc-title'>"+t.title+"</div><div class='tc-desc'>"+t.desc+"</div><span class='tc-tag "+(tc[t.tag]||"tag-c")+"'>"+t.tag+"</span></div></div>"; });
+  html += "</div><div><div class='week-lbl'>Week 2: Momentum</div>";
+  data.week2.forEach(function(t,i){ html += "<div class='tc'><div class='tc-n'>"+(i+1)+"</div><div><div class='tc-title'>"+t.title+"</div><div class='tc-desc'>"+t.desc+"</div><span class='tc-tag "+(tc[t.tag]||"tag-c")+"'>"+t.tag+"</span></div></div>"; });
+  html += "</div>";
+  if (to) to.innerHTML = html;
+}
+
+function fallbackTasks() {
+  var tier = A.tier || "beginner";
+  var fb = {
+    beginner:{
+      week1:[
+        {title:"Write your transformation statement",desc:"I help [who] go from [pain] to [result] in [time]. Post it publicly today.",tag:"offer"},
+        {title:"List 20 ideal client names",desc:"Write 20 real people who match your ideal client. This is your outreach list.",tag:"sales"},
+        {title:"Send 5 genuine connection messages",desc:"Message 5 people from your list. A real observation, not a pitch.",tag:"sales"},
+        {title:"Price your first package at $2,000",desc:"Set a 6-week package. Write who it is for, what is included, and the result.",tag:"offer"},
+        {title:"Post one authority piece of content",desc:"Share one real insight from your experience that your ideal client needs to hear.",tag:"content"},
+        {title:"Book your first discovery call",desc:"Invite the most engaged person to a 30-minute clarity call using Calendly.",tag:"sales"}
+      ],
+      week2:[
+        {title:"Run your first discovery call",desc:"Diagnose, prescribe your solution, present the price. Do not fill the silence.",tag:"sales"},
+        {title:"Send 5 more outreach messages",desc:"Keep the momentum. Consistency at this stage is the single biggest variable.",tag:"sales"},
+        {title:"Post 3 times this week",desc:"One story, one insight, one result. Use your transformation statement as the thread.",tag:"content"},
+        {title:"Follow up with every open conversation",desc:"Message everyone who has not replied in 48 hours. Most sales come from follow-up.",tag:"sales"},
+        {title:"Collect your social proof",desc:"Screenshot every positive message a client or peer has ever sent you.",tag:"offer"},
+        {title:"Review and plan Week 3 targets",desc:"What worked, what did not, and three clear priorities for next week.",tag:"mindset"}
+      ]
+    },
+    intermediate:{
+      week1:[
+        {title:"Raise your price by 40 percent today",desc:"Your next proposal goes out at your new price. Do not announce it, just do it.",tag:"offer"},
+        {title:"Audit your last 10 discovery calls",desc:"How many converted? Under 40 percent means close is the problem. Over 40 means leads.",tag:"sales"},
+        {title:"Create a 30-day content calendar",desc:"Plan 3 posts per week for 4 weeks. Theme each week around one client stage.",tag:"content"},
+        {title:"Write 3 case studies with numbers",desc:"Pick 3 clients with specific results. Write a 3-sentence result statement for each.",tag:"offer"},
+        {title:"Post proof content twice this week",desc:"Share a specific client result with real numbers. This is your most powerful content.",tag:"content"},
+        {title:"Book 3 discovery calls this week",desc:"Reach out to 10 warm contacts directly. At your stage, 10 messages should yield 3 calls.",tag:"sales"}
+      ],
+      week2:[
+        {title:"Present your new price on every call",desc:"Hold the price when there is resistance. Expect it and prepare your response.",tag:"sales"},
+        {title:"Send proposals within 24 hours",desc:"Every discovery call needs a follow-up proposal the same day. No proposal, no close.",tag:"sales"},
+        {title:"Post daily for 7 straight days",desc:"One post per day. Under 5 minutes each. Volume creates visibility at your level.",tag:"content"},
+        {title:"Ask 2 existing clients for referrals",desc:"Who else do they know who is struggling with this? Ask directly.",tag:"sales"},
+        {title:"Build a 3-message follow-up sequence",desc:"Create messages for 48 hours, 5 days, and 2 weeks after a call that did not close.",tag:"sales"},
+        {title:"Write your group program concept",desc:"One paragraph: who, what, how long, what result. This is your next offer.",tag:"offer"}
+      ]
+    },
+    advanced:{
+      week1:[
+        {title:"Design your group program structure",desc:"Map 8 to 12 weeks of curriculum. Limit to 10 people. Price at minimum $5,000.",tag:"offer"},
+        {title:"Contact 10 warm leads personally",desc:"Message past clients and warm leads about a founding member opportunity.",tag:"sales"},
+        {title:"Create one lead magnet this week",desc:"One PDF or video solving one specific problem. Distribute across all platforms.",tag:"content"},
+        {title:"Post authority content 4 times",desc:"LinkedIn articles or Instagram carousels focused on your methodology and results.",tag:"content"},
+        {title:"Get 2 founding member deposits",desc:"A verbal yes is not a sale. A deposit makes the commitment real for both of you.",tag:"sales"},
+        {title:"Apply for 2 podcast appearances",desc:"Find 2 podcasts your ideal client listens to. Send a one-paragraph pitch today.",tag:"content"}
+      ],
+      week2:[
+        {title:"Announce your program publicly",desc:"Post your group program on all platforms with a founding member offer and deadline.",tag:"content"},
+        {title:"Host a 60-minute free masterclass",desc:"Teach your best insight live. Invite attendees into your program at the end.",tag:"sales"},
+        {title:"Follow up with every interested person",desc:"Message every warm contact within 24 hours of your public announcement.",tag:"sales"},
+        {title:"Close your founding cohort of 5 to 8",desc:"This cohort validates and funds your program before you build the curriculum.",tag:"sales"},
+        {title:"Build your first 4 weeks of curriculum",desc:"Stay 4 weeks ahead. Do not build more than that until you are delivering it.",tag:"offer"},
+        {title:"Document every client win this week",desc:"Every result your clients share goes into your public proof file for the next launch.",tag:"content"}
+      ]
+    },
+    pro:{
+      week1:[
+        {title:"Design your mastermind offer",desc:"Map a 6 to 12 month high-ticket mastermind. Price at $10,000 to $25,000 minimum.",tag:"offer"},
+        {title:"Identify 5 potential mastermind clients",desc:"Your most successful past clients and warmest advanced leads. Reach out personally.",tag:"sales"},
+        {title:"Build your weekly authority content habit",desc:"One LinkedIn article, one short video, one email newsletter. Every single week.",tag:"content"},
+        {title:"Pitch 3 speaking or media opportunities",desc:"Apply for a summit, podcast, or live event. Authority at your level is built externally.",tag:"content"},
+        {title:"Get 2 mastermind pre-commitments",desc:"Verbal yes followed by a proposal within 48 hours. Move fast on warm signals.",tag:"sales"},
+        {title:"Map your automation gaps",desc:"List every task you do manually that could be removed. Eliminate the highest-cost item first.",tag:"offer"}
+      ],
+      week2:[
+        {title:"Send mastermind proposals to all 5",desc:"One-page proposals with investment, structure, and specific outcomes. Follow up in 24 hours.",tag:"sales"},
+        {title:"Host a private intimate event or dinner",desc:"Invite 8 to 12 ideal clients and prospects. This is your highest-leverage sales environment.",tag:"sales"},
+        {title:"Close your first mastermind member",desc:"One closed client at $10,000 to $15,000 validates the program. Everything follows.",tag:"sales"},
+        {title:"Feature 2 client results publicly",desc:"Specific numbers only. LinkedIn and Instagram. Tag the client if they agree.",tag:"content"},
+        {title:"Build your formal referral system",desc:"Ask 3 top clients for referrals and create a clear incentive for your best advocates.",tag:"sales"},
+        {title:"Remove one task from your plate permanently",desc:"Your time is worth $500+ per hour. Delegate or delete the lowest-value item this week.",tag:"mindset"}
+      ]
+    }
+  };
+  renderTasks(fb[tier] || fb.beginner);
+}
+
+function bookCall() { window.open("https://the5th.consulting/call","_blank"); }
+function skipBook() {
+  var b = document.getElementById("bookBox");
+  if (b) { b.style.opacity="0"; b.style.transform="scale(0.96)"; b.style.transition="all .3s"; setTimeout(function(){ b.style.display="none"; },300); }
+}
+</script>
+</body>
+</html>
