@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase'
 
 function getAnthropicClient() { return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! }) }
 
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const { email, message } = await req.json()
     if (!email || !message) return NextResponse.json({ error: 'Email and message required' }, { status: 400 })
 
-    const { data: lead } = await supabaseAdmin
+    const { data: lead } = await getSupabaseAdmin()
       .from('quiz_leads')
       .select('*')
       .eq('email', email)
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     const response = msg.content[0].type === 'text' ? msg.content[0].text : 'Sorry, I could not generate a response.'
 
     // Save to logs
-    await supabaseAdmin.from('ai_coaching_logs').insert({
+    await getSupabaseAdmin().from('ai_coaching_logs').insert({
       lead_id: lead.id,
       message,
       response

@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
   try {
     const { email, day, tasksCompleted, revenueLogged } = await req.json()
     if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 })
 
-    const { data: lead } = await supabaseAdmin
+    const { data: lead } = await getSupabaseAdmin()
       .from('quiz_leads')
       .select('id, current_day, streak, revenue_logged, last_visit')
       .eq('email', email)
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     if (!lead) return NextResponse.json({ error: 'Lead not found' }, { status: 404 })
 
     // Update progress log
-    await supabaseAdmin.from('roadmap_progress').insert({
+    await getSupabaseAdmin().from('roadmap_progress').insert({
       lead_id: lead.id,
       day: day || lead.current_day,
       tasks_completed: tasksCompleted || [],
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const newDay = Math.min((day || lead.current_day) + 1, 15)
     const newRevenue = (lead.revenue_logged || 0) + (revenueLogged || 0)
 
-    await supabaseAdmin.from('quiz_leads').update({
+    await getSupabaseAdmin().from('quiz_leads').update({
       current_day: tasksCompleted?.length > 0 ? newDay : lead.current_day,
       streak: newStreak,
       revenue_logged: newRevenue,

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { Resend } from 'resend'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase'
 import { otpEmail, email1, email2, email3, email4, email5, email6, email7 } from '@/lib/email-templates'
 
 function getAnthropicClient() { return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! }) }
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const firstName = name.split(' ')[0]
 
     // 1. Upsert lead
-    const { data: lead, error: leadErr } = await supabaseAdmin
+    const { data: lead, error: leadErr } = await getSupabaseAdmin()
       .from('quiz_leads')
       .upsert({ email, name, answers }, { onConflict: 'email', ignoreDuplicates: false })
       .select()
@@ -46,12 +46,12 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Save roadmap
-    await supabaseAdmin.from('quiz_leads').update({ roadmap }).eq('email', email)
+    await getSupabaseAdmin().from('quiz_leads').update({ roadmap }).eq('email', email)
 
     // 4. Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString()
-    await supabaseAdmin.from('roadmap_sessions').insert({ email, otp, expires_at: expiresAt })
+    await getSupabaseAdmin().from('roadmap_sessions').insert({ email, otp, expires_at: expiresAt })
 
     // 5. Send OTP email
     const days3 = (roadmap?.days || []).slice(0, 3)

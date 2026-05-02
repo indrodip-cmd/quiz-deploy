@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
   try {
     const { email, otp } = await req.json()
     if (!email || !otp) return NextResponse.json({ error: 'Email and OTP are required' }, { status: 400 })
 
-    const { data: session, error } = await supabaseAdmin
+    const { data: session, error } = await getSupabaseAdmin()
       .from('roadmap_sessions')
       .select('*')
       .eq('email', email)
@@ -26,10 +26,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Mark as verified
-    await supabaseAdmin.from('roadmap_sessions').update({ verified: true }).eq('id', session.id)
+    await getSupabaseAdmin().from('roadmap_sessions').update({ verified: true }).eq('id', session.id)
 
     // Fetch lead
-    const { data: lead } = await supabaseAdmin
+    const { data: lead } = await getSupabaseAdmin()
       .from('quiz_leads')
       .select('*')
       .eq('email', email)
