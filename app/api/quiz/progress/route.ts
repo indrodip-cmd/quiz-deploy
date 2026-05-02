@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     if (!lead) return NextResponse.json({ error: 'Lead not found' }, { status: 404 })
 
     // Update progress log
-    await getSupabaseAdmin().from('roadmap_progress').insert({
+    await getSupabaseAdmin().from('quiz_progress').insert({
       lead_id: lead.id,
       day: day || lead.current_day,
       tasks_completed: tasksCompleted || [],

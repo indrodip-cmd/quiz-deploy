@@ -6,40 +6,31 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 type QuizAnswers = Record<string, string | string[]>
 
 interface DayPlan {
-  day: number
-  title: string
-  theme: string
-  tasks: string[]
-  win_condition: string
-  motivation: string
+  day: number; title: string; theme: string; tasks: string[]
+  win_condition: string; motivation: string
 }
-
 interface Roadmap {
-  days: DayPlan[]
-  summary: string
-  biggest_opportunity: string
-  first_action: string
+  days: DayPlan[]; summary: string
+  biggest_opportunity: string; first_action: string
 }
-
 interface Lead {
-  id: string
-  email: string
-  name: string
-  answers: QuizAnswers
-  roadmap: Roadmap | null
-  current_day: number
-  streak: number
-  revenue_logged: number
-  last_visit: string | null
+  id: string; email: string; name: string
+  answers: QuizAnswers; roadmap: Roadmap | null
+  current_day: number; streak: number
+  revenue_logged: number; last_visit: string | null
 }
+interface ChatMessage { role: 'user' | 'assistant'; content: string }
+interface OptionItem { value: string; emoji: string; label: string; sub: string }
 
-interface ChatMessage {
-  role: 'user' | 'assistant'
-  content: string
-}
+type SelectQ   = { id: string; num: number; title: string; sub: string; type: 'select';   options: OptionItem[] }
+type MultiQ    = { id: string; num: number; title: string; sub: string; type: 'multi';    options: OptionItem[] }
+type TextareaQ = { id: string; num: number; title: string; sub: string; type: 'textarea'; placeholder: string }
+type FromToQ   = { id: string; num: number; title: string; sub: string; type: 'fromto';  fromPlaceholder: string; toPlaceholder: string }
+type ScaleQ    = { id: string; num: number; title: string; sub: string; type: 'scale';   scaleMin: string; scaleMax: string }
+type Question  = SelectQ | MultiQ | TextareaQ | FromToQ | ScaleQ
 
-/* ─── Question Data (all 20 preserved exactly) ─── */
-const questions = [
+/* ─── Questions (all 20) ─── */
+const questions: Question[] = [
   {
     id: 'q1', num: 1, title: 'Where are you in your coaching or consulting business right now?',
     sub: "Be honest — there's no wrong answer. This calibrates your entire blueprint.",
@@ -117,9 +108,137 @@ const questions = [
       { value: 'mixed', emoji: '🎯', label: 'Mix of all of the above', sub: 'A hybrid model with multiple touchpoints' },
     ]
   },
+  {
+    id: 'q9', num: 9, title: 'How long would your ideal signature program be?',
+    sub: 'Program length affects pricing, client commitment, and results.',
+    type: 'select',
+    options: [
+      { value: '4-6wk', emoji: '⚡', label: '4–6 Weeks', sub: 'Quick win, intensive transformation' },
+      { value: '8-12wk', emoji: '📅', label: '8–12 Weeks', sub: 'Standard program, solid results' },
+      { value: '3-6mo', emoji: '🗓️', label: '3–6 Months', sub: 'Deep transformation, premium pricing' },
+      { value: '6-12mo', emoji: '🏆', label: '6–12 Months', sub: 'High-level mentorship and accountability' },
+      { value: 'ongoing', emoji: '♾️', label: 'Ongoing / Evergreen', sub: 'Continuous support, membership model' },
+    ]
+  },
+  {
+    id: 'q10', num: 10, title: 'How confident are you stating your price out loud on a sales call?',
+    sub: '1 = I stumble, lower it, or apologize. 5 = I state it clearly and hold the line.',
+    type: 'scale', scaleMin: 'Not confident', scaleMax: 'Fully confident'
+  },
+  {
+    id: 'q11', num: 11, title: "What's holding you back from charging what you're worth?",
+    sub: 'Pricing psychology matters. Be brutally honest here.',
+    type: 'select',
+    options: [
+      { value: 'not_worth', emoji: '😟', label: "I don't believe my offer is worth it yet", sub: 'Imposter syndrome — I question my value' },
+      { value: 'fear_no', emoji: '😨', label: "Fear clients won't pay that much", sub: 'Scared of rejection or hearing "too expensive"' },
+      { value: 'justify', emoji: '🤔', label: "I can't justify the price clearly", sub: "Can't articulate the ROI compellingly" },
+      { value: 'guilt', emoji: '💭', label: 'I feel guilty charging premium rates', sub: 'Charging a lot feels wrong or selfish' },
+      { value: 'confident', emoji: '💪', label: "Nothing — I'm confident in my pricing", sub: "I charge what I'm worth and don't negotiate" },
+    ]
+  },
+  {
+    id: 'q12', num: 12, title: 'How consistently do you create and publish content?',
+    sub: 'Content consistency is the #1 predictor of lead flow. Be honest.',
+    type: 'select',
+    options: [
+      { value: 'daily', emoji: '🏆', label: 'Daily', sub: 'I show up every single day, no matter what' },
+      { value: 'few_week', emoji: '✅', label: 'A few times per week', sub: 'Consistent but not daily' },
+      { value: 'weekly', emoji: '📆', label: 'About once a week', sub: 'Weekly posts when I can manage it' },
+      { value: 'sporadic', emoji: '🌊', label: 'Sporadically / when inspired', sub: 'Feast or famine — bursts then silence' },
+      { value: 'rarely', emoji: '🔇', label: 'Rarely or never', sub: "Haven't found my content rhythm yet" },
+    ]
+  },
+  {
+    id: 'q13', num: 13, title: 'What content formats feel natural to you?',
+    sub: 'Select all that apply — your blueprint will use your natural strengths.',
+    type: 'multi',
+    options: [
+      { value: 'video', emoji: '🎥', label: 'Video', sub: 'YouTube, Reels, TikTok' },
+      { value: 'writing', emoji: '✍️', label: 'Writing', sub: 'Blog posts, newsletter, LinkedIn articles' },
+      { value: 'audio', emoji: '🎙️', label: 'Audio / Podcast', sub: 'Conversations, interviews, voice notes' },
+      { value: 'social', emoji: '📱', label: 'Social Media Posts', sub: 'Instagram, Facebook, text-based posts' },
+      { value: 'live', emoji: '🎤', label: 'Live Events / Workshops', sub: 'Webinars, masterclasses, in-person' },
+    ]
+  },
+  {
+    id: 'q14', num: 14, title: 'What blocks your content creation most?',
+    sub: 'Your blueprint will include a strategy to overcome your exact block.',
+    type: 'select',
+    options: [
+      { value: 'what_say', emoji: '💬', label: 'Not knowing what to say', sub: 'I sit down to create and go blank' },
+      { value: 'perfectionism', emoji: '😰', label: 'Perfectionism / fear of judgment', sub: "I don't post because it's never quite right" },
+      { value: 'time', emoji: '⏰', label: 'No time or energy', sub: 'Too much going on to create consistently' },
+      { value: 'tech', emoji: '💻', label: 'Tech overwhelm', sub: 'Editing, scheduling, platforms — too much' },
+      { value: 'no_results', emoji: '📉', label: "Not seeing results, so I stop", sub: "I've tried, got no engagement, and gave up" },
+    ]
+  },
+  {
+    id: 'q15', num: 15, title: 'What is your current relationship with selling your services?',
+    sub: 'Sales is a learnable skill at any stage.',
+    type: 'select',
+    options: [
+      { value: 'hate', emoji: '😬', label: 'I hate sales and avoid it', sub: 'It feels pushy, icky, or like begging' },
+      { value: 'lose_price', emoji: '😅', label: "I'm okay but lose people at the price", sub: 'Call goes well until I mention the investment' },
+      { value: 'decent', emoji: '👍', label: "I'm decent but inconsistent", sub: "I close sometimes but can't predict it" },
+      { value: 'good', emoji: '💼', label: "I'm good and close regularly", sub: 'Most calls convert, I have a basic process' },
+      { value: 'strength', emoji: '🔥', label: 'Sales is my strength', sub: 'I love it and consistently close high-ticket' },
+    ]
+  },
+  {
+    id: 'q16', num: 16, title: 'What is your biggest fear right now in building this business?',
+    sub: 'Your blueprint addresses your specific fear directly.',
+    type: 'select',
+    options: [
+      { value: 'visibility', emoji: '👁️', label: 'Putting myself out there and being judged', sub: 'What will people think? What if I get criticized?' },
+      { value: 'wont_work', emoji: '💸', label: 'Investing time and money and it not working', sub: 'What if I do everything right and still fail?' },
+      { value: 'money', emoji: '📉', label: 'Running out of money before it takes off', sub: 'The financial pressure is real' },
+      { value: 'credibility', emoji: '🎓', label: 'Not being credible enough', sub: 'Who am I to charge that much?' },
+      { value: 'success', emoji: '🚀', label: "Success — what if I can't handle it?", sub: "What if it works and I'm overwhelmed?" },
+    ]
+  },
+  {
+    id: 'q17', num: 17, title: 'What kind of support do you most need right now?',
+    sub: 'Your blueprint will prioritize your most urgent gap.',
+    type: 'select',
+    options: [
+      { value: 'strategy', emoji: '🗺️', label: 'A clear strategy and roadmap', sub: 'Tell me exactly what to do and in what order' },
+      { value: 'accountability', emoji: '🤝', label: 'Accountability to stay consistent', sub: "I know what to do — I just need to actually do it" },
+      { value: 'tech', emoji: '⚙️', label: 'Technical help with tools and systems', sub: 'Website, funnels, email, automation — overwhelming' },
+      { value: 'messaging', emoji: '💬', label: 'Messaging and positioning', sub: 'I need to talk about what I do compellingly' },
+      { value: 'sales', emoji: '💰', label: 'Sales and conversion coaching', sub: 'Help me close more calls and get more yeses' },
+    ]
+  },
+  {
+    id: 'q18', num: 18, title: 'What is your revenue goal in the next 6 months?',
+    sub: 'Your pricing strategy will align to this target.',
+    type: 'select',
+    options: [
+      { value: '1-3k', emoji: '🎯', label: '$1K – $3K per month', sub: 'Building momentum and first consistent clients' },
+      { value: '3-5k', emoji: '📊', label: '$3K – $5K per month', sub: 'Creating real income that matters to my household' },
+      { value: '5-10k', emoji: '💫', label: '$5K – $10K per month', sub: 'The $10K milestone — financial freedom within reach' },
+      { value: '10k+', emoji: '🏆', label: '$10K+ per month', sub: 'Already have traction, scaling to multiple $10K months' },
+    ]
+  },
+  {
+    id: 'q19', num: 19, title: 'How many hours per week can you realistically dedicate to this?',
+    sub: 'Your roadmap will be built around your actual available time.',
+    type: 'select',
+    options: [
+      { value: 'lt5', emoji: '🌙', label: 'Less than 5 hours', sub: 'Side hustle — nights and weekends only' },
+      { value: '5-10', emoji: '⏱️', label: '5–10 hours', sub: 'Dedicated part-time commitment' },
+      { value: '10-20', emoji: '📅', label: '10–20 hours', sub: 'Significant investment — this is a priority' },
+      { value: '20+', emoji: '🔥', label: '20+ hours', sub: 'Full focus — this is my primary priority' },
+    ]
+  },
+  {
+    id: 'q20', num: 20, title: 'How urgent is this for you right now?',
+    sub: '1 = When I get around to it. 5 = I need to make this happen NOW.',
+    type: 'scale', scaleMin: 'No rush', scaleMax: 'Need this now'
+  },
 ]
 
-/* ─── Count-up Hook ─── */
+/* ─── useCountUp ─── */
 function useCountUp(target: number, duration = 1200) {
   const [val, setVal] = useState(0)
   useEffect(() => {
@@ -135,7 +254,7 @@ function useCountUp(target: number, duration = 1200) {
   return val
 }
 
-/* ─── Stat Card ─── */
+/* ─── StatCard ─── */
 function StatCard({ label, value, unit, color }: { label: string; value: number; unit?: string; color: string }) {
   const displayed = useCountUp(value)
   return (
@@ -148,51 +267,138 @@ function StatCard({ label, value, unit, color }: { label: string; value: number;
   )
 }
 
-/* ─── Global Styles (injected once) ─── */
-const GLOBAL_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garant:wght@300;400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #0a0f0a; min-height: 100vh; }
-  body { font-family: 'DM Sans', sans-serif; color: #fff; overflow-x: hidden; }
-  ::placeholder { color: rgba(255,255,255,0.22); }
-  input, textarea, button { font-family: inherit; outline: none; }
-  input:focus, textarea:focus { border-color: #2d6a4f !important; }
-  @keyframes meshMove { 0% { opacity:0.7 } 100% { opacity:1 } }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(24px) } to { opacity:1; transform:translateY(0) } }
-  @keyframes slideRight { from { opacity:0; transform:translateX(40px) } to { opacity:1; transform:translateX(0) } }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.55;transform:scale(1.3)} }
-  @keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,.4)} 50%{box-shadow:0 0 0 6px rgba(212,160,23,.0)} }
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #0a0f0a; }
-  ::-webkit-scrollbar-thumb { background: #2d6a4f; border-radius: 3px; }
-  .opt-btn:hover:not([data-sel='true']) { border-color: #2d6a4f !important; background: rgba(45,106,79,0.12) !important; box-shadow: 0 0 20px rgba(45,106,79,0.15); }
-  .green-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 14px 36px rgba(45,106,79,0.45) !important; }
-  .timeline-day:hover { border-color: rgba(45,106,79,0.6) !important; }
+/* ─── CSS ─── */
+const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garant:wght@300;400;600;700;900&display=swap');
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: #f9f9f9; }
+body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0a; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInLeft  { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes dotPulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184,150,12,0.5); } 70% { transform: scale(1.25); box-shadow: 0 0 0 5px rgba(184,150,12,0); } }
+@keyframes meshMove { 0% { opacity:0.7 } 100% { opacity:1 } }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.55;transform:scale(1.3)} }
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,.4)} 50%{box-shadow:0 0 0 6px rgba(212,160,23,.0)} }
+
+.afu-1 { animation: fadeUp 0.6s ease both; }
+.afu-2 { animation: fadeUp 0.6s 0.1s ease both; }
+.afu-3 { animation: fadeUp 0.6s 0.2s ease both; }
+.afu-4 { animation: fadeUp 0.6s 0.3s ease both; }
+.afu-5 { animation: fadeUp 0.6s 0.4s ease both; }
+.afu-6 { animation: fadeUp 0.6s 0.5s ease both; }
+
+.sir { animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+.sil { animation: slideInLeft  0.25s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+.popup-in { animation: scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+.dot-cur  { animation: dotPulse 1.5s ease-in-out infinite; }
+
+.gbtn {
+  display: block; width: 100%; padding: 16px 32px;
+  background: linear-gradient(135deg, #225840, #2d6a4f);
+  border: 1px solid #1a4a35; border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(34,88,64,0.3);
+  color: #fff; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s ease;
+  text-align: center; font-family: inherit; letter-spacing: 0.01em;
+}
+.gbtn:hover { background: linear-gradient(135deg, #1a4a35, #225840); box-shadow: 0 6px 20px rgba(34,88,64,0.4); }
+.gbtn:active { transform: scale(0.98); }
+.gbtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+.qopt {
+  display: flex; align-items: center; gap: 14px; width: 100%;
+  padding: 16px 20px; background: #fff;
+  border: 1px solid #e0e0e0; border-radius: 10px;
+  cursor: pointer; transition: all 0.15s ease;
+  text-align: left; margin-bottom: 10px;
+}
+.qopt:hover { border-color: #225840; background: #f0f5f2; }
+.qopt.sel { background: #225840; border-color: #225840; }
+
+.qinput {
+  width: 100%; padding: 14px 16px; border: 1px solid #e0e0e0;
+  border-radius: 8px; font-size: 16px; font-family: inherit;
+  transition: all 0.2s ease; outline: none;
+  color: #0a0a0a; background: #fff;
+}
+.qinput:focus { border-color: #225840; box-shadow: 0 0 0 3px rgba(34,88,64,0.1); }
+.qinput::placeholder { color: #9ca3af; }
+
+.scale-btn {
+  width: 56px; height: 56px; border-radius: 10px;
+  border: 2px solid #e0e0e0; background: #fff;
+  font-size: 20px; font-weight: 700; cursor: pointer;
+  transition: all 0.15s ease; color: #6b7280; font-family: inherit;
+}
+.scale-btn:hover { border-color: #225840; color: #225840; background: #f0f5f2; }
+.scale-btn.sel { background: #225840; border-color: #225840; color: #fff; }
+
+.otp-box {
+  width: 52px; height: 60px; border: 2px solid #e0e0e0;
+  border-radius: 8px; text-align: center; font-size: 24px;
+  font-weight: 700; color: #0a0a0a; background: #fff;
+  font-family: inherit; outline: none; transition: all 0.2s ease;
+}
+.otp-box:focus { border-color: #225840; box-shadow: 0 0 0 3px rgba(34,88,64,0.1); }
+.otp-box.filled { border-color: #225840; background: #f0f5f2; }
+.otp-box.otp-err { border-color: #ef4444; background: #fef2f2; }
+
+.timeline-day:hover { border-color: rgba(45,106,79,0.6) !important; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0f0a; }
+::-webkit-scrollbar-thumb { background: #2d6a4f; border-radius: 3px; }
 `
 
-const MESH = (
-  <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
-    background: 'radial-gradient(ellipse 80% 60% at 15% 0%, rgba(45,106,79,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 100%, rgba(45,106,79,0.1) 0%, transparent 60%)',
-    animation: 'meshMove 12s ease-in-out infinite alternate' }} />
-)
+/* ─── Exit Popup ─── */
+function ExitPopup({ onClose, onResume }: { onClose: () => void; onResume: () => void }) {
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <div
+        className="popup-in"
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 16, maxWidth: 460, width: '100%', padding: '48px 40px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)', position: 'relative' }}>
+        <button
+          onClick={onClose}
+          style={{ position: 'absolute', top: 16, right: 20, background: 'none', border: 'none', fontSize: 24, color: '#9ca3af', cursor: 'pointer', lineHeight: 1 }}>
+          ×
+        </button>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 52, marginBottom: 16 }}>🎯</div>
+          <h2 style={{ fontSize: 26, fontWeight: 700, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.25 }}>
+            Wait — your roadmap takes 90 seconds to unlock.
+          </h2>
+          <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.7, marginBottom: 28 }}>
+            You&apos;re almost there. Get your free AI-generated 15-day plan showing exactly what to do to make your first $5,000 online. Completely free.
+          </p>
+          <button className="gbtn" onClick={onResume} style={{ marginBottom: 14 }}>
+            Finish My Quiz →
+          </button>
+          <button
+            onClick={() => { sessionStorage.setItem('exit_dismissed', '1'); onClose(); }}
+            style={{ display: 'block', margin: '0 auto', background: 'none', border: 'none', color: '#9ca3af', fontSize: 14, cursor: 'pointer', textDecoration: 'underline' }}>
+            No thanks, I&apos;ll figure it out alone
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
-const NAV = (right?: React.ReactNode) => (
-  <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(10,15,10,0.88)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(45,106,79,0.18)' }}>
-    <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 22, fontWeight: 700, color: '#fff' }}>
-      The<span style={{ color: '#2d6a4f' }}>5th</span>
-    </span>
-    {right}
-  </nav>
-)
-
-/* ─── Main Component ─── */
+/* ─── Page ─── */
 export default function Page() {
   const [screen, setScreen] = useState<'start' | 'quiz' | 'email' | 'otp' | 'dashboard'>('start')
   const [currentQ, setCurrentQ] = useState(0)
+  const [cardKey, setCardKey] = useState(0)
+  const [slideDir, setSlideDir] = useState<'sir' | 'sil'>('sir')
   const [answers, setAnswers] = useState<QuizAnswers>({})
   const [fromTo, setFromTo] = useState({ from: '', to: '' })
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({})
-  const [slideDir, setSlideDir] = useState<'in' | 'out' | null>(null)
+  const [multiAnswers, setMultiAnswers] = useState<Record<string, string[]>>({})
   const [error, setError] = useState('')
 
   const [name, setName] = useState('')
@@ -210,44 +416,72 @@ export default function Page() {
   const [chatLoading, setChatLoading] = useState(false)
   const [activeDay, setActiveDay] = useState(1)
   const [confettiFired, setConfettiFired] = useState(false)
+
+  const [showExitPopup, setShowExitPopup] = useState(false)
+  const exitShown = useRef(false)
   const otpRefs = useRef<(HTMLInputElement | null)[]>([])
   const chatEndRef = useRef<HTMLDivElement>(null)
 
-  const totalQ = questions.length
-  const progress = screen === 'quiz' ? (currentQ / totalQ) * 100 : (screen === 'email' || screen === 'otp') ? 100 : 0
+  /* ── Exit intent (mouse leaving top of viewport) ── */
+  useEffect(() => {
+    if (screen === 'dashboard') return
+    const handler = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !exitShown.current && !sessionStorage.getItem('exit_dismissed')) {
+        setShowExitPopup(true)
+        exitShown.current = true
+      }
+    }
+    document.addEventListener('mouseleave', handler)
+    return () => document.removeEventListener('mouseleave', handler)
+  }, [screen])
 
   /* ── Navigation ── */
-  const goNext = useCallback(() => {
-    setSlideDir('out')
-    setTimeout(() => {
-      if (currentQ < questions.length - 1) {
-        setCurrentQ(q => q + 1)
-      } else {
-        setScreen('email')
-      }
-      setSlideDir('in')
-      setError('')
-      requestAnimationFrame(() => setSlideDir(null))
-    }, 280)
+  const goForward = useCallback(() => {
+    setError('')
+    setSlideDir('sir')
+    setCardKey(k => k + 1)
+    if (currentQ < questions.length - 1) {
+      setCurrentQ(q => q + 1)
+    } else {
+      setScreen('email')
+    }
+  }, [currentQ])
+
+  const goBack = useCallback(() => {
+    setError('')
+    setSlideDir('sil')
+    setCardKey(k => k + 1)
+    if (currentQ > 0) {
+      setCurrentQ(q => q - 1)
+    } else {
+      setScreen('start')
+    }
   }, [currentQ])
 
   const handleSelectAnswer = (qId: string, value: string) => {
     setAnswers(a => ({ ...a, [qId]: value }))
     setError('')
-    setTimeout(() => goNext(), 320)
   }
 
   const validateAndNext = () => {
     const q = questions[currentQ]
-    if (q.type === 'textarea') {
+    if (q.type === 'select') {
+      if (!answers[q.id]) { setError('Please select an option to continue'); return }
+    } else if (q.type === 'textarea') {
       const val = (textAnswers[q.id] || '').trim()
       if (val.length < 5) { setError('Please describe this before continuing'); return }
       setAnswers(a => ({ ...a, [q.id]: val }))
     } else if (q.type === 'fromto') {
       if (!fromTo.from.trim() || !fromTo.to.trim()) { setError('Please complete both fields'); return }
       setAnswers(a => ({ ...a, [q.id]: `FROM: ${fromTo.from} → TO: ${fromTo.to}` }))
+    } else if (q.type === 'scale') {
+      if (!answers[q.id]) { setError('Please select a number before continuing'); return }
+    } else if (q.type === 'multi') {
+      const sel = multiAnswers[q.id] || []
+      if (sel.length === 0) { setError('Please select at least one option'); return }
+      setAnswers(a => ({ ...a, [q.id]: sel }))
     }
-    goNext()
+    goForward()
   }
 
   /* ── Email submit ── */
@@ -294,7 +528,7 @@ export default function Page() {
     finally { setSubmitting(false) }
   }
 
-  /* ── Dashboard ── */
+  /* ── Dashboard handlers ── */
   const handleMarkAllComplete = async () => {
     if (!lead) return
     setTasksDone([true, true, true])
@@ -345,41 +579,72 @@ export default function Page() {
   const firstName = (lead?.name || name || 'there').split(' ')[0]
   const tasksDoneCount = tasksDone.filter(Boolean).length
 
-  /* ── Shared style tokens ── */
-  const card: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.22)', borderRadius: 24, padding: '44px 40px', maxWidth: 560, width: '100%', backdropFilter: 'blur(12px)', boxShadow: '0 32px 80px rgba(0,0,0,0.45)' }
-  const greenBtn: React.CSSProperties = { padding: '16px 32px', borderRadius: 50, background: 'linear-gradient(135deg,#2d6a4f,#1a4a35)', border: 'none', color: '#fff', fontSize: 15, fontWeight: 600, cursor: 'pointer', letterSpacing: '.03em', transition: 'all .2s', boxShadow: '0 8px 24px rgba(45,106,79,0.3)', width: '100%', marginTop: 22 }
-  const inputStyle: React.CSSProperties = { width: '100%', padding: '14px 20px', borderRadius: 50, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 15, marginBottom: 12, transition: 'border-color .2s' }
-  const slideStyle: React.CSSProperties = slideDir === 'out' ? { opacity: 0, transform: 'translateX(-36px)', transition: 'all .28s ease' } : slideDir === 'in' ? { opacity: 0, transform: 'translateX(36px)' } : { opacity: 1, transform: 'translateX(0)', transition: 'all .28s ease' }
+  /* ── Dashboard style tokens ── */
+  const greenBtn: React.CSSProperties = { padding: '16px 32px', borderRadius: 8, background: 'linear-gradient(135deg,#2d6a4f,#1a4a35)', border: '1px solid #1a4a35', color: '#fff', fontSize: 15, fontWeight: 600, cursor: 'pointer', letterSpacing: '.03em', transition: 'all .2s', boxShadow: '0 8px 24px rgba(45,106,79,0.3)', width: '100%', marginTop: 22 }
+  const MESH = (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 80% 60% at 15% 0%, rgba(45,106,79,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 100%, rgba(45,106,79,0.1) 0%, transparent 60%)', animation: 'meshMove 12s ease-in-out infinite alternate' }} />
+  )
+  const DASH_NAV = (right?: React.ReactNode) => (
+    <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(10,15,10,0.88)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(45,106,79,0.18)' }}>
+      <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 22, fontWeight: 700, color: '#fff' }}>
+        The<span style={{ color: '#2d6a4f' }}>5th</span>
+      </span>
+      {right}
+    </nav>
+  )
 
   /* ══════════════ START ══════════════ */
   if (screen === 'start') return (
-    <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', overflow: 'hidden' }}>
-      <style>{GLOBAL_CSS}</style>
-      {MESH}
-      {NAV(<span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '.1em' }}>3 MIN QUIZ</span>)}
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '100px 20px 60px', position: 'relative', zIndex: 1, textAlign: 'center', animation: 'fadeUp .8s ease both' }}>
-        <div style={{ display: 'inline-block', padding: '6px 18px', borderRadius: 50, background: 'rgba(45,106,79,0.14)', border: '1px solid rgba(45,106,79,0.3)', fontSize: 11, fontWeight: 600, letterSpacing: '.12em', color: '#2d6a4f', marginBottom: 32, textTransform: 'uppercase' }}>
-          Free Personalized Roadmap
-        </div>
-        <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(40px,6.5vw,76px)', fontWeight: 900, lineHeight: 1.04, marginBottom: 28, color: '#fff', letterSpacing: '-.01em' }}>
-          Discover Your Path to<br />
-          <span style={{ color: '#2d6a4f' }}>$5,000/Month</span>
-        </h1>
-        <p style={{ fontSize: 'clamp(16px,2vw,20px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, marginBottom: 52, maxWidth: 520 }}>
-          Answer 8 questions and get your personalized AI roadmap —<br />a free 15-day action plan built from your exact answers.
-        </p>
-        <button className="green-btn" onClick={() => setScreen('quiz')}
-          style={{ ...greenBtn, width: 'auto', padding: '18px 52px', fontSize: 17, fontWeight: 700, letterSpacing: '.04em', boxShadow: '0 16px 48px rgba(45,106,79,0.42)', marginTop: 0 }}>
-          Start My Free Roadmap →
-        </button>
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', marginTop: 18 }}>Takes 3 minutes · 100% free · No credit card</p>
-        <div style={{ display: 'flex', gap: 48, marginTop: 80, flexWrap: 'wrap', justifyContent: 'center' }}>
-          {[['2,400+', 'Profiles Analyzed'], ['15 Days', 'Personalized Plan'], ['$0', 'Completely Free']].map(([n, l]) => (
-            <div key={l}>
-              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 34, fontWeight: 900, color: '#2d6a4f' }}>{n}</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', letterSpacing: '.06em', marginTop: 2 }}>{l}</div>
-            </div>
-          ))}
+    <div style={{ minHeight: '100vh', background: '#f9f9f9' }}>
+      <style>{CSS}</style>
+      {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
+
+      {/* Nav */}
+      <nav style={{ padding: '18px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff', borderBottom: '1px solid #f0f0f0' }}>
+        <span style={{ fontSize: 22, fontWeight: 700, color: '#225840' }}>The5th</span>
+        <span style={{ fontSize: 13, color: '#9ca3af' }}>Free · 3 min quiz</span>
+      </nav>
+
+      {/* Hero */}
+      <div style={{ minHeight: 'calc(100vh - 61px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
+        <div style={{ maxWidth: 580, width: '100%' }}>
+
+          {/* Gold label */}
+          <div className="afu-1" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
+            <div style={{ width: 3, height: 18, background: '#b8960c', borderRadius: 2 }} />
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c' }}>Free 15-Day AI Roadmap</span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="afu-2" style={{ fontSize: 'clamp(34px,5.5vw,52px)', fontWeight: 800, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 20 }}>
+            Discover Your Path to Your First $5,000 Month
+          </h1>
+
+          {/* Subtext */}
+          <p className="afu-3" style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
+            Answer a few questions and get a free personalized AI roadmap built around your expertise and goals. No fluff. No generic advice. Just your plan.
+          </p>
+
+          {/* Trust bullets */}
+          <div className="afu-4" style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
+            {['Free personalized AI roadmap', '15-day step-by-step action plan', '7-day email coaching included'].map(item => (
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ width: 22, height: 22, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: 15, color: '#374151', fontWeight: 500 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="afu-5">
+            <button
+              className="gbtn"
+              onClick={() => setScreen('quiz')}
+              style={{ maxWidth: 400, fontSize: 17, padding: '18px 32px' }}>
+              Find My $5K Path →
+            </button>
+            <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 12 }}>3 min · Free · No credit card needed</p>
+          </div>
         </div>
       </div>
     </div>
@@ -388,79 +653,183 @@ export default function Page() {
   /* ══════════════ QUIZ ══════════════ */
   if (screen === 'quiz') {
     const q = questions[currentQ]
-    const currentAns = answers[q.id]
+    const hasAnswer = q.type === 'select' ? !!answers[q.id] : q.type === 'scale' ? !!answers[q.id] : true
+
     return (
-      <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', overflow: 'hidden' }}>
-        <style>{GLOBAL_CSS}</style>
-        {MESH}
-        {NAV(<span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '.1em' }}>{currentQ + 1} of {totalQ}</span>)}
-        {/* Progress bar */}
-        <div style={{ position: 'fixed', top: 56, left: 0, right: 0, zIndex: 99, height: 3, background: 'rgba(45,106,79,0.15)' }}>
-          <div style={{ height: '100%', background: 'linear-gradient(90deg,#2d6a4f,#d4a017)', width: `${progress}%`, transition: 'width .5s ease' }} />
-        </div>
-        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 20px 40px', position: 'relative', zIndex: 1 }}>
-          <div style={{ ...card, ...slideStyle }}>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#d4a017', marginBottom: 14 }}>
-              Question {q.num} of {totalQ}
+      <div style={{ minHeight: '100vh', background: '#f9f9f9' }}>
+        <style>{CSS}</style>
+        {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
+
+        {/* Top bar */}
+        <div style={{ position: 'sticky', top: 0, zIndex: 50, background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* Back arrow */}
+          <button
+            onClick={goBack}
+            aria-label="Go back"
+            style={{ background: 'none', border: 'none', fontSize: 20, color: '#9ca3af', cursor: 'pointer', padding: '4px 8px', lineHeight: 1, flexShrink: 0 }}>
+            ←
+          </button>
+
+          {/* Dotted progress */}
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}>
+              {questions.map((_, i) => {
+                const done = i < currentQ
+                const cur  = i === currentQ
+                return (
+                  <div
+                    key={i}
+                    className={cur ? 'dot-cur' : ''}
+                    style={{
+                      width: 10, height: 10, borderRadius: '50%', flexShrink: 0,
+                      transition: 'background 0.3s ease, border-color 0.3s ease',
+                      background: done ? '#225840' : cur ? '#b8960c' : 'transparent',
+                      border: `2px solid ${done ? '#225840' : cur ? '#b8960c' : '#e0e0e0'}`,
+                    }}
+                  />
+                )
+              })}
             </div>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(22px,3.2vw,34px)', fontWeight: 700, lineHeight: 1.22, marginBottom: 10, color: '#fff' }}>
+          </div>
+
+          {/* Counter */}
+          <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 500, flexShrink: 0 }}>
+            {currentQ + 1} of {questions.length}
+          </span>
+        </div>
+
+        {/* Question card */}
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 20px 80px', overflowX: 'hidden' }}>
+          <div
+            key={cardKey}
+            className={slideDir}
+            style={{ maxWidth: 580, width: '100%', background: '#fff', borderRadius: 16, padding: '48px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
+
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#b8960c', marginBottom: 12, letterSpacing: '.04em' }}>
+              Question {q.num}
+            </div>
+            <h2 style={{ fontSize: 'clamp(20px,3vw,30px)', fontWeight: 700, color: '#0a0a0a', lineHeight: 1.3, marginBottom: 8 }}>
               {q.title}
             </h2>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, marginBottom: 26 }}>{q.sub}</p>
+            <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.65, marginBottom: 28 }}>{q.sub}</p>
 
             {/* SELECT */}
-            {q.type === 'select' && q.options && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {q.options.map(opt => {
-                  const sel = currentAns === opt.value
-                  return (
-                    <button key={opt.value} className="opt-btn" data-sel={sel}
-                      onClick={() => handleSelectAnswer(q.id, opt.value)}
-                      style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '13px 18px', borderRadius: 50, border: `1.5px solid ${sel ? '#2d6a4f' : 'rgba(255,255,255,0.09)'}`, background: sel ? 'rgba(45,106,79,0.18)' : 'rgba(255,255,255,0.03)', cursor: 'pointer', transition: 'all .18s', textAlign: 'left', color: '#fff', boxShadow: sel ? '0 0 20px rgba(45,106,79,0.2)' : 'none' }}>
-                      <span style={{ fontSize: 21, flexShrink: 0 }}>{opt.emoji}</span>
-                      <span style={{ flex: 1 }}>
-                        <span style={{ display: 'block', fontWeight: 600, fontSize: 14, color: '#fff' }}>{opt.label}</span>
-                        {opt.sub && <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>{opt.sub}</span>}
-                      </span>
-                      <span style={{ width: 22, height: 22, borderRadius: '50%', border: `1.5px solid ${sel ? '#2d6a4f' : 'rgba(255,255,255,0.15)'}`, background: sel ? '#2d6a4f' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0, transition: 'all .18s' }}>
-                        {sel ? '✓' : ''}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            )}
+            {q.type === 'select' && q.options.map((opt, idx) => {
+              const sel = answers[q.id] === opt.value
+              return (
+                <button
+                  key={opt.value}
+                  className={`qopt${sel ? ' sel' : ''}`}
+                  onClick={() => handleSelectAnswer(q.id, opt.value)}>
+                  <span style={{ width: 28, height: 28, borderRadius: '50%', background: sel ? 'rgba(255,255,255,0.2)' : '#f3f4f6', color: sel ? '#fff' : '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                    {String.fromCharCode(65 + idx)}
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <span style={{ display: 'block', fontSize: 15, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>{opt.label}</span>
+                    {opt.sub && <span style={{ display: 'block', fontSize: 12, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 2 }}>{opt.sub}</span>}
+                  </span>
+                  {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700 }}>✓</span>}
+                </button>
+              )
+            })}
 
             {/* TEXTAREA */}
             {q.type === 'textarea' && (
               <>
                 <textarea
-                  style={{ width: '100%', minHeight: 110, padding: '14px 18px', borderRadius: 16, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit', transition: 'border-color .2s', marginBottom: 4 }}
-                  placeholder={'placeholder' in q ? q.placeholder : ''}
+                  className="qinput"
+                  style={{ minHeight: 120, resize: 'vertical', marginBottom: 8 }}
+                  placeholder={q.placeholder}
                   value={textAnswers[q.id] || ''}
                   onChange={e => setTextAnswers(t => ({ ...t, [q.id]: e.target.value }))}
                 />
-                {error && <div style={{ fontSize: 12, color: '#ff7070', marginBottom: 6 }}>{error}</div>}
-                <button className="green-btn" style={greenBtn} onClick={validateAndNext}>Continue →</button>
+                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8 }}>{error}</p>}
+                <button className="gbtn" onClick={validateAndNext}>Continue →</button>
               </>
             )}
 
             {/* FROMTO */}
             {q.type === 'fromto' && (
               <>
-                {[{ label: 'FROM', key: 'from' as const, placeholder: 'fromPlaceholder' as const }, { label: 'TO', key: 'to' as const, placeholder: 'toPlaceholder' as const }].map(({ label, key, placeholder }) => (
-                  <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
-                    <span style={{ width: 52, fontSize: 12, fontWeight: 700, letterSpacing: '.1em', color: '#d4a017', flexShrink: 0 }}>{label}</span>
+                {(['from', 'to'] as const).map(key => (
+                  <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                    <span style={{ width: 46, fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#b8960c', flexShrink: 0 }}>
+                      {key.toUpperCase()}
+                    </span>
                     <input
-                      style={{ flex: 1, padding: '12px 18px', borderRadius: 50, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, transition: 'border-color .2s' }}
-                      placeholder={'fromPlaceholder' in q && 'toPlaceholder' in q ? (placeholder === 'fromPlaceholder' ? q.fromPlaceholder : q.toPlaceholder) : ''}
+                      className="qinput"
+                      placeholder={key === 'from' ? q.fromPlaceholder : q.toPlaceholder}
                       value={fromTo[key]}
                       onChange={e => setFromTo(f => ({ ...f, [key]: e.target.value }))}
                     />
                   </div>
                 ))}
-                {error && <div style={{ fontSize: 12, color: '#ff7070', marginBottom: 6 }}>{error}</div>}
-                <button className="green-btn" style={greenBtn} onClick={validateAndNext}>Continue →</button>
+                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8 }}>{error}</p>}
+                <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+              </>
+            )}
+
+            {/* SCALE */}
+            {q.type === 'scale' && (
+              <>
+                <div style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
+                  {[1, 2, 3, 4, 5].map(n => (
+                    <button
+                      key={n}
+                      className={`scale-btn${answers[q.id] === String(n) ? ' sel' : ''}`}
+                      onClick={() => { setAnswers(a => ({ ...a, [q.id]: String(n) })); setError('') }}>
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#9ca3af', marginBottom: 24 }}>
+                  <span>{q.scaleMin}</span><span>{q.scaleMax}</span>
+                </div>
+                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8 }}>{error}</p>}
+                <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none' }}>
+                  <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+                </div>
+              </>
+            )}
+
+            {/* MULTI */}
+            {q.type === 'multi' && (
+              <>
+                {q.options.map((opt, idx) => {
+                  const sel = (multiAnswers[q.id] || []).includes(opt.value)
+                  return (
+                    <button
+                      key={opt.value}
+                      className={`qopt${sel ? ' sel' : ''}`}
+                      onClick={() => {
+                        setMultiAnswers(m => {
+                          const cur = m[q.id] || []
+                          return { ...m, [q.id]: sel ? cur.filter(v => v !== opt.value) : [...cur, opt.value] }
+                        })
+                        setError('')
+                      }}>
+                      <span style={{ width: 28, height: 28, borderRadius: 6, background: sel ? 'rgba(255,255,255,0.2)' : '#f3f4f6', color: sel ? '#fff' : '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                        {sel ? '✓' : String.fromCharCode(65 + idx)}
+                      </span>
+                      <span style={{ flex: 1 }}>
+                        <span style={{ display: 'block', fontSize: 15, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>{opt.label}</span>
+                        {opt.sub && <span style={{ display: 'block', fontSize: 12, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 2 }}>{opt.sub}</span>}
+                      </span>
+                    </button>
+                  )
+                })}
+                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
+                <button className="gbtn" style={{ marginTop: 8 }} onClick={validateAndNext}>Continue →</button>
+              </>
+            )}
+
+            {/* Continue button for SELECT (animated in after selection) */}
+            {q.type === 'select' && (
+              <>
+                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
+                <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none', marginTop: 4 }}>
+                  <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+                </div>
               </>
             )}
           </div>
@@ -471,72 +840,77 @@ export default function Page() {
 
   /* ══════════════ EMAIL ══════════════ */
   if (screen === 'email') return (
-    <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', overflow: 'hidden' }}>
-      <style>{GLOBAL_CSS}</style>
-      {MESH}
-      {NAV()}
-      <div style={{ position: 'fixed', top: 56, left: 0, right: 0, zIndex: 99, height: 3, background: 'rgba(45,106,79,0.15)' }}>
-        <div style={{ height: '100%', background: 'linear-gradient(90deg,#2d6a4f,#d4a017)', width: '100%' }} />
-      </div>
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 20px 40px', position: 'relative', zIndex: 1 }}>
-        <div style={{ ...card, animation: 'fadeUp .55s ease both' }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#d4a017', marginBottom: 14, textAlign: 'center' }}>Your roadmap is ready</div>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(22px,3vw,32px)', fontWeight: 700, textAlign: 'center', marginBottom: 8, color: '#fff' }}>
-            Your personalized 15-day roadmap is ready
-          </h2>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', textAlign: 'center', marginBottom: 28, lineHeight: 1.7 }}>
-            Enter your email to unlock your free dashboard
-          </p>
-          <div style={{ background: 'rgba(45,106,79,0.08)', border: '1px solid rgba(45,106,79,0.18)', borderRadius: 16, padding: '18px 22px', marginBottom: 28 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#2d6a4f', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 12 }}>What you&apos;re unlocking</div>
-            {['Your full AI-generated 15-day roadmap', 'Daily tasks built from your quiz answers', 'AI business coach available 24/7', 'Revenue tracker toward your $5K goal', '7-day personalized email coaching series'].map(item => (
-              <div key={item} style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 6 }}>✓ {item}</div>
-            ))}
-          </div>
-          <input style={inputStyle} type="text" placeholder="Your first name" value={name} onChange={e => setName(e.target.value)} />
-          <input style={inputStyle} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
-          {error && <div style={{ fontSize: 12, color: '#ff7070', marginBottom: 8 }}>{error}</div>}
-          <button className="green-btn" style={greenBtn} onClick={handleEmailSubmit} disabled={submitting}>
-            {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
-          </button>
-          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', textAlign: 'center', marginTop: 16 }}>🔒 Your info is private. We never spam.</p>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <style>{CSS}</style>
+      {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
+
+      <div className="afu-1" style={{ maxWidth: 520, width: '100%', background: '#fff', borderRadius: 16, padding: '48px 40px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c', marginBottom: 16, textAlign: 'center' }}>
+          YOUR ROADMAP IS READY ✨
         </div>
+        <h2 style={{ fontSize: 'clamp(20px,3vw,28px)', fontWeight: 700, color: '#0a0a0a', marginBottom: 8, textAlign: 'center', lineHeight: 1.3 }}>
+          Your personalized 15-day roadmap is ready
+        </h2>
+        <p style={{ fontSize: 15, color: '#6b7280', textAlign: 'center', marginBottom: 24, lineHeight: 1.7 }}>
+          Enter your details below to unlock your free AI dashboard
+        </p>
+
+        <div style={{ background: '#f9fafb', border: '1px solid #f0f0f0', borderRadius: 10, padding: '18px 20px', marginBottom: 24 }}>
+          {['Your full AI-generated 15-day roadmap', 'Daily tasks built from your quiz answers', 'AI business coach available 24/7', 'Revenue tracker toward your $5K goal', '7-day personalized email coaching series'].map(item => (
+            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <span style={{ width: 18, height: 18, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
+              <span style={{ fontSize: 13, color: '#374151' }}>{item}</span>
+            </div>
+          ))}
+        </div>
+
+        <input className="qinput" style={{ marginBottom: 12 }} type="text" placeholder="First name" value={name} onChange={e => setName(e.target.value)} />
+        <input className="qinput" style={{ marginBottom: 16 }} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
+        {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 12 }}>{error}</p>}
+        <button className="gbtn" onClick={handleEmailSubmit} disabled={submitting}>
+          {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
+        </button>
+        <p style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', marginTop: 14 }}>🔒 Your info is private. We never spam.</p>
       </div>
     </div>
   )
 
   /* ══════════════ OTP ══════════════ */
   if (screen === 'otp') return (
-    <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', overflow: 'hidden' }}>
-      <style>{GLOBAL_CSS}</style>
-      {MESH}
-      {NAV()}
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 20px 40px', position: 'relative', zIndex: 1 }}>
-        <div style={{ ...card, textAlign: 'center', animation: 'fadeUp .55s ease both' }}>
-          <div style={{ fontSize: 52, marginBottom: 18 }}>📬</div>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 28, fontWeight: 700, marginBottom: 10, color: '#fff' }}>Check your inbox</h2>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', marginBottom: 34, lineHeight: 1.7 }}>
-            Enter the 6-digit code we sent to<br />
-            <strong style={{ color: '#fff' }}>{email}</strong>
-          </p>
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
-            {otpDigits.map((d, i) => (
-              <input key={i} type="text" inputMode="numeric" maxLength={1} value={d}
-                ref={el => { otpRefs.current[i] = el }}
-                onChange={e => handleOtpDigit(i, e.target.value)}
-                onKeyDown={e => handleOtpKey(i, e)}
-                style={{ width: 50, height: 58, borderRadius: 13, border: '1.5px solid rgba(255,255,255,0.13)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 24, fontWeight: 700, textAlign: 'center', transition: 'all .18s' }}
-              />
-            ))}
-          </div>
-          {otpError && <div style={{ fontSize: 12, color: '#ff7070', marginBottom: 12 }}>{otpError}</div>}
-          <button className="green-btn" style={greenBtn} onClick={handleOtpSubmit} disabled={submitting}>
-            {submitting ? 'Verifying…' : 'Unlock My Roadmap →'}
-          </button>
-          <button style={{ marginTop: 18, background: 'none', border: 'none', color: 'rgba(255,255,255,0.35)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }} onClick={handleEmailSubmit}>
-            Resend code
-          </button>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <style>{CSS}</style>
+      {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
+
+      <div className="afu-1" style={{ maxWidth: 480, width: '100%', background: '#fff', borderRadius: 16, padding: '48px 40px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)', textAlign: 'center' }}>
+        <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#e8f0eb', border: '2px solid #225840', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: 22, color: '#225840', fontWeight: 700 }}>
+          ✓
         </div>
+        <h2 style={{ fontSize: 26, fontWeight: 700, color: '#0a0a0a', marginBottom: 10 }}>Check your inbox</h2>
+        <p style={{ fontSize: 15, color: '#6b7280', marginBottom: 32, lineHeight: 1.7 }}>
+          We sent a 6-digit code to<br /><strong style={{ color: '#0a0a0a' }}>{email}</strong>
+        </p>
+
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
+          {otpDigits.map((d, i) => (
+            <input
+              key={i}
+              className={`otp-box${d ? ' filled' : ''}${otpError ? ' otp-err' : ''}`}
+              type="text" inputMode="numeric" maxLength={1} value={d}
+              ref={el => { otpRefs.current[i] = el }}
+              onChange={e => handleOtpDigit(i, e.target.value)}
+              onKeyDown={e => handleOtpKey(i, e)}
+            />
+          ))}
+        </div>
+        {otpError && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 16 }}>{otpError}</p>}
+        <button className="gbtn" onClick={handleOtpSubmit} disabled={submitting}>
+          {submitting ? 'Verifying…' : 'Verify & Unlock My Roadmap →'}
+        </button>
+        <button
+          onClick={handleEmailSubmit}
+          style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}>
+          Didn&apos;t receive a code? Resend
+        </button>
       </div>
     </div>
   )
@@ -544,9 +918,9 @@ export default function Page() {
   /* ══════════════ DASHBOARD ══════════════ */
   return (
     <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', paddingBottom: 80 }}>
-      <style>{GLOBAL_CSS}</style>
+      <style>{CSS}</style>
       {MESH}
-      {NAV(
+      {DASH_NAV(
         <div style={{ display: 'flex', gap: 20, alignItems: 'center', fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
           <span>Day {lead?.current_day || 1} of 15</span>
           <span>🔥 {lead?.streak || 0}</span>
@@ -633,8 +1007,7 @@ export default function Page() {
             <div style={{ background: 'rgba(45,106,79,0.1)', border: '1px solid rgba(45,106,79,0.18)', borderRadius: 12, padding: '12px 18px', marginBottom: 20, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
               🏆 <strong style={{ color: '#fff' }}>Win condition:</strong> {today.win_condition}
             </div>
-            <button className="green-btn" onClick={handleMarkAllComplete}
-              style={{ ...greenBtn, width: 'auto', padding: '14px 32px', marginTop: 0 }}>
+            <button onClick={handleMarkAllComplete} style={{ ...greenBtn, width: 'auto', padding: '14px 32px', marginTop: 0 }}>
               Mark All Complete 🎉
             </button>
           </div>
@@ -674,11 +1047,12 @@ export default function Page() {
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.18)', borderRadius: 24, padding: '28px 32px', marginBottom: 32 }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.1em', color: '#2d6a4f', textTransform: 'uppercase', marginBottom: 16 }}>Log a Win 💰</div>
           <div style={{ display: 'flex', gap: 12 }}>
-            <input style={{ flex: 1, padding: '12px 20px', borderRadius: 50, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 15, fontFamily: 'inherit', transition: 'border-color .2s' }}
+            <input
+              style={{ flex: 1, padding: '12px 20px', borderRadius: 8, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 15, fontFamily: 'inherit', transition: 'border-color .2s', outline: 'none' }}
               type="number" placeholder="Amount earned ($)" value={revenueInput}
               onChange={e => setRevenueInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleRevenueLog()} />
-            <button className="green-btn" onClick={handleRevenueLog}
-              style={{ padding: '12px 26px', borderRadius: 50, background: 'linear-gradient(135deg,#2d6a4f,#1a4a35)', border: 'none', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', boxShadow: '0 6px 20px rgba(45,106,79,0.28)' }}>
+            <button onClick={handleRevenueLog}
+              style={{ padding: '12px 26px', borderRadius: 8, background: 'linear-gradient(135deg,#2d6a4f,#1a4a35)', border: '1px solid #1a4a35', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', boxShadow: '0 6px 20px rgba(45,106,79,0.28)' }}>
               Add Win
             </button>
           </div>
@@ -708,12 +1082,12 @@ export default function Page() {
             <div ref={chatEndRef} />
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <input className="chat-input"
-              style={{ flex: 1, padding: '12px 20px', borderRadius: 50, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, fontFamily: 'inherit', transition: 'border-color .2s' }}
+            <input
+              style={{ flex: 1, padding: '12px 20px', borderRadius: 8, border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, fontFamily: 'inherit', transition: 'border-color .2s', outline: 'none' }}
               placeholder="Ask your AI coach…" value={chatInput} onChange={e => setChatInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleChatSend()} />
-            <button className="green-btn" onClick={handleChatSend} disabled={chatLoading}
-              style={{ padding: '12px 22px', borderRadius: 50, background: 'linear-gradient(135deg,#2d6a4f,#1a4a35)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', transition: 'all .2s', boxShadow: '0 6px 20px rgba(45,106,79,0.28)' }}>
+            <button onClick={handleChatSend} disabled={chatLoading}
+              style={{ padding: '12px 22px', borderRadius: 8, background: 'linear-gradient(135deg,#2d6a4f,#1a4a35)', border: '1px solid #1a4a35', color: '#fff', fontSize: 14, cursor: 'pointer', transition: 'all .2s', boxShadow: '0 6px 20px rgba(45,106,79,0.28)' }}>
               Send
             </button>
           </div>
@@ -741,7 +1115,7 @@ export default function Page() {
       <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200, background: 'linear-gradient(135deg,#172e20,#2d6a4f)', borderTop: '1px solid rgba(45,106,79,0.35)', padding: '14px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>Ready to build this faster with 1:1 coaching?</span>
         <a href="https://the5thconsulting.typeform.com/to/u9maum7Y" target="_blank" rel="noopener noreferrer"
-          style={{ padding: '10px 26px', borderRadius: 50, background: '#fff', color: '#172e20', fontSize: 14, fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0, transition: 'transform .2s' }}
+          style={{ padding: '10px 26px', borderRadius: 8, background: '#fff', color: '#172e20', fontSize: 14, fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0, transition: 'transform .2s' }}
           onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')}
           onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}>
           Book your free strategy call →
