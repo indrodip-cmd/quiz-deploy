@@ -10,13 +10,24 @@ function getAnthropicClient() {
   return new Anthropic({ apiKey: key })
 }
 function getResendClient() {
-  return new Resend(process.env.RESEND_API_KEY || 'placeholder')
+  const key = process.env.RESEND_API_KEY
+  if (!key) console.error('send-otp: RESEND_API_KEY is not set — emails will fail')
+  return new Resend(key || 'placeholder')
 }
 
 const FROM = 'Indrodip | The5th <noreply@10kroadmap.org>'
 
 export async function POST(req: NextRequest) {
   try {
+    // Validate required env vars early for clear error messages
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('send-otp: Missing Supabase env vars', {
+        url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+      })
+      return NextResponse.json({ error: 'Server configuration error: database credentials missing' }, { status: 500 })
+    }
+
     const { email, name, answers } = await req.json()
     if (!email || !name) return NextResponse.json({ error: 'Email and name are required' }, { status: 400 })
 

@@ -296,54 +296,54 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
 .dot-cur  { animation: dotPulse 1.5s ease-in-out infinite; }
 
 .gbtn {
-  display: block; width: 100%; padding: 16px 32px;
+  display: block; width: 100%; padding: 18px 32px;
   background: linear-gradient(135deg, #225840, #2d6a4f);
-  border: 1px solid #1a4a35; border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(34,88,64,0.3);
-  color: #fff; font-size: 16px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s ease;
-  text-align: center; font-family: inherit; letter-spacing: 0.01em;
+  border: none; border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(34,88,64,0.35);
+  color: #fff; font-size: 18px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease;
+  text-align: center; font-family: inherit;
 }
-.gbtn:hover { background: linear-gradient(135deg, #1a4a35, #225840); box-shadow: 0 6px 20px rgba(34,88,64,0.4); }
-.gbtn:active { transform: scale(0.98); }
+.gbtn:hover { opacity: 0.92; transform: translateY(-1px); }
+.gbtn:active { transform: scale(0.98); opacity: 1; }
 .gbtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
 .qopt {
-  display: flex; align-items: center; gap: 14px; width: 100%;
-  padding: 16px 20px; background: #fff;
-  border: 1px solid #e0e0e0; border-radius: 10px;
-  cursor: pointer; transition: all 0.15s ease;
-  text-align: left; margin-bottom: 10px;
+  display: flex; align-items: center; width: 100%;
+  padding: 18px 24px; background: #fff;
+  border: 2px solid #e0e0e0; border-radius: 6px;
+  cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease;
+  text-align: left; margin-bottom: 12px; font-family: inherit;
 }
-.qopt:hover { border-color: #225840; background: #f0f5f2; }
+.qopt:hover { border-color: #225840; }
 .qopt.sel { background: #225840; border-color: #225840; }
 
 .qinput {
-  width: 100%; padding: 14px 16px; border: 1px solid #e0e0e0;
-  border-radius: 8px; font-size: 16px; font-family: inherit;
-  transition: all 0.2s ease; outline: none;
+  width: 100%; padding: 16px; border: 2px solid #e0e0e0;
+  border-radius: 6px; font-size: 17px; font-family: inherit;
+  transition: border-color 0.2s ease; outline: none;
   color: #0a0a0a; background: #fff;
 }
-.qinput:focus { border-color: #225840; box-shadow: 0 0 0 3px rgba(34,88,64,0.1); }
+.qinput:focus { border-color: #225840; }
 .qinput::placeholder { color: #9ca3af; }
 
 .scale-btn {
-  width: 56px; height: 56px; border-radius: 10px;
+  flex: 1; height: 56px; border-radius: 6px;
   border: 2px solid #e0e0e0; background: #fff;
   font-size: 20px; font-weight: 700; cursor: pointer;
   transition: all 0.15s ease; color: #6b7280; font-family: inherit;
 }
-.scale-btn:hover { border-color: #225840; color: #225840; background: #f0f5f2; }
+.scale-btn:hover { border-color: #225840; color: #225840; }
 .scale-btn.sel { background: #225840; border-color: #225840; color: #fff; }
 
 .otp-box {
   width: 52px; height: 60px; border: 2px solid #e0e0e0;
-  border-radius: 8px; text-align: center; font-size: 24px;
+  border-radius: 6px; text-align: center; font-size: 24px;
   font-weight: 700; color: #0a0a0a; background: #fff;
   font-family: inherit; outline: none; transition: all 0.2s ease;
 }
-.otp-box:focus { border-color: #225840; box-shadow: 0 0 0 3px rgba(34,88,64,0.1); }
-.otp-box.filled { border-color: #225840; background: #f0f5f2; }
+.otp-box:focus { border-color: #225840; }
+.otp-box.filled { border-color: #225840; }
 .otp-box.otp-err { border-color: #ef4444; background: #fef2f2; }
 
 .timeline-day:hover { border-color: rgba(45,106,79,0.6) !important; }
@@ -361,14 +361,14 @@ function ExitPopup({ onClose, onResume }: { onClose: () => void; onResume: () =>
       <div
         className="popup-in"
         onClick={e => e.stopPropagation()}
-        style={{ background: '#fff', borderRadius: 16, maxWidth: 460, width: '100%', padding: '48px 40px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)', position: 'relative' }}>
+        style={{ background: '#fff', borderRadius: 12, maxWidth: 460, width: '100%', padding: '40px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)', position: 'relative' }}>
         <button
           onClick={onClose}
           style={{ position: 'absolute', top: 16, right: 20, background: 'none', border: 'none', fontSize: 24, color: '#9ca3af', cursor: 'pointer', lineHeight: 1 }}>
           ×
         </button>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 52, marginBottom: 16 }}>🎯</div>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🎯</div>
           <h2 style={{ fontSize: 26, fontWeight: 700, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.25 }}>
             Wait — your roadmap takes 90 seconds to unlock.
           </h2>
@@ -422,7 +422,7 @@ export default function Page() {
   const otpRefs = useRef<(HTMLInputElement | null)[]>([])
   const chatEndRef = useRef<HTMLDivElement>(null)
 
-  /* ── Exit intent (mouse leaving top of viewport) ── */
+  /* ── Exit intent ── */
   useEffect(() => {
     if (screen === 'dashboard') return
     const handler = (e: MouseEvent) => {
@@ -440,22 +440,16 @@ export default function Page() {
     setError('')
     setSlideDir('sir')
     setCardKey(k => k + 1)
-    if (currentQ < questions.length - 1) {
-      setCurrentQ(q => q + 1)
-    } else {
-      setScreen('email')
-    }
+    if (currentQ < questions.length - 1) setCurrentQ(q => q + 1)
+    else setScreen('email')
   }, [currentQ])
 
   const goBack = useCallback(() => {
     setError('')
     setSlideDir('sil')
     setCardKey(k => k + 1)
-    if (currentQ > 0) {
-      setCurrentQ(q => q - 1)
-    } else {
-      setScreen('start')
-    }
+    if (currentQ > 0) setCurrentQ(q => q - 1)
+    else setScreen('start')
   }, [currentQ])
 
   const handleSelectAnswer = (qId: string, value: string) => {
@@ -595,56 +589,39 @@ export default function Page() {
 
   /* ══════════════ START ══════════════ */
   if (screen === 'start') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9' }}>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
       <style>{CSS}</style>
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-      {/* Nav */}
-      <nav style={{ padding: '18px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff', borderBottom: '1px solid #f0f0f0' }}>
-        <span style={{ fontSize: 22, fontWeight: 700, color: '#225840' }}>The5th</span>
-        <span style={{ fontSize: 13, color: '#9ca3af' }}>Free · 3 min quiz</span>
-      </nav>
+      <div style={{ maxWidth: 680, width: '100%', textAlign: 'center' }}>
+        {/* Logo */}
+        <div className="afu-1" style={{ fontSize: 20, fontWeight: 700, color: '#225840', marginBottom: 40 }}>
+          The5th
+        </div>
 
-      {/* Hero */}
-      <div style={{ minHeight: 'calc(100vh - 61px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
-        <div style={{ maxWidth: 580, width: '100%' }}>
+        {/* Emoji */}
+        <div className="afu-2" style={{ fontSize: 64, lineHeight: 1, marginBottom: 28 }}>👋</div>
 
-          {/* Gold label */}
-          <div className="afu-1" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
-            <div style={{ width: 3, height: 18, background: '#b8960c', borderRadius: 2 }} />
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c' }}>Free 15-Day AI Roadmap</span>
-          </div>
+        {/* Headline */}
+        <h1 className="afu-3" style={{ fontSize: 'clamp(36px, 7vw, 56px)', fontWeight: 900, color: '#0a0a0a', lineHeight: 1.05, textTransform: 'uppercase', letterSpacing: '-1px', marginBottom: 20 }}>
+          Discover Your Path to Your First $5,000 Month
+        </h1>
 
-          {/* Headline */}
-          <h1 className="afu-2" style={{ fontSize: 'clamp(34px,5.5vw,52px)', fontWeight: 800, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 20 }}>
-            Discover Your Path to Your First $5,000 Month
-          </h1>
+        {/* Subtext */}
+        <p className="afu-4" style={{ fontSize: 18, color: '#555', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
+          Answer a few questions and get a free personalized AI roadmap built around your expertise and goals. No fluff. No generic advice. Just your plan.
+        </p>
 
-          {/* Subtext */}
-          <p className="afu-3" style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
-            Answer a few questions and get a free personalized AI roadmap built around your expertise and goals. No fluff. No generic advice. Just your plan.
-          </p>
+        {/* CTA Button */}
+        <div className="afu-5" style={{ maxWidth: 480, margin: '0 auto 20px' }}>
+          <button className="gbtn" onClick={() => setScreen('quiz')}>
+            Get Started →
+          </button>
+        </div>
 
-          {/* Trust bullets */}
-          <div className="afu-4" style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
-            {['Free personalized AI roadmap', '15-day step-by-step action plan', '7-day email coaching included'].map(item => (
-              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ width: 22, height: 22, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: 15, color: '#374151', fontWeight: 500 }}>{item}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <div className="afu-5">
-            <button
-              className="gbtn"
-              onClick={() => setScreen('quiz')}
-              style={{ maxWidth: 400, fontSize: 17, padding: '18px 32px' }}>
-              Find My $5K Path →
-            </button>
-            <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 12 }}>3 min · Free · No credit card needed</p>
-          </div>
+        {/* Social proof */}
+        <div className="afu-6" style={{ fontSize: 14, color: '#666' }}>
+          ⭐⭐⭐⭐⭐ Trusted by 500+ women building their first $5K month
         </div>
       </div>
     </div>
@@ -660,19 +637,13 @@ export default function Page() {
         <style>{CSS}</style>
         {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-        {/* Top bar */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 50, background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-          {/* Back arrow */}
-          <button
-            onClick={goBack}
-            aria-label="Go back"
-            style={{ background: 'none', border: 'none', fontSize: 20, color: '#9ca3af', cursor: 'pointer', padding: '4px 8px', lineHeight: 1, flexShrink: 0 }}>
-            ←
-          </button>
-
-          {/* Dotted progress */}
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center', overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}>
+        {/* Progress bar — very top, full width, with connecting line */}
+        <div style={{ position: 'sticky', top: 0, zIndex: 50, background: '#f9f9f9', padding: '16px 20px 12px', borderBottom: '1px solid #ebebeb' }}>
+          <div style={{ position: 'relative', height: 14 }}>
+            {/* Background line */}
+            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: '#e0e0e0', transform: 'translateY(-50%)' }} />
+            {/* Dots row */}
+            <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
               {questions.map((_, i) => {
                 const done = i < currentQ
                 const cur  = i === currentQ
@@ -681,157 +652,171 @@ export default function Page() {
                     key={i}
                     className={cur ? 'dot-cur' : ''}
                     style={{
-                      width: 10, height: 10, borderRadius: '50%', flexShrink: 0,
-                      transition: 'background 0.3s ease, border-color 0.3s ease',
-                      background: done ? '#225840' : cur ? '#b8960c' : 'transparent',
+                      width: 14, height: 14, borderRadius: '50%', flexShrink: 0,
+                      background: done ? '#225840' : cur ? '#b8960c' : '#f9f9f9',
                       border: `2px solid ${done ? '#225840' : cur ? '#b8960c' : '#e0e0e0'}`,
+                      transition: 'background 0.3s ease, border-color 0.3s ease',
                     }}
                   />
                 )
               })}
             </div>
           </div>
-
-          {/* Counter */}
-          <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 500, flexShrink: 0 }}>
-            {currentQ + 1} of {questions.length}
-          </span>
         </div>
 
-        {/* Question card */}
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 20px 80px', overflowX: 'hidden' }}>
-          <div
-            key={cardKey}
-            className={slideDir}
-            style={{ maxWidth: 580, width: '100%', background: '#fff', borderRadius: 16, padding: '48px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
+        {/* Content area */}
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px 100px' }}>
+          {/* Back arrow */}
+          <button
+            onClick={goBack}
+            aria-label="Go back"
+            style={{ background: 'none', border: 'none', fontSize: 22, color: '#9ca3af', cursor: 'pointer', padding: '18px 0 0', display: 'block', lineHeight: 1 }}>
+            ←
+          </button>
 
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#b8960c', marginBottom: 12, letterSpacing: '.04em' }}>
-              Question {q.num}
-            </div>
-            <h2 style={{ fontSize: 'clamp(20px,3vw,30px)', fontWeight: 700, color: '#0a0a0a', lineHeight: 1.3, marginBottom: 8 }}>
+          {/* Animated question wrapper */}
+          <div key={cardKey} className={slideDir}>
+            {/* Question title */}
+            <h2 style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 800, color: '#0a0a0a', textAlign: 'center', margin: '40px auto 12px', lineHeight: 1.2, maxWidth: 560 }}>
               {q.title}
             </h2>
-            <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.65, marginBottom: 28 }}>{q.sub}</p>
-
-            {/* SELECT */}
-            {q.type === 'select' && q.options.map((opt, idx) => {
-              const sel = answers[q.id] === opt.value
-              return (
-                <button
-                  key={opt.value}
-                  className={`qopt${sel ? ' sel' : ''}`}
-                  onClick={() => handleSelectAnswer(q.id, opt.value)}>
-                  <span style={{ width: 28, height: 28, borderRadius: '50%', background: sel ? 'rgba(255,255,255,0.2)' : '#f3f4f6', color: sel ? '#fff' : '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
-                    {String.fromCharCode(65 + idx)}
-                  </span>
-                  <span style={{ flex: 1 }}>
-                    <span style={{ display: 'block', fontSize: 15, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>{opt.label}</span>
-                    {opt.sub && <span style={{ display: 'block', fontSize: 12, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 2 }}>{opt.sub}</span>}
-                  </span>
-                  {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700 }}>✓</span>}
-                </button>
-              )
-            })}
-
-            {/* TEXTAREA */}
-            {q.type === 'textarea' && (
-              <>
-                <textarea
-                  className="qinput"
-                  style={{ minHeight: 120, resize: 'vertical', marginBottom: 8 }}
-                  placeholder={q.placeholder}
-                  value={textAnswers[q.id] || ''}
-                  onChange={e => setTextAnswers(t => ({ ...t, [q.id]: e.target.value }))}
-                />
-                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8 }}>{error}</p>}
-                <button className="gbtn" onClick={validateAndNext}>Continue →</button>
-              </>
+            {q.sub && (
+              <p style={{ fontSize: 16, color: '#6b7280', textAlign: 'center', marginBottom: 36, lineHeight: 1.65, maxWidth: 500, margin: '0 auto 36px' }}>
+                {q.sub}
+              </p>
             )}
 
-            {/* FROMTO */}
-            {q.type === 'fromto' && (
-              <>
-                {(['from', 'to'] as const).map(key => (
-                  <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                    <span style={{ width: 46, fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#b8960c', flexShrink: 0 }}>
-                      {key.toUpperCase()}
+            {/* Options container */}
+            <div style={{ maxWidth: 500, margin: '0 auto' }}>
+
+              {/* SELECT */}
+              {q.type === 'select' && q.options.map(opt => {
+                const sel = answers[q.id] === opt.value
+                return (
+                  <button
+                    key={opt.value}
+                    className={`qopt${sel ? ' sel' : ''}`}
+                    onClick={() => handleSelectAnswer(q.id, opt.value)}>
+                    <span style={{ flex: 1 }}>
+                      <span style={{ display: 'block', fontSize: 17, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>
+                        {opt.label}
+                      </span>
+                      {opt.sub && (
+                        <span style={{ display: 'block', fontSize: 13, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 3 }}>
+                          {opt.sub}
+                        </span>
+                      )}
                     </span>
-                    <input
-                      className="qinput"
-                      placeholder={key === 'from' ? q.fromPlaceholder : q.toPlaceholder}
-                      value={fromTo[key]}
-                      onChange={e => setFromTo(f => ({ ...f, [key]: e.target.value }))}
-                    />
-                  </div>
-                ))}
-                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8 }}>{error}</p>}
-                <button className="gbtn" onClick={validateAndNext}>Continue →</button>
-              </>
-            )}
+                    {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700, marginLeft: 12 }}>✓</span>}
+                  </button>
+                )
+              })}
 
-            {/* SCALE */}
-            {q.type === 'scale' && (
-              <>
-                <div style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
-                  {[1, 2, 3, 4, 5].map(n => (
-                    <button
-                      key={n}
-                      className={`scale-btn${answers[q.id] === String(n) ? ' sel' : ''}`}
-                      onClick={() => { setAnswers(a => ({ ...a, [q.id]: String(n) })); setError('') }}>
-                      {n}
-                    </button>
+              {/* TEXTAREA */}
+              {q.type === 'textarea' && (
+                <>
+                  <textarea
+                    className="qinput"
+                    style={{ minHeight: 130, resize: 'vertical', marginBottom: 10 }}
+                    placeholder={q.placeholder}
+                    value={textAnswers[q.id] || ''}
+                    onChange={e => setTextAnswers(t => ({ ...t, [q.id]: e.target.value }))}
+                  />
+                  {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 10 }}>{error}</p>}
+                  <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+                </>
+              )}
+
+              {/* FROMTO */}
+              {q.type === 'fromto' && (
+                <>
+                  {(['from', 'to'] as const).map(key => (
+                    <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                      <span style={{ width: 46, fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#b8960c', flexShrink: 0, textTransform: 'uppercase' }}>
+                        {key}
+                      </span>
+                      <input
+                        className="qinput"
+                        placeholder={key === 'from' ? q.fromPlaceholder : q.toPlaceholder}
+                        value={fromTo[key]}
+                        onChange={e => setFromTo(f => ({ ...f, [key]: e.target.value }))}
+                      />
+                    </div>
                   ))}
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#9ca3af', marginBottom: 24 }}>
-                  <span>{q.scaleMin}</span><span>{q.scaleMax}</span>
-                </div>
-                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8 }}>{error}</p>}
-                <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none' }}>
+                  {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 10 }}>{error}</p>}
                   <button className="gbtn" onClick={validateAndNext}>Continue →</button>
-                </div>
-              </>
-            )}
+                </>
+              )}
 
-            {/* MULTI */}
-            {q.type === 'multi' && (
-              <>
-                {q.options.map((opt, idx) => {
-                  const sel = (multiAnswers[q.id] || []).includes(opt.value)
-                  return (
-                    <button
-                      key={opt.value}
-                      className={`qopt${sel ? ' sel' : ''}`}
-                      onClick={() => {
-                        setMultiAnswers(m => {
-                          const cur = m[q.id] || []
-                          return { ...m, [q.id]: sel ? cur.filter(v => v !== opt.value) : [...cur, opt.value] }
-                        })
-                        setError('')
-                      }}>
-                      <span style={{ width: 28, height: 28, borderRadius: 6, background: sel ? 'rgba(255,255,255,0.2)' : '#f3f4f6', color: sel ? '#fff' : '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
-                        {sel ? '✓' : String.fromCharCode(65 + idx)}
-                      </span>
-                      <span style={{ flex: 1 }}>
-                        <span style={{ display: 'block', fontSize: 15, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>{opt.label}</span>
-                        {opt.sub && <span style={{ display: 'block', fontSize: 12, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 2 }}>{opt.sub}</span>}
-                      </span>
-                    </button>
-                  )
-                })}
-                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
-                <button className="gbtn" style={{ marginTop: 8 }} onClick={validateAndNext}>Continue →</button>
-              </>
-            )}
+              {/* SCALE */}
+              {q.type === 'scale' && (
+                <>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                    {[1, 2, 3, 4, 5].map(n => (
+                      <button
+                        key={n}
+                        className={`scale-btn${answers[q.id] === String(n) ? ' sel' : ''}`}
+                        onClick={() => { setAnswers(a => ({ ...a, [q.id]: String(n) })); setError('') }}>
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#9ca3af', marginBottom: 28 }}>
+                    <span>{q.scaleMin}</span><span>{q.scaleMax}</span>
+                  </div>
+                  {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 10 }}>{error}</p>}
+                  <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none' }}>
+                    <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+                  </div>
+                </>
+              )}
 
-            {/* Continue button for SELECT (animated in after selection) */}
-            {q.type === 'select' && (
-              <>
-                {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
-                <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none', marginTop: 4 }}>
-                  <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+              {/* MULTI */}
+              {q.type === 'multi' && (
+                <>
+                  {q.options.map(opt => {
+                    const sel = (multiAnswers[q.id] || []).includes(opt.value)
+                    return (
+                      <button
+                        key={opt.value}
+                        className={`qopt${sel ? ' sel' : ''}`}
+                        onClick={() => {
+                          setMultiAnswers(m => {
+                            const cur = m[q.id] || []
+                            return { ...m, [q.id]: sel ? cur.filter(v => v !== opt.value) : [...cur, opt.value] }
+                          })
+                          setError('')
+                        }}>
+                        <span style={{ flex: 1 }}>
+                          <span style={{ display: 'block', fontSize: 17, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>
+                            {opt.label}
+                          </span>
+                          {opt.sub && (
+                            <span style={{ display: 'block', fontSize: 13, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 3 }}>
+                              {opt.sub}
+                            </span>
+                          )}
+                        </span>
+                        {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700, marginLeft: 12 }}>✓</span>}
+                      </button>
+                    )
+                  })}
+                  {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
+                  <button className="gbtn" style={{ marginTop: 8 }} onClick={validateAndNext}>Continue →</button>
+                </>
+              )}
+
+              {/* Continue button for SELECT — fades in after selection */}
+              {q.type === 'select' && (
+                <div style={{ marginTop: 4 }}>
+                  {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 10 }}>{error}</p>}
+                  <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none' }}>
+                    <button className="gbtn" onClick={validateAndNext}>Continue →</button>
+                  </div>
                 </div>
-              </>
-            )}
+              )}
+
+            </div>
           </div>
         </div>
       </div>
@@ -840,56 +825,64 @@ export default function Page() {
 
   /* ══════════════ EMAIL ══════════════ */
   if (screen === 'email') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
       <style>{CSS}</style>
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-      <div className="afu-1" style={{ maxWidth: 520, width: '100%', background: '#fff', borderRadius: 16, padding: '48px 40px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c', marginBottom: 16, textAlign: 'center' }}>
+      <div className="afu-1" style={{ maxWidth: 520, width: '100%', textAlign: 'center' }}>
+        {/* Gold label */}
+        <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c', marginBottom: 20 }}>
           YOUR ROADMAP IS READY ✨
         </div>
-        <h2 style={{ fontSize: 'clamp(20px,3vw,28px)', fontWeight: 700, color: '#0a0a0a', marginBottom: 8, textAlign: 'center', lineHeight: 1.3 }}>
+
+        <h2 style={{ fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>
           Your personalized 15-day roadmap is ready
         </h2>
-        <p style={{ fontSize: 15, color: '#6b7280', textAlign: 'center', marginBottom: 24, lineHeight: 1.7 }}>
+        <p style={{ fontSize: 16, color: '#555', marginBottom: 32, lineHeight: 1.7 }}>
           Enter your details below to unlock your free AI dashboard
         </p>
 
-        <div style={{ background: '#f9fafb', border: '1px solid #f0f0f0', borderRadius: 10, padding: '18px 20px', marginBottom: 24 }}>
+        {/* Benefits */}
+        <div style={{ marginBottom: 32, display: 'inline-block', textAlign: 'left' }}>
           {['Your full AI-generated 15-day roadmap', 'Daily tasks built from your quiz answers', 'AI business coach available 24/7', 'Revenue tracker toward your $5K goal', '7-day personalized email coaching series'].map(item => (
-            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <span style={{ width: 18, height: 18, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
-              <span style={{ fontSize: 13, color: '#374151' }}>{item}</span>
+            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+              <span style={{ width: 20, height: 20, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
+              <span style={{ fontSize: 15, color: '#374151' }}>{item}</span>
             </div>
           ))}
         </div>
 
-        <input className="qinput" style={{ marginBottom: 12 }} type="text" placeholder="First name" value={name} onChange={e => setName(e.target.value)} />
-        <input className="qinput" style={{ marginBottom: 16 }} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
-        {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 12 }}>{error}</p>}
-        <button className="gbtn" onClick={handleEmailSubmit} disabled={submitting}>
-          {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
-        </button>
-        <p style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', marginTop: 14 }}>🔒 Your info is private. We never spam.</p>
+        {/* Form */}
+        <div style={{ maxWidth: 480, margin: '0 auto' }}>
+          <input className="qinput" style={{ marginBottom: 12 }} type="text" placeholder="Your first name" value={name} onChange={e => setName(e.target.value)} />
+          <input className="qinput" style={{ marginBottom: 20 }} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
+          {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 14, textAlign: 'left' }}>{error}</p>}
+          <button className="gbtn" onClick={handleEmailSubmit} disabled={submitting}>
+            {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
+          </button>
+          <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 14 }}>🔒 Your info is private. We never spam.</p>
+        </div>
       </div>
     </div>
   )
 
   /* ══════════════ OTP ══════════════ */
   if (screen === 'otp') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
       <style>{CSS}</style>
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-      <div className="afu-1" style={{ maxWidth: 480, width: '100%', background: '#fff', borderRadius: 16, padding: '48px 40px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)', textAlign: 'center' }}>
-        <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#e8f0eb', border: '2px solid #225840', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: 22, color: '#225840', fontWeight: 700 }}>
+      <div className="afu-1" style={{ maxWidth: 480, width: '100%', textAlign: 'center' }}>
+        {/* Green check icon */}
+        <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#e8f0eb', border: '2px solid #225840', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 24, color: '#225840', fontWeight: 700 }}>
           ✓
         </div>
-        <h2 style={{ fontSize: 26, fontWeight: 700, color: '#0a0a0a', marginBottom: 10 }}>Check your inbox</h2>
-        <p style={{ fontSize: 15, color: '#6b7280', marginBottom: 32, lineHeight: 1.7 }}>
+        <h2 style={{ fontSize: 28, fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>Check your inbox</h2>
+        <p style={{ fontSize: 16, color: '#555', marginBottom: 36, lineHeight: 1.7 }}>
           We sent a 6-digit code to<br /><strong style={{ color: '#0a0a0a' }}>{email}</strong>
         </p>
 
+        {/* OTP boxes */}
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
           {otpDigits.map((d, i) => (
             <input
@@ -903,9 +896,12 @@ export default function Page() {
           ))}
         </div>
         {otpError && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 16 }}>{otpError}</p>}
-        <button className="gbtn" onClick={handleOtpSubmit} disabled={submitting}>
-          {submitting ? 'Verifying…' : 'Verify & Unlock My Roadmap →'}
-        </button>
+
+        <div style={{ maxWidth: 480, margin: '0 auto' }}>
+          <button className="gbtn" onClick={handleOtpSubmit} disabled={submitting}>
+            {submitting ? 'Verifying…' : 'Verify & Unlock →'}
+          </button>
+        </div>
         <button
           onClick={handleEmailSubmit}
           style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}>
