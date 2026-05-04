@@ -389,6 +389,116 @@ function ExitPopup({ onClose, onResume }: { onClose: () => void; onResume: () =>
   )
 }
 
+/* ─── Flame Logo ─── */
+function FlameLogo() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+      <svg width="26" height="40" viewBox="0 0 26 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Left flame */}
+        <path
+          d="M5 38 C2 30 1 20 4 13 C6 8 8 5 7 1 C10 5 10 12 9 18 C8 24 8 32 5 38 Z"
+          fill="#2d6a4f"
+        />
+        {/* Center flame (tallest) */}
+        <path
+          d="M13 40 C10 31 9 20 12 12 C14 6 15 3 13 0 C15 3 17 7 16 13 C18 21 16 32 13 40 Z"
+          fill="#2d6a4f"
+        />
+        {/* Right flame */}
+        <path
+          d="M21 38 C18 30 18 24 17 18 C16 12 17 5 20 1 C19 5 22 8 23 13 C25 20 24 30 21 38 Z"
+          fill="#2d6a4f"
+        />
+      </svg>
+      <span style={{ fontSize: 18, fontWeight: 700, color: '#2d6a4f', letterSpacing: '2px', fontFamily: 'Inter, system-ui, sans-serif' }}>
+        THE5TH CONSULTING
+      </span>
+    </div>
+  )
+}
+
+/* ─── Site Header (start / quiz / email / otp) ─── */
+function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) {
+  const isQuiz = screen === 'quiz'
+  const allDone = screen === 'email' || screen === 'otp'
+
+  return (
+    <header style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)',
+      padding: '16px 40px',
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      gap: 16,
+      borderBottom: '1px solid #f0f0f0',
+    }}>
+      {/* Left: Logo */}
+      <FlameLogo />
+
+      {/* Center: Progress dots */}
+      <div style={{ flex: 1, maxWidth: 480, position: 'relative', height: 10, margin: '0 16px' }}>
+        {/* Connecting line */}
+        <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: '#e0e0e0', transform: 'translateY(-50%)' }} />
+        {/* Dots */}
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
+          {questions.map((_, i) => {
+            const done = allDone || (isQuiz && i < currentQ)
+            const cur = isQuiz && i === currentQ
+            return (
+              <div
+                key={i}
+                className={cur ? 'dot-cur' : ''}
+                style={{
+                  width: 10, height: 10, borderRadius: '50%', flexShrink: 0,
+                  background: done ? '#225840' : cur ? '#b8960c' : '#fff',
+                  border: `2px solid ${done ? '#225840' : cur ? '#b8960c' : '#e0e0e0'}`,
+                  transition: 'background 0.3s ease, border-color 0.3s ease',
+                }}
+              />
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Right: tag line — invisible during quiz to preserve layout */}
+      <div style={{
+        fontSize: 13, color: '#999', whiteSpace: 'nowrap', flexShrink: 0,
+        visibility: isQuiz ? 'hidden' : 'visible',
+        minWidth: 110, textAlign: 'right',
+      }}>
+        Free · 3 min quiz
+      </div>
+    </header>
+  )
+}
+
+/* ─── Footer (landing page only) ─── */
+function Footer() {
+  return (
+    <footer style={{ background: '#0a1a0f', padding: '60px 40px 40px' }}>
+      <div style={{ textAlign: 'center', fontSize: 'clamp(56px, 10vw, 96px)', fontWeight: 900, color: '#fff', letterSpacing: '-2px', lineHeight: 1, marginBottom: 40 }}>
+        THE5TH
+      </div>
+      <div style={{ height: 1, background: '#225840', marginBottom: 28 }} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <span style={{ fontSize: 14, color: '#aaa' }}>© 2026 The5th Consulting. All rights reserved.</span>
+        <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+          {['Privacy Policy', 'Data Usage', 'Contact'].map(link => (
+            <a
+              key={link}
+              href="#"
+              style={{ fontSize: 14, color: '#aaa', textDecoration: 'none', transition: 'color 0.2s ease' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#aaa')}
+            >
+              {link}
+            </a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  )
+}
+
 /* ─── Page ─── */
 export default function Page() {
   const [screen, setScreen] = useState<'start' | 'quiz' | 'email' | 'otp' | 'dashboard'>('start')
@@ -589,41 +699,43 @@ export default function Page() {
 
   /* ══════════════ START ══════════════ */
   if (screen === 'start') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
       <style>{CSS}</style>
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-      <div style={{ maxWidth: 680, width: '100%', textAlign: 'center' }}>
-        {/* Logo */}
-        <div className="afu-1" style={{ fontSize: 20, fontWeight: 700, color: '#225840', marginBottom: 40 }}>
-          The5th
-        </div>
+      <SiteHeader screen="start" currentQ={0} />
 
-        {/* Emoji */}
-        <div className="afu-2" style={{ fontSize: 64, lineHeight: 1, marginBottom: 28 }}>👋</div>
+      {/* Main content */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 24px 60px' }}>
+        <div style={{ maxWidth: 680, width: '100%', textAlign: 'center' }}>
+          {/* Emoji */}
+          <div className="afu-2" style={{ fontSize: 64, lineHeight: 1, marginBottom: 28 }}>👋</div>
 
-        {/* Headline */}
-        <h1 className="afu-3" style={{ fontSize: 'clamp(36px, 7vw, 56px)', fontWeight: 900, color: '#0a0a0a', lineHeight: 1.05, textTransform: 'uppercase', letterSpacing: '-1px', marginBottom: 20 }}>
-          Discover Your Path to Your First $5,000 Month
-        </h1>
+          {/* Headline */}
+          <h1 className="afu-3" style={{ fontSize: 'clamp(36px, 7vw, 56px)', fontWeight: 900, color: '#0a0a0a', lineHeight: 1.05, textTransform: 'uppercase', letterSpacing: '-1px', marginBottom: 20 }}>
+            Discover Your Path to Your First $5,000 Month
+          </h1>
 
-        {/* Subtext */}
-        <p className="afu-4" style={{ fontSize: 18, color: '#555', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
-          Answer a few questions and get a free personalized AI roadmap built around your expertise and goals. No fluff. No generic advice. Just your plan.
-        </p>
+          {/* Subtext */}
+          <p className="afu-4" style={{ fontSize: 18, color: '#555', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
+            Answer a few questions and get a free personalized AI roadmap built around your expertise and goals. No fluff. No generic advice. Just your plan.
+          </p>
 
-        {/* CTA Button */}
-        <div className="afu-5" style={{ maxWidth: 480, margin: '0 auto 20px' }}>
-          <button className="gbtn" onClick={() => setScreen('quiz')}>
-            Get Started →
-          </button>
-        </div>
+          {/* CTA Button */}
+          <div className="afu-5" style={{ maxWidth: 480, margin: '0 auto 20px' }}>
+            <button className="gbtn" onClick={() => setScreen('quiz')}>
+              Get Started →
+            </button>
+          </div>
 
-        {/* Social proof */}
-        <div className="afu-6" style={{ fontSize: 14, color: '#666' }}>
-          ⭐⭐⭐⭐⭐ Trusted by 500+ women building their first $5K month
+          {/* Social proof */}
+          <div className="afu-6" style={{ fontSize: 14, color: '#666' }}>
+            ⭐⭐⭐⭐⭐ Trusted by 500+ women building their first $5K month
+          </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 
@@ -637,35 +749,10 @@ export default function Page() {
         <style>{CSS}</style>
         {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-        {/* Progress bar — very top, full width, with connecting line */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 50, background: '#f9f9f9', padding: '16px 20px 12px', borderBottom: '1px solid #ebebeb' }}>
-          <div style={{ position: 'relative', height: 14 }}>
-            {/* Background line */}
-            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: '#e0e0e0', transform: 'translateY(-50%)' }} />
-            {/* Dots row */}
-            <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
-              {questions.map((_, i) => {
-                const done = i < currentQ
-                const cur  = i === currentQ
-                return (
-                  <div
-                    key={i}
-                    className={cur ? 'dot-cur' : ''}
-                    style={{
-                      width: 14, height: 14, borderRadius: '50%', flexShrink: 0,
-                      background: done ? '#225840' : cur ? '#b8960c' : '#f9f9f9',
-                      border: `2px solid ${done ? '#225840' : cur ? '#b8960c' : '#e0e0e0'}`,
-                      transition: 'background 0.3s ease, border-color 0.3s ease',
-                    }}
-                  />
-                )
-              })}
-            </div>
-          </div>
-        </div>
+        <SiteHeader screen="quiz" currentQ={currentQ} />
 
         {/* Content area */}
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px 100px' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '88px 20px 100px' }}>
           {/* Back arrow */}
           <button
             onClick={goBack}
@@ -825,42 +912,45 @@ export default function Page() {
 
   /* ══════════════ EMAIL ══════════════ */
   if (screen === 'email') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
       <style>{CSS}</style>
+      <SiteHeader screen="email" currentQ={questions.length} />
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-      <div className="afu-1" style={{ maxWidth: 520, width: '100%', textAlign: 'center' }}>
-        {/* Gold label */}
-        <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c', marginBottom: 20 }}>
-          YOUR ROADMAP IS READY ✨
-        </div>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 24px 60px' }}>
+        <div className="afu-1" style={{ maxWidth: 520, width: '100%', textAlign: 'center' }}>
+          {/* Gold label */}
+          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c', marginBottom: 20 }}>
+            YOUR ROADMAP IS READY ✨
+          </div>
 
-        <h2 style={{ fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>
-          Your personalized 15-day roadmap is ready
-        </h2>
-        <p style={{ fontSize: 16, color: '#555', marginBottom: 32, lineHeight: 1.7 }}>
-          Enter your details below to unlock your free AI dashboard
-        </p>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>
+            Your personalized 15-day roadmap is ready
+          </h2>
+          <p style={{ fontSize: 16, color: '#555', marginBottom: 32, lineHeight: 1.7 }}>
+            Enter your details below to unlock your free AI dashboard
+          </p>
 
-        {/* Benefits */}
-        <div style={{ marginBottom: 32, display: 'inline-block', textAlign: 'left' }}>
-          {['Your full AI-generated 15-day roadmap', 'Daily tasks built from your quiz answers', 'AI business coach available 24/7', 'Revenue tracker toward your $5K goal', '7-day personalized email coaching series'].map(item => (
-            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-              <span style={{ width: 20, height: 20, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
-              <span style={{ fontSize: 15, color: '#374151' }}>{item}</span>
-            </div>
-          ))}
-        </div>
+          {/* Benefits */}
+          <div style={{ marginBottom: 32, display: 'inline-block', textAlign: 'left' }}>
+            {['Your full AI-generated 15-day roadmap', 'Daily tasks built from your quiz answers', 'AI business coach available 24/7', 'Revenue tracker toward your $5K goal', '7-day personalized email coaching series'].map(item => (
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                <span style={{ width: 20, height: 20, borderRadius: '50%', background: '#e8f0eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#225840', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: 15, color: '#374151' }}>{item}</span>
+              </div>
+            ))}
+          </div>
 
-        {/* Form */}
-        <div style={{ maxWidth: 480, margin: '0 auto' }}>
-          <input className="qinput" style={{ marginBottom: 12 }} type="text" placeholder="Your first name" value={name} onChange={e => setName(e.target.value)} />
-          <input className="qinput" style={{ marginBottom: 20 }} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
-          {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 14, textAlign: 'left' }}>{error}</p>}
-          <button className="gbtn" onClick={handleEmailSubmit} disabled={submitting}>
-            {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
-          </button>
-          <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 14 }}>🔒 Your info is private. We never spam.</p>
+          {/* Form */}
+          <div style={{ maxWidth: 480, margin: '0 auto' }}>
+            <input className="qinput" style={{ marginBottom: 12 }} type="text" placeholder="Your first name" value={name} onChange={e => setName(e.target.value)} />
+            <input className="qinput" style={{ marginBottom: 20 }} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
+            {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 14, textAlign: 'left' }}>{error}</p>}
+            <button className="gbtn" onClick={handleEmailSubmit} disabled={submitting}>
+              {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
+            </button>
+            <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 14 }}>🔒 Your info is private. We never spam.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -868,45 +958,48 @@ export default function Page() {
 
   /* ══════════════ OTP ══════════════ */
   if (screen === 'otp') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
+    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
       <style>{CSS}</style>
+      <SiteHeader screen="otp" currentQ={questions.length} />
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
-      <div className="afu-1" style={{ maxWidth: 480, width: '100%', textAlign: 'center' }}>
-        {/* Green check icon */}
-        <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#e8f0eb', border: '2px solid #225840', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 24, color: '#225840', fontWeight: 700 }}>
-          ✓
-        </div>
-        <h2 style={{ fontSize: 28, fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>Check your inbox</h2>
-        <p style={{ fontSize: 16, color: '#555', marginBottom: 36, lineHeight: 1.7 }}>
-          We sent a 6-digit code to<br /><strong style={{ color: '#0a0a0a' }}>{email}</strong>
-        </p>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 24px 60px' }}>
+        <div className="afu-1" style={{ maxWidth: 480, width: '100%', textAlign: 'center' }}>
+          {/* Green check icon */}
+          <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#e8f0eb', border: '2px solid #225840', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 24, color: '#225840', fontWeight: 700 }}>
+            ✓
+          </div>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>Check your inbox</h2>
+          <p style={{ fontSize: 16, color: '#555', marginBottom: 36, lineHeight: 1.7 }}>
+            We sent a 6-digit code to<br /><strong style={{ color: '#0a0a0a' }}>{email}</strong>
+          </p>
 
-        {/* OTP boxes */}
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
-          {otpDigits.map((d, i) => (
-            <input
-              key={i}
-              className={`otp-box${d ? ' filled' : ''}${otpError ? ' otp-err' : ''}`}
-              type="text" inputMode="numeric" maxLength={1} value={d}
-              ref={el => { otpRefs.current[i] = el }}
-              onChange={e => handleOtpDigit(i, e.target.value)}
-              onKeyDown={e => handleOtpKey(i, e)}
-            />
-          ))}
-        </div>
-        {otpError && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 16 }}>{otpError}</p>}
+          {/* OTP boxes */}
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
+            {otpDigits.map((d, i) => (
+              <input
+                key={i}
+                className={`otp-box${d ? ' filled' : ''}${otpError ? ' otp-err' : ''}`}
+                type="text" inputMode="numeric" maxLength={1} value={d}
+                ref={el => { otpRefs.current[i] = el }}
+                onChange={e => handleOtpDigit(i, e.target.value)}
+                onKeyDown={e => handleOtpKey(i, e)}
+              />
+            ))}
+          </div>
+          {otpError && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 16 }}>{otpError}</p>}
 
-        <div style={{ maxWidth: 480, margin: '0 auto' }}>
-          <button className="gbtn" onClick={handleOtpSubmit} disabled={submitting}>
-            {submitting ? 'Verifying…' : 'Verify & Unlock →'}
+          <div style={{ maxWidth: 480, margin: '0 auto' }}>
+            <button className="gbtn" onClick={handleOtpSubmit} disabled={submitting}>
+              {submitting ? 'Verifying…' : 'Verify & Unlock →'}
+            </button>
+          </div>
+          <button
+            onClick={handleEmailSubmit}
+            style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}>
+            Didn&apos;t receive a code? Resend
           </button>
         </div>
-        <button
-          onClick={handleEmailSubmit}
-          style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}>
-          Didn&apos;t receive a code? Resend
-        </button>
       </div>
     </div>
   )
