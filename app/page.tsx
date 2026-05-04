@@ -393,26 +393,8 @@ function ExitPopup({ onClose, onResume }: { onClose: () => void; onResume: () =>
 function FlameLogo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-      <svg width="26" height="40" viewBox="0 0 26 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Left flame */}
-        <path
-          d="M5 38 C2 30 1 20 4 13 C6 8 8 5 7 1 C10 5 10 12 9 18 C8 24 8 32 5 38 Z"
-          fill="#2d6a4f"
-        />
-        {/* Center flame (tallest) */}
-        <path
-          d="M13 40 C10 31 9 20 12 12 C14 6 15 3 13 0 C15 3 17 7 16 13 C18 21 16 32 13 40 Z"
-          fill="#2d6a4f"
-        />
-        {/* Right flame */}
-        <path
-          d="M21 38 C18 30 18 24 17 18 C16 12 17 5 20 1 C19 5 22 8 23 13 C25 20 24 30 21 38 Z"
-          fill="#2d6a4f"
-        />
-      </svg>
-      <span style={{ fontSize: 18, fontWeight: 700, color: '#2d6a4f', letterSpacing: '2px', fontFamily: 'Inter, system-ui, sans-serif' }}>
-        THE5TH CONSULTING
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo.png" alt="The5th Consulting" style={{ height: 40, width: 'auto' }} />
     </div>
   )
 }
@@ -475,6 +457,10 @@ function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) 
 function Footer() {
   return (
     <footer style={{ background: '#0a1a0f', padding: '60px 40px 40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.png" alt="The5th Consulting" style={{ height: 32, width: 'auto' }} />
+      </div>
       <div style={{ width: '100%', textAlign: 'center', fontSize: 'clamp(64px, 12vw, 140px)', fontWeight: 900, color: '#fff', letterSpacing: '-4px', lineHeight: 1, marginBottom: 40 }}>
         THE5TH CONSULTING
       </div>
