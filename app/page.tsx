@@ -475,8 +475,8 @@ function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) 
 function Footer() {
   return (
     <footer style={{ background: '#0a1a0f', padding: '60px 40px 40px' }}>
-      <div style={{ textAlign: 'center', fontSize: 'clamp(56px, 10vw, 96px)', fontWeight: 900, color: '#fff', letterSpacing: '-2px', lineHeight: 1, marginBottom: 40 }}>
-        THE5TH
+      <div style={{ width: '100%', textAlign: 'center', fontSize: 'clamp(64px, 12vw, 140px)', fontWeight: 900, color: '#fff', letterSpacing: '-4px', lineHeight: 1, marginBottom: 40 }}>
+        THE5TH CONSULTING
       </div>
       <div style={{ height: 1, background: '#225840', marginBottom: 28 }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
