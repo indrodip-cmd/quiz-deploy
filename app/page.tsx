@@ -271,17 +271,24 @@ function StatCard({ label, value, unit, color }: { label: string; value: number;
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garant:wght@300;400;600;700;900&display=swap');
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: #f9f9f9; }
+html { background: #f5f2ee; }
 body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0a; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideInLeft  { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes scaleIn { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
 @keyframes dotPulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184,150,12,0.5); } 70% { transform: scale(1.25); box-shadow: 0 0 0 5px rgba(184,150,12,0); } }
 @keyframes meshMove { 0% { opacity:0.7 } 100% { opacity:1 } }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.55;transform:scale(1.3)} }
-@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,.4)} 50%{box-shadow:0 0 0 6px rgba(212,160,23,.0)} }
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(34,88,64,0.3)} 50%{box-shadow:0 0 0 12px rgba(34,88,64,0)} }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeInLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
+@keyframes fadeInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+@keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@keyframes float { 0%,100% { transform:translateY(0px); } 50% { transform:translateY(-8px); } }
+@keyframes countUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+@keyframes tabletReveal { from { opacity:0.3; transform:scale(0.85) translateY(40px); } to { opacity:1; transform:scale(1) translateY(0); } }
 
 .afu-1 { animation: fadeUp 0.6s ease both; }
 .afu-2 { animation: fadeUp 0.6s 0.1s ease both; }
@@ -352,25 +359,23 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
 ::-webkit-scrollbar-thumb { background: #2d6a4f; border-radius: 3px; }
 
 /* ── Landing page ── */
-@keyframes tabletFloat { 0%,100%{transform:rotate(3deg) translateY(0)} 50%{transform:rotate(3deg) translateY(-8px)} }
-.tablet-float { animation: tabletFloat 3s ease-in-out infinite; }
-.hero-right-anim { animation: slideInRight 0.6s 0.2s ease both; }
+.anim { opacity:0; transform:translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.anim.animate-in { opacity:1; transform:translateY(0); }
 
-.lp-card { transition: transform 0.22s ease, box-shadow 0.22s ease; }
-.lp-card:hover { transform: translateY(-4px) !important; box-shadow: 0 20px 60px rgba(0,0,0,0.1) !important; }
-
+.lp-benefit-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.lp-benefit-card:hover { transform: translateY(-6px) !important; box-shadow: 0 12px 40px rgba(0,0,0,0.1) !important; }
+.lp-step-card { transition: transform 0.3s ease; }
+.lp-step-card:hover { transform: translateY(-4px) !important; }
 .lp-testimonial { transition: transform 0.22s ease, box-shadow 0.22s ease; }
 .lp-testimonial:hover { transform: translateY(-3px) !important; box-shadow: 0 16px 48px rgba(0,0,0,0.08) !important; }
 
 @media (max-width: 768px) {
-  .hero-grid { flex-direction: column !important; }
-  .hero-headline { font-size: 36px !important; letter-spacing: -1px !important; }
-  .tablet-wrap { transform-origin: top center; margin: 40px auto 0 !important; transform: scale(0.82) !important; }
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .hero-headline-line { font-size: 40px !important; }
   .grid-3col { grid-template-columns: 1fr !important; }
-  .lp-section-pad { padding: 64px 20px !important; }
-  .hero-center-mobile { text-align: center !important; }
-  .hero-body-mobile { max-width: 100% !important; }
-  .hero-btn-center { display: flex !important; justify-content: center !important; }
+  .lp-section-pad { padding: 60px 24px !important; }
+  .hero-inner { padding: 80px 24px 40px !important; }
+  .landing-tablet { max-width: 320px !important; }
 }
 `
 
@@ -663,6 +668,109 @@ function ChatMockup() {
   )
 }
 
+/* ─── LandingTabletMockup ─── */
+function LandingTabletMockup() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    const obs = new IntersectionObserver(
+      (entries) => { entries.forEach(e => { if (e.isIntersecting) setVisible(true) }) },
+      { threshold: [0, 0.25, 0.5, 0.75, 1.0] }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  const sidebarDays = [
+    { day: 1, label: 'Clarity & Positioning', done: true, current: false, locked: false },
+    { day: 2, label: 'Define Your Offer', done: true, current: false, locked: false },
+    { day: 3, label: 'First Outreach', done: true, current: false, locked: false },
+    { day: 4, label: 'Build Outreach System', done: false, current: true, locked: false },
+    { day: 5, label: 'Content Strategy', done: false, current: false, locked: true },
+    { day: 6, label: 'Sales Framework', done: false, current: false, locked: true },
+    { day: 7, label: 'Pricing Confidence', done: false, current: false, locked: true },
+    { day: 8, label: 'Client Conversion', done: false, current: false, locked: true },
+  ]
+  const taskItems = [
+    { task: 'Identify 10 warm leads in your network', done: true },
+    { task: 'Write your personalized DM script', done: true },
+    { task: 'Send your first 3 outreach messages', done: false },
+  ]
+
+  return (
+    <div
+      ref={ref}
+      className="landing-tablet"
+      style={{
+        maxWidth: 1000, margin: '0 auto',
+        transition: 'transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1s ease',
+        transform: visible ? 'scale(1) translateY(0)' : 'scale(0.85) translateY(40px)',
+        opacity: visible ? 1 : 0.3,
+      }}
+    >
+      <div style={{ background: '#111', borderRadius: 20, padding: 16, boxShadow: '0 60px 120px rgba(0,0,0,0.3)' }}>
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#333', margin: '0 auto 10px' }} />
+        <div style={{ background: '#f8f8f8', borderRadius: 10, overflow: 'hidden' }}>
+          {/* Nav bar */}
+          <div style={{ background: 'white', borderBottom: '1px solid #eee', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <svg width="10" height="12" viewBox="0 0 32 36" fill="none">
+                <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#2d6a4f"/>
+              </svg>
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#225840' }}>The5th</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 10, fontWeight: 600, background: '#fef9ec', color: '#b8960c', padding: '3px 8px', borderRadius: 10 }}>Day 3 of 15</span>
+              <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#e8d5b7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700 }}>A</div>
+            </div>
+          </div>
+          {/* Main content */}
+          <div style={{ padding: 20, display: 'grid', gridTemplateColumns: '200px 1fr', gap: 16, minHeight: 320 }}>
+            {/* Sidebar */}
+            <div style={{ background: 'white', borderRadius: 12, padding: 16 }}>
+              <div style={{ fontSize: 9, fontWeight: 700, color: '#aaa', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 10 }}>15-DAY ROADMAP</div>
+              {sidebarDays.map(({ day, label, done, current, locked }) => (
+                <div key={day} style={{ display: 'flex', alignItems: 'center', gap: 6, height: 28, borderRadius: 6, padding: '0 6px', marginBottom: 2, background: done ? '#e8f5ee' : 'transparent', border: current ? '1.5px solid #b8960c' : 'none' }}>
+                  <span style={{ fontSize: 9, color: done ? '#225840' : current ? '#b8960c' : '#aaa', fontWeight: 700, flexShrink: 0 }}>{done ? '✓' : locked ? '🔒' : '→'}</span>
+                  <span style={{ fontSize: 9, color: done ? '#225840' : current ? '#b8960c' : '#bbb', fontWeight: current ? 700 : 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+                </div>
+              ))}
+              <div style={{ marginTop: 10, fontSize: 9, color: '#888' }}>3 of 15 complete</div>
+              <div style={{ height: 3, background: '#f0f0f0', borderRadius: 2, marginTop: 4 }}>
+                <div style={{ width: '20%', height: '100%', background: '#225840', borderRadius: 2 }} />
+              </div>
+            </div>
+            {/* Main panel */}
+            <div>
+              <div style={{ fontSize: 9, fontWeight: 700, color: '#b8960c', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 10 }}>TODAY&apos;S MISSION</div>
+              <div style={{ background: 'white', borderRadius: 12, padding: 16, borderLeft: '4px solid #b8960c', marginBottom: 12 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a', marginBottom: 10 }}>Day 4: Build Your Outreach System</div>
+                {taskItems.map(({ task, done }, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <div style={{ width: 12, height: 12, borderRadius: 3, background: done ? '#225840' : 'transparent', border: `1.5px solid ${done ? '#225840' : '#d1d5db'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      {done && <span style={{ fontSize: 7, color: '#fff' }}>✓</span>}
+                    </div>
+                    <span style={{ fontSize: 10, color: done ? '#aaa' : '#333', textDecoration: done ? 'line-through' : 'none' }}>{task}</span>
+                  </div>
+                ))}
+                <div style={{ marginTop: 10, background: '#b8960c', color: 'white', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 600, textAlign: 'center' }}>Complete Today</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: 12, padding: 16 }}>
+                <div style={{ fontSize: 10, fontWeight: 600, color: '#333', marginBottom: 8 }}>$0 of $10,000</div>
+                <div style={{ height: 4, background: '#f0f0f0', borderRadius: 2, marginBottom: 8 }}>
+                  <div style={{ width: '0%', height: '100%', background: 'linear-gradient(90deg, #225840, #4a9a6a)', borderRadius: 2 }} />
+                </div>
+                <div style={{ fontSize: 10, color: '#225840', fontWeight: 600 }}>Log Today&apos;s Revenue +</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ─── Page ─── */
 export default function Page() {
   const [screen, setScreen] = useState<'start' | 'quiz' | 'email' | 'otp' | 'dashboard'>('start')
@@ -863,117 +971,166 @@ export default function Page() {
 
   /* ══════════════ START ══════════════ */
   if (screen === 'start') return (
-    <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f2ee', display: 'flex', flexDirection: 'column' }}>
       <style>{CSS}</style>
       {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
       <SiteHeader screen="start" currentQ={0} />
 
       {/* ── SECTION 1: HERO ── */}
-      <section style={{ background: '#fff' }}>
-        <div
-          style={{ maxWidth: 800, margin: '0 auto', padding: '108px 40px 80px', textAlign: 'center' }}
-        >
-          {/* Pill */}
-          <div style={{ display: 'inline-block', marginBottom: 24, background: '#fef9ec', color: '#b8960c', border: '1px solid #f0d060', borderRadius: 20, padding: '6px 14px', fontSize: 13, fontWeight: 600 }}>
-            FREE 15-DAY AI ROADMAP ✦
-          </div>
-          {/* Headline */}
-          <h1
-            className="hero-headline afu-1"
-            style={{ fontSize: 58, fontWeight: 900, color: '#0a0a0a', lineHeight: 1.05, letterSpacing: '-2px', marginBottom: 24, maxWidth: 800, margin: '0 auto 24px' }}
-          >
-            Discover Your Path to Your First $10,000 Month
-          </h1>
-          {/* Body */}
-          <p className="hero-body-mobile" style={{ fontSize: 17, color: '#555', lineHeight: 1.7, maxWidth: 560, margin: '0 auto 36px' }}>
-            Take a simple 20-question quiz and get a personalized $10K roadmap showing exactly how to turn what you already know into consistent monthly income. No tech overwhelm. No complicated funnels. No guessing what to do next. Just a clear, step-by-step plan built around your skills, your story, and where you are right now.
-          </p>
-          {/* CTA */}
-          <div style={{ marginBottom: 14 }}>
-            <button
-              className="gbtn"
-              onClick={() => setScreen('quiz')}
-              style={{ width: 280, padding: '18px 32px', fontSize: 17, fontWeight: 700 }}
-            >
-              Start My Free Quiz →
-            </button>
-          </div>
-          <p style={{ fontSize: 13, color: '#999', marginBottom: 60 }}>
-            Takes less than 4 minutes · 20 questions · One plan built specifically for you.
-          </p>
-          {/* Tablet mockup centered below CTA */}
-          <div className="hero-right-anim tablet-wrap" style={{ display: 'flex', justifyContent: 'center' }}>
-            <TabletMockup />
-          </div>
-        </div>
-      </section>
+      <section style={{ background: '#f5f2ee' }}>
+        <div className="hero-grid hero-inner" style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 60px 60px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
 
-      {/* ── SECTION 2: SOCIAL PROOF BAR ── */}
-      <section style={{ background: '#f9f9f9', borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '22px 40px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
-          <p style={{ fontSize: 15, color: '#555', fontWeight: 500 }}>
-            Trusted by coaches and consultants building their first $10K month
-          </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 18, lineHeight: 1 }}>⭐⭐⭐⭐⭐</span>
-            <span style={{ fontSize: 14, fontWeight: 700, color: '#0a0a0a' }}>500+ women served</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 3: WHAT YOU GET ── */}
-      <section className="lp-section-pad" style={{ background: '#fff', padding: '100px 40px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <AnimateOnScroll>
-            <div style={{ textAlign: 'center', marginBottom: 60 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#225840', marginBottom: 14 }}>
-                WHAT&apos;S INCLUDED
+          {/* LEFT COLUMN */}
+          <div style={{ animation: 'fadeInLeft 0.8s ease both' }}>
+            {/* Label */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#666', textTransform: 'uppercase' }}>
+                — WORLD&apos;S MOST POWERFUL AI BUSINESS QUIZ
+              </span>
+            </div>
+            {/* Headline */}
+            <div style={{ marginBottom: 16 }}>
+              <div className="hero-headline-line" style={{ fontSize: 64, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.0 }}>Discover Your</div>
+              <div className="hero-headline-line" style={{ fontSize: 64, fontWeight: 800, color: '#225840', fontStyle: 'italic', lineHeight: 1.0 }}>$10K/Month</div>
+              <div className="hero-headline-line" style={{ fontSize: 64, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.0 }}>Blueprint</div>
+            </div>
+            {/* Subtext */}
+            <div style={{ fontSize: 14, color: '#888', fontStyle: 'italic', marginBottom: 24 }}>
+              Trained on $15M+ of real coaching data
+            </div>
+            {/* Body copy */}
+            <p style={{ fontSize: 16, color: '#444', lineHeight: 1.7, marginBottom: 32 }}>
+              Answer <strong>20 deep questions</strong> and get your personalized $10K blueprint — plus a <strong>free 7-day AI coaching email series</strong> built specifically from your answers. Your niche, your offer, your pricing. Zero templates. Powered by The5th AI acting as your personal CMO.
+            </p>
+            {/* Social proof row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex' }}>
+                {[
+                  { init: 'A', bg: '#e8d5b7' },
+                  { init: 'L', bg: '#d4e8d5' },
+                  { init: 'S', bg: '#d5d4e8' },
+                  { init: 'M', bg: '#e8d5d5' },
+                  { init: 'R', bg: '#d5e8e8' },
+                ].map(({ init, bg }, idx) => (
+                  <div key={idx} style={{ width: 36, height: 36, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, marginLeft: idx > 0 ? -8 : 0, border: '2px solid #f5f2ee', position: 'relative', zIndex: 5 - idx }}>
+                    {init}
+                  </div>
+                ))}
               </div>
-              <h2 style={{ fontSize: 42, fontWeight: 900, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 14, letterSpacing: '-1px' }}>
-                Everything You Need to Build<br />Your First $10K Month
-              </h2>
-              <p style={{ fontSize: 17, color: '#555', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
-                No generic advice. Everything is built around your quiz answers.
-              </p>
+              <span style={{ fontSize: 18 }}>⭐⭐⭐⭐⭐</span>
+              <span style={{ fontSize: 13, color: '#666' }}>2,400+ coaches already got their blueprint</span>
+            </div>
+            {/* CTA Button */}
+            <button
+              onClick={() => setScreen('quiz')}
+              style={{ background: '#225840', color: 'white', fontSize: 17, fontWeight: 700, padding: '18px 40px', borderRadius: 50, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, animation: 'pulseGlow 2s infinite', marginBottom: 12, width: 'fit-content', transition: 'background 0.2s ease, transform 0.2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#1a4a35'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#225840'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              Find My Business Blueprint
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>→</div>
+            </button>
+            <div style={{ fontSize: 12, color: '#999' }}>Free · 5 minutes · 7-day personalized AI coaching included</div>
+          </div>
+
+          {/* RIGHT COLUMN — Stats Panel */}
+          <div style={{ animation: 'fadeInRight 0.8s ease 0.2s both' }}>
+            <div style={{ background: 'white', borderRadius: 20, padding: 32, boxShadow: '0 4px 40px rgba(0,0,0,0.08)' }}>
+              {/* Top stat */}
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: 56, fontWeight: 900, color: '#225840', lineHeight: 1 }}>98%</div>
+                <div style={{ fontSize: 10, letterSpacing: '2px', color: '#888', textTransform: 'uppercase', marginBottom: 8 }}>OF QUIZ TAKERS GET CLARITY ON THEIR OFFER</div>
+                <div style={{ width: '100%', height: 6, background: '#f0f0f0', borderRadius: 3 }}>
+                  <div style={{ width: '98%', height: '100%', background: 'linear-gradient(90deg, #225840, #4a9a6a)', borderRadius: 3 }} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#aaa', marginTop: 4 }}>
+                  <span>0%</span><span>2,400 coaches profiled</span><span>100%</span>
+                </div>
+              </div>
+              {/* 4 mini stat cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+                {[
+                  { num: '$15M+', numColor: '#b8960c', label: 'Real coaching data trained into this AI' },
+                  { num: '7', numColor: '#1a1a1a', label: 'Unique business profiles mapped' },
+                  { num: '93%', numColor: '#225840', label: 'Niche clarity achieved' },
+                  { num: '30', numColor: '#1a1a1a', label: 'Day action plan generated for you' },
+                ].map(({ num, numColor, label }) => (
+                  <div key={num} style={{ background: '#f9f9f9', borderRadius: 12, padding: 16 }}>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: numColor }}>{num}</div>
+                    <div style={{ fontSize: 11, color: '#888', marginTop: 2, lineHeight: 1.4 }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+              {/* Testimonial cards */}
+              {[
+                {
+                  quote: 'After 12 years as a fitness coach I closed my first VIP client at $8,500 in a single call — the quiz showed me exactly how to reframe my offer.',
+                  init: 'A', avatarBg: '#e8f5ee',
+                  name: 'Amelia Ramsey', role: 'Health Transformation Coach', badge: '$8,500 per VIP client',
+                },
+                {
+                  quote: 'I was charging $200 per session. Two weeks after the quiz I restructured and sold a $4,500 package in one conversation.',
+                  init: 'L', avatarBg: '#d4e8d5',
+                  name: 'Laurie Gerber', role: 'Dating & Relationships Coach', badge: '$4,500 per client',
+                },
+              ].map(({ quote, init, avatarBg, name, role, badge }, i) => (
+                <div key={i} style={{ background: 'white', border: '1px solid #eee', borderRadius: 12, padding: 20, marginTop: 12, position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: 14, right: 16, fontSize: 28, color: '#225840', lineHeight: 1, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                  <p style={{ fontSize: 13, color: '#444', lineHeight: 1.6, marginBottom: 12, paddingRight: 24 }}>{quote}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{init}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a' }}>{name}</div>
+                      <div style={{ fontSize: 11, color: '#888' }}>{role}</div>
+                    </div>
+                    <div style={{ background: '#e8f5ee', color: '#225840', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0 }}>{badge}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 2: MARQUEE TICKER BAR ── */}
+      <section style={{ background: '#225840', padding: '14px 0', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', animation: 'marquee 20s linear infinite', width: 'max-content' }}>
+          {[0, 1].map((pass) => (
+            <div key={pass} style={{ display: 'flex', alignItems: 'center' }}>
+              {['Niche Clarity', 'Offer Design', 'Pricing Strategy', '30-Day Action Plan', 'Content Roadmap', 'AI-Powered Results'].map((item, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.8)', padding: '0 32px', whiteSpace: 'nowrap' }}>{item}</span>
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'rgba(255,255,255,0.5)', flexShrink: 0 }} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SECTION 3: BENEFITS ── */}
+      <section className="lp-section-pad" style={{ background: '#f5f2ee', padding: '100px 60px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <AnimateOnScroll>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#888', textAlign: 'center', marginBottom: 16, textTransform: 'uppercase' }}>
+              WHAT YOU GET — COMPLETELY FREE
+            </div>
+            <div style={{ textAlign: 'center', marginBottom: 60 }}>
+              <div style={{ fontSize: 52, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.1 }}>Not a generic quiz.</div>
+              <div style={{ fontSize: 52, fontWeight: 800, color: '#225840', fontStyle: 'italic', lineHeight: 1.1 }}>Your personal AI CMO for 7 days.</div>
             </div>
           </AnimateOnScroll>
           <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
             {[
-              {
-                icon: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#225840" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
-                  </svg>
-                ),
-                title: 'Your Personal 15-Day Roadmap',
-                body: 'A day-by-day action plan built specifically for your niche, your platform, and your current income level. Generated by AI in seconds.',
-              },
-              {
-                icon: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#225840" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
-                ),
-                title: '7-Day AI Coaching Series',
-                body: 'Daily emails with real strategies, frameworks, and scripts — personalized to where you are. Every email moves you closer to your first $10K month.',
-              },
-              {
-                icon: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#225840" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
-                  </svg>
-                ),
-                title: 'Your $5K Progress Dashboard',
-                body: 'Track your daily missions, log your revenue, and watch your progress toward your goal. Your AI coach checks in every step of the way.',
-              },
-            ].map(({ icon, title, body }, i) => (
-              <AnimateOnScroll key={i} delay={i * 100}>
-                <div className="lp-card" style={{ background: '#fff', border: '1px solid #eee', borderRadius: 16, padding: 36, height: '100%' }}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#f0f5f2', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-                    {icon}
-                  </div>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.3 }}>{title}</h3>
-                  <p style={{ fontSize: 15, color: '#555', lineHeight: 1.7 }}>{body}</p>
+              { num: '01', bg: '#e8f0e8', title: 'Your Instant $10K Blueprint', body: '20 deep questions analyzed against 2,400+ real coaching profiles. Your niche, your offer, your pricing strategy, and 4-week roadmap — generated in seconds, built only for you.', delay: 0 },
+              { num: '02', bg: '#f0ece4', title: '7-Day AI CMO Email Series', body: 'For 7 days after your quiz, The5th AI sends you one daily coaching email written from your exact answers — with real homework assignments. Zero templates. Never recycled.', delay: 150 },
+              { num: '03', bg: '#e4eaf0', title: 'Hyper-Personalized Guidance', body: 'Every email references your specific pain, your zone of genius, your pricing block, your goals. It reads like someone who truly knows your business — because The5th AI does.', delay: 300 },
+            ].map(({ num, bg, title, body, delay }) => (
+              <AnimateOnScroll key={num} delay={delay}>
+                <div className="lp-benefit-card" style={{ background: bg, borderRadius: 20, padding: 40, height: '100%' }}>
+                  <div style={{ fontSize: 56, fontWeight: 900, color: 'rgba(0,0,0,0.08)', marginBottom: 16, lineHeight: 1 }}>{num}</div>
+                  <h3 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>{title}</h3>
+                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7 }}>{body}</p>
                 </div>
               </AnimateOnScroll>
             ))}
@@ -981,38 +1138,33 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── SECTION 4: HOW IT WORKS ── */}
-      <section className="lp-section-pad" style={{ background: '#f9f9f9', padding: '100px 40px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      {/* ── SECTION 4: TABLET REVEAL ── */}
+      <section style={{ background: '#f5f2ee', padding: '0 0 100px' }}>
+        <div className="lp-section-pad" style={{ padding: '0 60px' }}>
+          <LandingTabletMockup />
+        </div>
+      </section>
+
+      {/* ── SECTION 5: HOW IT WORKS ── */}
+      <section className="lp-section-pad" style={{ background: 'white', padding: '100px 60px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <AnimateOnScroll>
             <div style={{ textAlign: 'center', marginBottom: 60 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#225840', marginBottom: 14 }}>
-                HOW IT WORKS
-              </div>
-              <h2 style={{ fontSize: 42, fontWeight: 900, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 14, letterSpacing: '-1px' }}>
-                Three Steps to Your Roadmap
-              </h2>
-              <p style={{ fontSize: 17, color: '#555', maxWidth: 500, margin: '0 auto', lineHeight: 1.7 }}>
-                From zero clarity to a personalized plan in under 4 minutes.
-              </p>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#888', textTransform: 'uppercase', marginBottom: 16 }}>HOW IT WORKS</div>
+              <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.1 }}>Three steps. One blueprint. Built for you.</h2>
             </div>
           </AnimateOnScroll>
           <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32 }}>
             {[
-              { num: '01', title: 'Answer 20 Questions', desc: "Tell us about your expertise, your goals, and where you're stuck. Takes less than 4 minutes.", mockup: <BrowserMockup /> },
-              { num: '02', title: 'Get Your AI Roadmap', desc: 'Our AI analyzes your answers and builds a personalized 15-day plan showing exactly what to do and when.', mockup: <PhoneMockup /> },
-              { num: '03', title: 'Work With Your AI Coach', desc: 'Receive daily coaching emails for 7 days. Complete your daily missions. Track your progress toward $10K.', mockup: <ChatMockup /> },
-            ].map(({ num, title, desc, mockup }, i) => (
-              <AnimateOnScroll key={i} delay={i * 120}>
-                <div style={{ background: '#fff', border: '1px solid #eee', borderRadius: 16, padding: 28, position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ fontSize: 96, fontWeight: 900, color: '#f5f5f5', lineHeight: 1, position: 'absolute', top: -8, right: 12, userSelect: 'none', zIndex: 0, fontFamily: 'inherit' }}>
-                    {num}
-                  </div>
-                  <div style={{ position: 'relative', zIndex: 1 }}>
-                    <div style={{ marginBottom: 20 }}>{mockup}</div>
-                    <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', marginBottom: 10, lineHeight: 1.3 }}>{title}</h3>
-                    <p style={{ fontSize: 15, color: '#555', lineHeight: 1.7 }}>{desc}</p>
-                  </div>
+              { bg: '#e8f0e8', mockup: <BrowserMockup />, title: 'Answer 20 Deep Questions', body: "Tell us about your expertise, your niche, your goals, and what's blocking you. Our AI listens to every answer.", delay: 0 },
+              { bg: '#f0ece4', mockup: <PhoneMockup />, title: 'Get Your AI Blueprint', body: "In seconds, The5th AI generates your personalized $10K roadmap — built from your exact profile, not a template.", delay: 120 },
+              { bg: '#e4eaf0', mockup: <ChatMockup />, title: '7 Days of AI Coaching', body: 'Every day for 7 days, you receive a personalized coaching email with real assignments. Your AI CMO, on demand.', delay: 240 },
+            ].map(({ bg, mockup, title, body, delay }) => (
+              <AnimateOnScroll key={title} delay={delay}>
+                <div className="lp-step-card" style={{ background: bg, borderRadius: 20, padding: 36, height: '100%' }}>
+                  <div style={{ marginBottom: 24 }}>{mockup}</div>
+                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>{title}</h3>
+                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7 }}>{body}</p>
                 </div>
               </AnimateOnScroll>
             ))}
@@ -1020,35 +1172,33 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── SECTION 5: TESTIMONIALS ── */}
-      <section className="lp-section-pad" style={{ background: '#fff', padding: '100px 40px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      {/* ── SECTION 6: TESTIMONIALS ── */}
+      <section className="lp-section-pad" style={{ background: '#f5f2ee', padding: '100px 60px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <AnimateOnScroll>
             <div style={{ textAlign: 'center', marginBottom: 60 }}>
-              <h2 style={{ fontSize: 42, fontWeight: 900, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 14, letterSpacing: '-1px' }}>
-                What Our Members Are Saying
-              </h2>
-              <p style={{ fontSize: 17, color: '#555', lineHeight: 1.7 }}>
-                Real women. Real results. Real roadmaps.
-              </p>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#888', textTransform: 'uppercase', marginBottom: 16 }}>REAL RESULTS</div>
+              <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1a1a1a' }}>What coaches are saying</h2>
             </div>
           </AnimateOnScroll>
           <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
             {[
-              { quote: "I'd been sitting on my expertise for 2 years not knowing where to start. The quiz gave me a roadmap that finally made sense for MY situation. Within 15 days I had my first paying client.", name: 'Jeanné Tomasak', role: 'Passion Coach' },
-              { quote: "I was skeptical about another quiz. But the AI roadmap it generated was so specific to me — my platform, my challenge, my timeline. I made my first sale in week two.", name: 'Laurie Gerber', role: 'Dating Coach · 20 years in the dating industry' },
-              { quote: "I've done every program out there. This was different because it started with where I actually am — not where some generic template assumes I am. Game changer.", name: 'Jennifer Van Edwards', role: 'Communication Coach' },
-            ].map(({ quote, name, role }, i) => (
-              <AnimateOnScroll key={i} delay={i * 100}>
-                <div className="lp-testimonial" style={{ background: '#fff', border: '1px solid #eee', borderRadius: 16, padding: 36, height: '100%', display: 'flex', flexDirection: 'column', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-                  <div style={{ color: '#f0a500', fontSize: 18, marginBottom: 16, letterSpacing: 2 }}>★★★★★</div>
-                  <p style={{ fontSize: 16, color: '#333', lineHeight: 1.7, fontStyle: 'italic', flex: 1, marginBottom: 20 }}>
-                    &ldquo;{quote}&rdquo;
-                  </p>
-                  <div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#0a0a0a' }}>{name}</div>
-                    <div style={{ fontSize: 13, color: '#999', marginTop: 3 }}>{role}</div>
+              { init: 'J', avatarBg: '#e8d5b7', name: 'Jeanné Tomasak', role: 'Passion Coach', badge: 'First client in 15 days', quote: "I'd been sitting on my expertise for 2 years not knowing where to start. The quiz gave me a roadmap that finally made sense for MY situation. Within 15 days I had my first paying client.", delay: 0 },
+              { init: 'L', avatarBg: '#d4e8d5', name: 'Laurie Gerber', role: 'Dating Coach · 20 years in the dating industry', badge: '$4,500 first package', quote: "I was skeptical about another quiz. But the AI roadmap it generated was so specific to me — my platform, my challenge, my timeline. I made my first sale in week two.", delay: 100 },
+              { init: 'V', avatarBg: '#d5d4e8', name: 'Jennifer Van Edwards', role: 'Communication Coach', badge: 'Game changer', quote: "I've done every program out there. This was different because it started with where I actually am — not where some generic template assumes I am. Game changer.", delay: 200 },
+            ].map(({ init, avatarBg, name, role, badge, quote, delay }) => (
+              <AnimateOnScroll key={name} delay={delay}>
+                <div className="lp-testimonial" style={{ background: 'white', borderRadius: 16, padding: 32, boxShadow: '0 2px 20px rgba(0,0,0,0.06)', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, flexShrink: 0 }}>{init}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 700, color: '#1a1a1a', fontSize: 15 }}>{name}</div>
+                      <div style={{ fontSize: 12, color: '#888' }}>{role}</div>
+                    </div>
+                    <div style={{ background: '#e8f5ee', color: '#225840', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0 }}>{badge}</div>
                   </div>
+                  <div style={{ color: '#f0a500', fontSize: 14, marginBottom: 12 }}>⭐⭐⭐⭐⭐</div>
+                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7, fontStyle: 'italic', flex: 1 }}>&ldquo;{quote}&rdquo;</p>
                 </div>
               </AnimateOnScroll>
             ))}
@@ -1056,27 +1206,28 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── SECTION 6: FINAL CTA ── */}
-      <section className="lp-section-pad" style={{ background: 'linear-gradient(135deg, #0a1a0f, #225840)', padding: '100px 40px' }}>
+      {/* ── SECTION 7: FINAL CTA ── */}
+      <section className="lp-section-pad" style={{ background: '#1a3a2a', padding: '120px 60px', textAlign: 'center' }}>
         <AnimateOnScroll>
-          <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{ fontSize: 48, fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 20, letterSpacing: '-1px' }}>
-              Your $10K Month Starts With One Quiz
-            </h2>
-            <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.75)', marginBottom: 36, lineHeight: 1.7 }}>
-              Join 500+ women who&apos;ve used this roadmap to build real income from their expertise. It takes 4 minutes.
-            </p>
-            <button
-              className="gbtn"
-              onClick={() => setScreen('quiz')}
-              style={{ width: 320, padding: '18px 32px', fontSize: 17, fontWeight: 700, background: '#fff', color: '#225840', boxShadow: '0 8px 28px rgba(0,0,0,0.18)', margin: '0 auto' }}
-            >
-              Start My Free Quiz →
-            </button>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', marginTop: 18 }}>
-              Free · No credit card · Results in minutes
-            </p>
+          <div style={{ fontSize: 11, letterSpacing: '3px', color: 'rgba(255,255,255,0.5)', marginBottom: 20, textTransform: 'uppercase' }}>
+            START NOW — IT IS FREE
           </div>
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 56, fontWeight: 800, color: 'white', lineHeight: 1.1 }}>Ready to find your</div>
+            <div style={{ fontSize: 56, fontWeight: 800, color: '#7dd4a0', fontStyle: 'italic', lineHeight: 1.1 }}>$10K/Month blueprint?</div>
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.6)', maxWidth: 500, margin: '0 auto 40px', fontSize: 16, lineHeight: 1.7 }}>
+            Join 2,400+ coaches who discovered exactly what their business needs to reach consistent $10K months.
+          </p>
+          <button
+            onClick={() => setScreen('quiz')}
+            style={{ background: 'white', color: '#1a3a2a', fontSize: 17, fontWeight: 700, padding: '18px 40px', borderRadius: 50, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16, transition: 'transform 0.2s ease' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            Take the Free Quiz Now →
+          </button>
+          <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>Free · 5 minutes · 7-day AI coaching series included</div>
         </AnimateOnScroll>
       </section>
 
