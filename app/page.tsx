@@ -513,7 +513,7 @@ function Footer() {
 }
 
 /* ─── AnimateOnScroll ─── */
-function AnimateOnScroll({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function AnimateOnScroll({ children, delay = 0, style: extraStyle }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
   useEffect(() => {
@@ -523,7 +523,7 @@ function AnimateOnScroll({ children, delay = 0 }: { children: React.ReactNode; d
     return () => obs.disconnect()
   }, [])
   return (
-    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(24px)', transition: `opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94) ${delay}ms, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94) ${delay}ms` }}>
+    <div ref={ref} style={{ ...extraStyle, opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(24px)', transition: `opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94) ${delay}ms, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94) ${delay}ms` }}>
       {children}
     </div>
   )
@@ -603,31 +603,31 @@ function BrowserMockup() {
 /* ─── PhoneMockup (Step 2) ─── */
 function PhoneMockup() {
   return (
-    <div style={{ width: 280, margin: '0 auto' }}>
-      <div style={{ background: '#1a1a1a', borderRadius: 36, padding: '14px 12px', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.18)', minHeight: 480 }}>
-        <div style={{ position: 'absolute', right: -4, top: 80, width: 4, height: 36, background: '#2a2a2a', borderRadius: '0 4px 4px 0' }} />
-        <div style={{ position: 'absolute', left: -4, top: 70, width: 4, height: 28, background: '#2a2a2a', borderRadius: '4px 0 0 4px' }} />
-        <div style={{ position: 'absolute', left: -4, top: 108, width: 4, height: 28, background: '#2a2a2a', borderRadius: '4px 0 0 4px' }} />
-        <div style={{ width: 72, height: 6, background: '#000', borderRadius: 4, margin: '0 auto 10px' }} />
-        <div style={{ background: '#fff', borderRadius: 26, overflow: 'hidden' }}>
-          <div style={{ background: '#225840', padding: '12px 16px', textAlign: 'center' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>Your Roadmap is Ready ✓</div>
+    <div style={{ width: 160, margin: '0 auto' }}>
+      <div style={{ background: '#1a1a1a', borderRadius: 22, padding: '10px 8px', position: 'relative', boxShadow: '0 12px 30px rgba(0,0,0,0.18)' }}>
+        <div style={{ position: 'absolute', right: -3, top: 48, width: 3, height: 20, background: '#2a2a2a', borderRadius: '0 3px 3px 0' }} />
+        <div style={{ position: 'absolute', left: -3, top: 40, width: 3, height: 16, background: '#2a2a2a', borderRadius: '3px 0 0 3px' }} />
+        <div style={{ position: 'absolute', left: -3, top: 62, width: 3, height: 16, background: '#2a2a2a', borderRadius: '3px 0 0 3px' }} />
+        <div style={{ width: 40, height: 4, background: '#000', borderRadius: 3, margin: '0 auto 8px' }} />
+        <div style={{ background: '#fff', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: '#225840', padding: '7px 10px', textAlign: 'center' }}>
+            <div style={{ fontSize: 8, fontWeight: 700, color: '#fff' }}>Your Roadmap is Ready ✓</div>
           </div>
           {['Day 1: Clarity & Positioning', 'Day 2: Define Your Offer', 'Day 3: Find Your First Lead'].map((d, i) => (
-            <div key={i} style={{ padding: '10px 16px', borderBottom: '1px solid #f5f5f5', display: 'flex', gap: 10, alignItems: 'center' }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: i === 0 ? '#225840' : '#e0e0e0', flexShrink: 0 }} />
-              <span style={{ fontSize: 12, color: '#0a0a0a', fontWeight: 500 }}>{d}</span>
+            <div key={i} style={{ padding: '6px 10px', borderBottom: '1px solid #f5f5f5', display: 'flex', gap: 6, alignItems: 'center' }}>
+              <div style={{ width: 7, height: 7, borderRadius: '50%', background: i === 0 ? '#225840' : '#e0e0e0', flexShrink: 0 }} />
+              <span style={{ fontSize: 7.5, color: '#0a0a0a', fontWeight: 500 }}>{d}</span>
             </div>
           ))}
-          <div style={{ padding: '10px 16px', background: '#fef9ec' }}>
-            <div style={{ height: 4, background: '#f0e0a0', borderRadius: 2, marginBottom: 5 }}>
+          <div style={{ padding: '6px 10px', background: '#fef9ec' }}>
+            <div style={{ height: 3, background: '#f0e0a0', borderRadius: 2, marginBottom: 4 }}>
               <div style={{ width: '7%', height: '100%', background: '#b8960c', borderRadius: 2 }} />
             </div>
-            <div style={{ fontSize: 10, color: '#b8960c', fontWeight: 600 }}>Day 1 of 15</div>
+            <div style={{ fontSize: 7, color: '#b8960c', fontWeight: 600 }}>Day 1 of 15</div>
           </div>
-          <div style={{ padding: '12px 16px' }}>
-            <div style={{ background: 'linear-gradient(135deg,#225840,#2d6a4f)', borderRadius: 8, padding: '10px 16px', textAlign: 'center' }}>
-              <span style={{ fontSize: 13, color: '#fff', fontWeight: 700 }}>View Day 1 →</span>
+          <div style={{ padding: '8px 10px' }}>
+            <div style={{ background: 'linear-gradient(135deg,#225840,#2d6a4f)', borderRadius: 6, padding: '7px 10px', textAlign: 'center' }}>
+              <span style={{ fontSize: 8, color: '#fff', fontWeight: 700 }}>View Day 1 →</span>
             </div>
           </div>
         </div>
@@ -1154,17 +1154,19 @@ export default function Page() {
               <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.1 }}>Three steps. One blueprint. Built for you.</h2>
             </div>
           </AnimateOnScroll>
-          <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32 }}>
+          <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32, alignItems: 'stretch' }}>
             {[
               { bg: '#e8f0e8', mockup: <BrowserMockup />, title: 'Answer 20 Deep Questions', body: "Tell us about your expertise, your niche, your goals, and what's blocking you. Our AI listens to every answer.", delay: 0 },
               { bg: '#f0ece4', mockup: <PhoneMockup />, title: 'Get Your AI Blueprint', body: "In seconds, The5th AI generates your personalized $10K roadmap — built from your exact profile, not a template.", delay: 120 },
               { bg: '#e4eaf0', mockup: <ChatMockup />, title: '7 Days of AI Coaching', body: 'Every day for 7 days, you receive a personalized coaching email with real assignments. Your AI CMO, on demand.', delay: 240 },
             ].map(({ bg, mockup, title, body, delay }) => (
-              <AnimateOnScroll key={title} delay={delay}>
-                <div className="lp-step-card" style={{ background: bg, borderRadius: 20, padding: 36, height: '100%' }}>
-                  <div style={{ marginBottom: 24 }}>{mockup}</div>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>{title}</h3>
-                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7 }}>{body}</p>
+              <AnimateOnScroll key={title} delay={delay} style={{ height: '100%' }}>
+                <div className="lp-step-card" style={{ background: bg, borderRadius: 20, padding: 32, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ maxHeight: 240, overflow: 'hidden', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{mockup}</div>
+                  <div>
+                    <h3 style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>{title}</h3>
+                    <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7 }}>{body}</p>
+                  </div>
                 </div>
               </AnimateOnScroll>
             ))}
