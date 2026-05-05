@@ -415,8 +415,12 @@ function ExitPopup({ onClose, onResume }: { onClose: () => void; onResume: () =>
 function FlameLogo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo.png" alt="The5th Consulting" style={{ height: 40, width: 'auto' }} />
+      <svg width="32" height="36" viewBox="0 0 32 36" fill="none">
+        <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#2d6a4f"/>
+        <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#2d6a4f" opacity="0.7"/>
+        <path d="M14 25C14 25 13 26.5 13 27.5C13 29.4 14.3 31 16 31C17.7 31 19 29.4 19 27.5C19 26.5 18 25 18 25C18 25 17.5 26 16.5 26.5C16 26.7 16 26.7 16 26.7C16 26.7 16.5 25.5 14 25Z" fill="#1a4a35"/>
+      </svg>
+      <span style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
     </div>
   )
 }
@@ -479,10 +483,6 @@ function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) 
 function Footer() {
   return (
     <footer style={{ background: '#0a1a0f', padding: '60px 40px 40px' }}>
-      <div style={{ textAlign: 'center', marginBottom: 32 }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.png" alt="The5th Consulting" style={{ height: 32, width: 'auto' }} />
-      </div>
       <div style={{ width: '100%', textAlign: 'center', fontSize: 'clamp(64px, 12vw, 140px)', fontWeight: 900, color: '#fff', letterSpacing: '-4px', lineHeight: 1, marginBottom: 40 }}>
         THE5TH CONSULTING
       </div>
@@ -532,38 +532,33 @@ function TabletMockup() {
     { label: 'Day 3', title: 'Find Your First Lead', done: false },
   ]
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* Floating badge */}
-      <div style={{ position: 'absolute', top: -14, left: -28, zIndex: 10, background: '#fff', borderRadius: 10, padding: '9px 14px', boxShadow: '0 4px 20px rgba(0,0,0,0.13)', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap' }}>
-        <span style={{ color: '#16a34a', fontSize: 15 }}>✓</span>
-        <span style={{ color: '#0a0a0a' }}>AI Generated</span>
-      </div>
+    <div style={{ display: 'block', margin: '40px auto', width: 480 }}>
       {/* Tablet frame */}
-      <div className="tablet-float" style={{ background: '#1a1a1a', borderRadius: 24, padding: 10, boxShadow: '0 30px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.04)' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#333' }} />
+      <div className="tablet-float" style={{ background: '#1a1a1a', borderRadius: 24, padding: 12, boxShadow: '0 30px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.04)' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#333' }} />
         </div>
-        <div style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', width: 282 }}>
-          <div style={{ background: '#225840', padding: '9px 14px' }}>
-            <div style={{ fontSize: 8.5, fontWeight: 700, color: '#fff', letterSpacing: '.06em', textTransform: 'uppercase' }}>Your 15-Day Roadmap</div>
+        <div style={{ background: '#fff', borderRadius: 16, overflow: 'hidden' }}>
+          <div style={{ background: '#225840', padding: '14px 20px' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#fff', letterSpacing: '.06em', textTransform: 'uppercase' }}>Your 15-Day Roadmap</div>
           </div>
           {days.map(({ label, title, done }, i) => (
-            <div key={i} style={{ padding: '8px 14px', borderBottom: '1px solid #f0f0f0', background: done ? '#f6faf7' : '#fff' }}>
-              <div style={{ fontSize: 7, fontWeight: 700, color: '#225840', marginBottom: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>{label}</div>
-              <div style={{ fontSize: 9, fontWeight: 600, color: '#0a0a0a', marginBottom: 5 }}>{title}</div>
+            <div key={i} style={{ padding: '14px 20px', borderBottom: '1px solid #f0f0f0', background: done ? '#f6faf7' : '#fff' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#225840', marginBottom: 4, letterSpacing: '.06em', textTransform: 'uppercase' }}>{label}</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a', marginBottom: 8 }}>{title}</div>
               {[0, 1, 2].map(j => (
-                <div key={j} style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 3 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: 2, flexShrink: 0, background: done ? '#225840' : 'transparent', border: `1.5px solid ${done ? '#225840' : '#d1d5db'}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {done && <span style={{ fontSize: 5, color: '#fff', lineHeight: 1 }}>✓</span>}
+                <div key={j} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
+                  <div style={{ width: 12, height: 12, borderRadius: 3, flexShrink: 0, background: done ? '#225840' : 'transparent', border: `1.5px solid ${done ? '#225840' : '#d1d5db'}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {done && <span style={{ fontSize: 8, color: '#fff', lineHeight: 1 }}>✓</span>}
                   </div>
-                  <div style={{ height: 5, background: done ? '#d1fae5' : '#f0f0f0', borderRadius: 3, flex: 1 }} />
+                  <div style={{ height: 7, background: done ? '#d1fae5' : '#f0f0f0', borderRadius: 4, flex: 1 }} />
                 </div>
               ))}
             </div>
           ))}
-          <div style={{ padding: '8px 14px', background: '#fef9ec', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ fontSize: 7, color: '#b8960c', fontWeight: 700, whiteSpace: 'nowrap' }}>Day 1 of 15</div>
-            <div style={{ height: 3, background: '#f0e0a0', borderRadius: 2, flex: 1 }}>
+          <div style={{ padding: '12px 20px', background: '#fef9ec', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ fontSize: 10, color: '#b8960c', fontWeight: 700, whiteSpace: 'nowrap' }}>Day 1 of 15</div>
+            <div style={{ height: 4, background: '#f0e0a0', borderRadius: 2, flex: 1 }}>
               <div style={{ height: '100%', background: '#b8960c', borderRadius: 2, width: '7%' }} />
             </div>
           </div>
@@ -603,29 +598,31 @@ function BrowserMockup() {
 /* ─── PhoneMockup (Step 2) ─── */
 function PhoneMockup() {
   return (
-    <div style={{ width: 158, margin: '0 auto' }}>
-      <div style={{ background: '#1a1a1a', borderRadius: 32, padding: '10px 8px', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.18)' }}>
-        <div style={{ position: 'absolute', right: -3, top: 60, width: 3, height: 26, background: '#2a2a2a', borderRadius: '0 3px 3px 0' }} />
-        <div style={{ width: 48, height: 5, background: '#000', borderRadius: 4, margin: '0 auto 6px' }} />
-        <div style={{ background: '#fff', borderRadius: 24, overflow: 'hidden' }}>
-          <div style={{ background: '#225840', padding: '8px 10px', textAlign: 'center' }}>
-            <div style={{ fontSize: 8, fontWeight: 700, color: '#fff' }}>Your Roadmap is Ready ✓</div>
+    <div style={{ width: 280, margin: '0 auto' }}>
+      <div style={{ background: '#1a1a1a', borderRadius: 36, padding: '14px 12px', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.18)', minHeight: 480 }}>
+        <div style={{ position: 'absolute', right: -4, top: 80, width: 4, height: 36, background: '#2a2a2a', borderRadius: '0 4px 4px 0' }} />
+        <div style={{ position: 'absolute', left: -4, top: 70, width: 4, height: 28, background: '#2a2a2a', borderRadius: '4px 0 0 4px' }} />
+        <div style={{ position: 'absolute', left: -4, top: 108, width: 4, height: 28, background: '#2a2a2a', borderRadius: '4px 0 0 4px' }} />
+        <div style={{ width: 72, height: 6, background: '#000', borderRadius: 4, margin: '0 auto 10px' }} />
+        <div style={{ background: '#fff', borderRadius: 26, overflow: 'hidden' }}>
+          <div style={{ background: '#225840', padding: '12px 16px', textAlign: 'center' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>Your Roadmap is Ready ✓</div>
           </div>
-          {['Day 1: Clarity', 'Day 2: Offer', 'Day 3: Outreach'].map((d, i) => (
-            <div key={i} style={{ padding: '5px 10px', borderBottom: '1px solid #f5f5f5', display: 'flex', gap: 6, alignItems: 'center' }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: i === 0 ? '#225840' : '#e0e0e0', flexShrink: 0 }} />
-              <span style={{ fontSize: 8, color: '#0a0a0a', fontWeight: 500 }}>{d}</span>
+          {['Day 1: Clarity & Positioning', 'Day 2: Define Your Offer', 'Day 3: Find Your First Lead'].map((d, i) => (
+            <div key={i} style={{ padding: '10px 16px', borderBottom: '1px solid #f5f5f5', display: 'flex', gap: 10, alignItems: 'center' }}>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: i === 0 ? '#225840' : '#e0e0e0', flexShrink: 0 }} />
+              <span style={{ fontSize: 12, color: '#0a0a0a', fontWeight: 500 }}>{d}</span>
             </div>
           ))}
-          <div style={{ padding: '6px 10px', background: '#fef9ec' }}>
-            <div style={{ height: 3, background: '#f0e0a0', borderRadius: 2, marginBottom: 3 }}>
+          <div style={{ padding: '10px 16px', background: '#fef9ec' }}>
+            <div style={{ height: 4, background: '#f0e0a0', borderRadius: 2, marginBottom: 5 }}>
               <div style={{ width: '7%', height: '100%', background: '#b8960c', borderRadius: 2 }} />
             </div>
-            <div style={{ fontSize: 7, color: '#b8960c', fontWeight: 600 }}>Day 1 of 15</div>
+            <div style={{ fontSize: 10, color: '#b8960c', fontWeight: 600 }}>Day 1 of 15</div>
           </div>
-          <div style={{ padding: '7px 10px' }}>
-            <div style={{ background: 'linear-gradient(135deg,#225840,#2d6a4f)', borderRadius: 6, padding: '6px', textAlign: 'center' }}>
-              <span style={{ fontSize: 8, color: '#fff', fontWeight: 700 }}>View Day 1 →</span>
+          <div style={{ padding: '12px 16px' }}>
+            <div style={{ background: 'linear-gradient(135deg,#225840,#2d6a4f)', borderRadius: 8, padding: '10px 16px', textAlign: 'center' }}>
+              <span style={{ fontSize: 13, color: '#fff', fontWeight: 700 }}>View Day 1 →</span>
             </div>
           </div>
         </div>
@@ -874,42 +871,38 @@ export default function Page() {
       {/* ── SECTION 1: HERO ── */}
       <section style={{ background: '#fff' }}>
         <div
-          className="hero-grid"
-          style={{ maxWidth: 1100, margin: '0 auto', padding: '108px 40px 80px', display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}
+          style={{ maxWidth: 800, margin: '0 auto', padding: '108px 40px 80px', textAlign: 'center' }}
         >
-          {/* Left 60% */}
-          <div className="afu-1 hero-center-mobile" style={{ flex: '0 0 58%', minWidth: 280 }}>
-            {/* Pill */}
-            <div style={{ display: 'inline-block', marginBottom: 24, background: '#fef9ec', color: '#b8960c', border: '1px solid #f0d060', borderRadius: 20, padding: '6px 14px', fontSize: 13, fontWeight: 600 }}>
-              FREE 15-DAY AI ROADMAP ✦
-            </div>
-            {/* Headline */}
-            <h1
-              className="hero-headline"
-              style={{ fontSize: 58, fontWeight: 900, color: '#0a0a0a', lineHeight: 1.05, letterSpacing: '-2px', marginBottom: 24 }}
-            >
-              Discover Your Path to Your<br />First $10,000 Month
-            </h1>
-            {/* Body */}
-            <p className="hero-body-mobile" style={{ fontSize: 17, color: '#555', lineHeight: 1.7, maxWidth: 480, marginBottom: 36 }}>
-              Take a simple 20-question quiz and get a personalized $10K roadmap showing exactly how to turn what you already know into consistent monthly income. No tech overwhelm. No complicated funnels. No guessing what to do next. Just a clear, step-by-step plan built around your skills, your story, and where you are right now.
-            </p>
-            {/* CTA */}
-            <div className="hero-btn-center" style={{ marginBottom: 14 }}>
-              <button
-                className="gbtn"
-                onClick={() => setScreen('quiz')}
-                style={{ width: 280, padding: '18px 32px', fontSize: 17, fontWeight: 700 }}
-              >
-                Start My Free Quiz →
-              </button>
-            </div>
-            <p style={{ fontSize: 13, color: '#999' }}>
-              Takes less than 4 minutes · 20 questions · One plan built specifically for you.
-            </p>
+          {/* Pill */}
+          <div style={{ display: 'inline-block', marginBottom: 24, background: '#fef9ec', color: '#b8960c', border: '1px solid #f0d060', borderRadius: 20, padding: '6px 14px', fontSize: 13, fontWeight: 600 }}>
+            FREE 15-DAY AI ROADMAP ✦
           </div>
-          {/* Right 40% */}
-          <div className="hero-right-anim tablet-wrap" style={{ flex: '0 0 38%', display: 'flex', justifyContent: 'center' }}>
+          {/* Headline */}
+          <h1
+            className="hero-headline afu-1"
+            style={{ fontSize: 58, fontWeight: 900, color: '#0a0a0a', lineHeight: 1.05, letterSpacing: '-2px', marginBottom: 24, maxWidth: 800, margin: '0 auto 24px' }}
+          >
+            Discover Your Path to Your First $10,000 Month
+          </h1>
+          {/* Body */}
+          <p className="hero-body-mobile" style={{ fontSize: 17, color: '#555', lineHeight: 1.7, maxWidth: 560, margin: '0 auto 36px' }}>
+            Take a simple 20-question quiz and get a personalized $10K roadmap showing exactly how to turn what you already know into consistent monthly income. No tech overwhelm. No complicated funnels. No guessing what to do next. Just a clear, step-by-step plan built around your skills, your story, and where you are right now.
+          </p>
+          {/* CTA */}
+          <div style={{ marginBottom: 14 }}>
+            <button
+              className="gbtn"
+              onClick={() => setScreen('quiz')}
+              style={{ width: 280, padding: '18px 32px', fontSize: 17, fontWeight: 700 }}
+            >
+              Start My Free Quiz →
+            </button>
+          </div>
+          <p style={{ fontSize: 13, color: '#999', marginBottom: 60 }}>
+            Takes less than 4 minutes · 20 questions · One plan built specifically for you.
+          </p>
+          {/* Tablet mockup centered below CTA */}
+          <div className="hero-right-anim tablet-wrap" style={{ display: 'flex', justifyContent: 'center' }}>
             <TabletMockup />
           </div>
         </div>
