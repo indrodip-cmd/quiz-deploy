@@ -57,13 +57,14 @@ const questions: Question[] = [
   },
   {
     id: 'q3', num: 3, title: 'What age range is your ideal client typically in?',
-    sub: 'This shapes your messaging, platform choice, and content strategy.',
-    type: 'select',
+    sub: 'Select all that apply. You can choose more than one.',
+    type: 'multi',
     options: [
-      { value: '25-34', emoji: '🌟', label: '25–34', sub: '' },
-      { value: '35-44', emoji: '⭐', label: '35–44', sub: '' },
-      { value: '45-54', emoji: '🌠', label: '45–54', sub: '' },
-      { value: '55+', emoji: '💫', label: '55+', sub: '' },
+      { value: '25-34', emoji: '🌟', label: '25-34', sub: 'Younger professionals building their careers' },
+      { value: '35-44', emoji: '⭐', label: '35-44', sub: 'Mid-career, established but seeking change' },
+      { value: '45-54', emoji: '🌠', label: '45-54', sub: 'Experienced, ready for transformation' },
+      { value: '55-69', emoji: '💫', label: '55-69', sub: 'Wisdom years, monetizing decades of experience' },
+      { value: '70+', emoji: '✨', label: '70+', sub: 'Legacy stage, sharing lifetime knowledge' },
     ]
   },
   {
@@ -98,8 +99,8 @@ const questions: Question[] = [
   },
   {
     id: 'q8', num: 8, title: 'How would you prefer to deliver your coaching?',
-    sub: 'This shapes the offer type in your blueprint.',
-    type: 'select',
+    sub: 'Select all that apply. Your blueprint will be built around your preferred formats.',
+    type: 'multi',
     options: [
       { value: '1on1', emoji: '👤', label: '1:1 Private Coaching', sub: 'Deep, personalized transformation with individual clients' },
       { value: 'group', emoji: '👥', label: 'Group Coaching Program', sub: 'Cohort-based experience with a small group' },
@@ -199,8 +200,8 @@ const questions: Question[] = [
   },
   {
     id: 'q17', num: 17, title: 'What kind of support do you most need right now?',
-    sub: 'Your blueprint will prioritize your most urgent gap.',
-    type: 'select',
+    sub: 'Select all that apply. Your blueprint will prioritize your most urgent gaps.',
+    type: 'multi',
     options: [
       { value: 'strategy', emoji: '🗺️', label: 'A clear strategy and roadmap', sub: 'Tell me exactly what to do and in what order' },
       { value: 'accountability', emoji: '🤝', label: 'Accountability to stay consistent', sub: "I know what to do — I just need to actually do it" },
@@ -861,12 +862,147 @@ export default function Page() {
   }
 
   /* ── Email submit ── */
+  const BLOCKED_DOMAINS = [
+    'mailinator.com','guerrillamail.com','tempmail.com','throwam.com',
+    'sharklasers.com','yopmail.com','yopmail.fr','trashmail.com',
+    'trashmail.me','trashmail.net','trashmail.io','trashmail.xyz',
+    'trashmail.at','trashmail.org','10minutemail.com','10minutemail.net',
+    'minutemail.com','tempail.com','emailondeck.com','getairmail.com',
+    'fakeinbox.com','mailnesia.com','discard.email','tempr.email',
+    'spambox.us','mytrashmail.com','mohmal.com','maildrop.cc',
+    'spam4.me','dispostable.com','mailnull.com','spamgourmet.com',
+    'nwldx.com','filzmail.com','tempemail.net','fakemail.net',
+    'spamspot.com','obobbo.com','wegwerfmail.de','wegwerfmail.net',
+    'tempinbox.com','spammotel.com','spamfree24.org','spamthisplease.com',
+    'guerrillamailblock.com','grr.la','spam.la','ass.pp.ua',
+    'binkmail.com','bobmail.info','chammy.info','devnullmail.com',
+    'discardmail.com','discardmail.de','dudmail.com','dumpmail.de',
+    'email60.com','emailias.com','emailinfive.com','etranquil.com',
+    'explodemail.com','fastacura.com','fleckens.hu','frapmail.com',
+    'garliclife.com','gishpuppy.com','great-host.in','gustr.com',
+    'h8s.org','haltospam.com','herp.in','hidemail.de','hidzz.com',
+    'hmamail.com','hopemail.biz','ieatspam.eu','ieatspam.info',
+    'ieh-mail.de','imail1.net','inoutmail.de','inoutmail.eu',
+    'inoutmail.info','inoutmail.net','internet-e-mail.de',
+    'internet-mail.org','internetemails.net','internetmailing.net',
+    'inwind.it','ipoo.org','irish2me.com','iwi.net',
+    'jetable.com','jetable.fr.nf','jetable.net','jetable.org',
+    'jnxjn.com','jourrapide.com','jsrsolutions.com','kasmail.com',
+    'kaspop.com','keepmymail.com','killmail.com','killmail.net',
+    'kimsdisk.com','klzlk.com','koszmail.pl','kurzepost.de',
+    'lawlita.com','letthemeatspam.com','lhsdv.com','lifebyfood.com',
+    'link2mail.net','litedrop.com','lolfreak.net','lookugly.com',
+    'lortemail.dk','lucky-mail.info','lv0.in','m21.cc',
+    'mail-filter.com','mail-temporaire.com','mail-temporaire.fr',
+    'mail2rss.org','mail333.com','mailbidon.com','mailbiz.biz',
+    'mailblocks.com','mailbucket.org','mailcat.biz','mailcatch.com',
+    'mailde.de','mailde.info','mailexpire.com','mailfa.tk',
+    'mailforspam.com','mailfreeonline.com','mailfs.com','mailguard.me',
+    'mailin8r.com','mailinatar.com','mailincubator.com',
+    'mailismagic.com','mailme.ir','mailme.lv','mailme24.com',
+    'mailmetrash.com','mailmoat.com','mailms.com','mailnew.com',
+    'mailorg.org','mailpick.biz','mailproxsy.com','mailquack.com',
+    'mailrock.biz','mailscrap.com','mailshell.com','mailsiphon.com',
+    'mailslite.com','mailspeed.ru','mailtemp.info','mailtome.de',
+    'mailtothis.com','mailtrash.net','mailtv.net','mailzilla.com',
+    'mailzilla.org','makemetheking.com','mbx.cc','mega.zik.dj',
+    'meinspamschutz.de','meltmail.com','mezimages.net','mierdamail.com',
+    'migumail.com','mintemail.com','moncourrier.fr.nf','monemail.fr.nf',
+    'monmail.fr.nf','mt2009.com','mt2014.com','mx0.wwwnew.eu',
+    'mxfuel.com','myalias.pw','mycleaninbox.net','mymail-in.net',
+    'mypacks.net','mypartyclip.de','myphantomemail.com','mysamp.de',
+    'mytempemail.com','mytempmail.com','nabuma.com','neomailbox.com',
+    'nepwk.com','nervmich.net','nervtmich.net','netmails.com',
+    'netmails.net','netzidiot.de','neverbox.com','nice-4u.com',
+    'nincsmail.hu','nnh.com','no-spam.ws','noblepioneer.com',
+    'nobulk.com','noclickemail.com','nogmailspam.info','nomail.pw',
+    'nomail.xl.cx','nomail2me.com','nomorespamemails.com','nonspam.eu',
+    'nonspammer.de','noref.in','nospam.ze.tc','nospamfor.us',
+    'nospammail.net','nospamthanks.info','notmailinator.com',
+    'nowhere.org','nowmymail.com','objectmail.com','odaymail.com',
+    'one-time.email','oneoffemail.com','onewaymail.com','online.ms',
+    'onqin.com','oopi.org','ordinaryamerican.net','otherinbox.com',
+    'ourklips.com','outlawspam.com','ovpn.to','owlpic.com',
+    'pancakemail.com','pjjkp.com','plexolan.de','politikerclub.de',
+    'poofy.org','pookmail.com','privacy.net','privatdemail.net',
+    'proxymail.eu','prtnx.com','punkass.com','r4nd0m.de',
+    'recode.me','recursor.net','regbypass.com','safetymail.info',
+    'safetypost.de','sandelf.de','saynotospams.com','schafmail.de',
+    'schrott-email.de','secretemail.de','secure-mail.biz',
+    'selfdestructingmail.com','sendspamhere.com','sharklasers.com',
+    'shieldedmail.com','shieldemail.com','shitmail.de','shitmail.me',
+    'shitmail.org','shitware.nl','skeefmail.com','slopsbox.com',
+    'slowslow.de','smellfear.com','snakemail.com','sneakemail.com',
+    'sneakmail.de','snkmail.com','sofimail.com','sofort-mail.de',
+    'sogetthis.com','solopilotos.com','soodonims.com','spam.su',
+    'spamavert.com','spambob.com','spambob.net','spambob.org',
+    'spambog.com','spambog.de','spambog.ru','spambox.info',
+    'spamcannon.com','spamcannon.net','spamcero.com','spamcon.org',
+    'spamcorptastic.com','spamcowboy.com','spamcowboy.net',
+    'spamcowboy.org','spamday.com','spamex.com','spamfree.eu',
+    'spamfree24.de','spamfree24.eu','spamfree24.info','spamfree24.net',
+    'spamgoes.in','spamgrid.com','spamhereplease.com','spamhole.com',
+    'spamify.com','spaminator.de','spamkill.info','spaml.com',
+    'spaml.de','spammy.host','spamoff.de','spamslicer.com',
+    'spamstack.net','spamthis.co.uk','spamtrail.com','spamtroll.net',
+    'speed.1s.fr','spoofmail.de','stuffmail.de','super-auswahl.de',
+    'supergreatmail.com','supermailer.jp','superrito.com',
+    'superstachel.de','suremail.info','svk.jp','sweetxxx.de',
+    'tafmail.com','tagyourself.com','teleworm.com','teleworm.us',
+    'tempalias.com','tempe-mail.com','tempemail.biz','tempemail.org',
+    'tempinbox.co.uk','tempmail.eu','tempmail.it','tempmail2.com',
+    'tempmaildemo.com','tempmailer.com','tempmailer.de','tempomail.fr',
+    'temporaryemail.net','temporaryemail.us','temporaryforwarding.com',
+    'temporaryinbox.com','temporarymail.org','tempthe.net',
+    'thanksnospam.com','thanksnospam.info','thisisnotmyrealemail.com',
+    'throam.com','throwaway.email','tilien.com','tittbit.in',
+    'tizi.com','tmailinator.com','toiea.com','tradermail.info',
+    'trash-amil.com','trash-mail.at','trash-mail.cf','trash-mail.de',
+    'trash-mail.ga','trash-mail.gq','trash-mail.io','trash-mail.ml',
+    'trash-mail.tk','trash2009.com','trash2010.com','trash2011.com',
+    'trashdevil.com','trashdevil.de','trashemail.de','trashimail.com',
+    'trashinbox.com','trashmailer.com','trashme.dk','trashmails.com',
+    'trashtipper.com','trbvm.com','trickmail.net','trillianpro.com',
+    'trin.ch','tryalert.com','turual.com','twinmail.de','tyldd.com',
+    'uggsrock.com','umail.net','upliftnow.com','uplipht.com',
+    'uroid.com','us.af','venompen.com','veryrealemail.com',
+    'vidchart.com','viditag.com','viewcastmedia.com','viewcastmedia.net',
+    'viewcastmedia.org','viralplays.com','vomoto.com','vpn.st',
+    'vsimcard.com','vubby.com','walala.org','walkmail.net',
+    'watchfull.net','webemail.me','webm4il.info','wegwerf-email.de',
+    'wegwerf-email.net','wegwerf-email.org','wegwerfadresse.de',
+    'wegwerfmail.info','wh4f.org','whatiaas.com','whatifnot.com',
+    'whatsaas.com','whopy.com','wilemail.com',
+    'willselfdestruct.com','winemaven.info','wronghead.com',
+    'wuzup.net','wuzupmail.net','wwwnew.eu','xagloo.com',
+    'xemaps.com','xents.com','xmaily.com','xoxy.net',
+    'xsmail.com','xzapmail.com','ya.ru','yapped.net','yeah.net',
+    'yep.it','ykool.com','yogamaven.com','yopmail.pp.ua',
+    'yourdomain.com','yuurok.com','z1p.biz','za.com',
+    'zehnminuten.de','zehnminutenmail.de','zetmail.com','zippymail.info',
+    'zoemail.net','zoemail.org','zomg.info','zxcv.com',
+    'zxcvbnm.com','zzz.com',
+  ]
+
   const handleEmailSubmit = () => {
     if (!name.trim()) { setError('Please enter your name'); return }
-    if (!/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email'); return }
+    const emailValue = email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+      setError('Please enter a valid email address')
+      return
+    }
+    const emailDomain = emailValue.split('@')[1]?.toLowerCase()
+    if (!emailDomain) {
+      setError('Please enter a valid email address')
+      return
+    }
+    if (BLOCKED_DOMAINS.includes(emailDomain)) {
+      setError('Please use your real email address. Temporary emails are not accepted.')
+      return
+    }
     setSubmitting(true); setError('')
     sessionStorage.setItem('quiz_name', name)
-    sessionStorage.setItem('quiz_email', email)
+    sessionStorage.setItem('quiz_email', emailValue)
     sessionStorage.setItem('quiz_answers', JSON.stringify(answers))
     window.location.href = '/results'
   }
