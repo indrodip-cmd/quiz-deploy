@@ -3,6 +3,231 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
+/* ─── Types ─── */
+interface Section { title: string; content: string }
+
+/* ─── Roadmap parser ─── */
+function parseRoadmap(text: string): Section[] {
+  if (!text) return []
+  const parts = text.split(/\n(?=## )/g)
+  const sections: Section[] = []
+  for (const part of parts) {
+    const trimmed = part.trim()
+    if (!trimmed) continue
+    if (trimmed.startsWith('##')) {
+      const nlIdx = trimmed.indexOf('\n')
+      if (nlIdx === -1) {
+        sections.push({ title: trimmed.replace(/^##\s*/, '').trim(), content: '' })
+      } else {
+        sections.push({
+          title: trimmed.slice(0, nlIdx).replace(/^##\s*/, '').trim(),
+          content: trimmed.slice(nlIdx + 1).trim()
+        })
+      }
+    }
+  }
+  return sections.filter(s => s.title)
+}
+
+/* ─── Helpers ─── */
+function getIcon(title: string): string {
+  const t = title.toUpperCase()
+  if (t.includes('SITUATION') || t.includes('RIGHT NOW')) return '📍'
+  if (t.includes('SIGNATURE OFFER') || t.includes('OFFER')) return '💎'
+  if (t.includes('LEAD MAGNET')) return '🧲'
+  if (t.includes('DIGITAL PRODUCT')) return '📦'
+  if (t.includes('CONTENT PLAN') || t.includes('7-DAY')) return '📅'
+  if (t.includes('ACTION PLAN') || t.includes('30-DAY')) return '🗺️'
+  if (t.includes('PRICING')) return '💰'
+  if (t.includes('OPPORTUNITY')) return '🚀'
+  return '✦'
+}
+
+function formatStage(q1: string): string {
+  const m: Record<string, string> = { starting: 'Just Starting', idea: 'Idea Stage', launched: 'Launched', scaling: 'Scaling' }
+  return m[q1] || q1 || 'Starting'
+}
+
+function formatGoal(q18: string): string {
+  const m: Record<string, string> = { '1-3k': '$1K–$3K/mo', '3-5k': '$3K–$5K/mo', '5-10k': '$5K–$10K/mo', '10k+': '$10K+/mo' }
+  return m[q18] || q18 || 'Goal'
+}
+
+function formatHours(q19: string): string {
+  const m: Record<string, string> = { lt5: '<5 hrs/week', '5-10': '5–10 hrs/week', '10-20': '10–20 hrs/week', '20+': '20+ hrs/week' }
+  return m[q19] || q19 || 'hrs/week'
+}
+
+/* ─── Inline markdown (bold **text**) ─── */
+function inlineMd(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g)
+  if (parts.length === 1) return text
+  return parts.map((p, i) =>
+    p.startsWith('**') && p.endsWith('**')
+      ? <strong key={i} style={{ color: '#fff', fontWeight: 700 }}>{p.slice(2, -2)}</strong>
+      : p
+  )
+}
+
+/* ─── Line renderer ─── */
+function renderLine(line: string, i: number) {
+  const t = line.trim()
+  if (!t) return <div key={i} style={{ height: 8 }} />
+  if (t.startsWith('- ') || t.startsWith('* ')) {
+    return (
+      <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'flex-start' }}>
+        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#2d6a4f', flexShrink: 0, marginTop: 9 }} />
+        <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>{inlineMd(t.slice(2))}</span>
+      </div>
+    )
+  }
+  const boldFull = t.match(/^\*\*(.+?)\*\*$/)
+  if (boldFull) {
+    return <p key={i} style={{ fontSize: 12, fontWeight: 700, color: '#b8960c', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8, marginTop: 20 }}>{boldFull[1]}</p>
+  }
+  return <p key={i} style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, marginBottom: 10 }}>{inlineMd(t)}</p>
+}
+
+/* ─── Section number label ─── */
+function SectionNum({ n }: { n: number }) {
+  return (
+    <div style={{ fontSize: 80, fontWeight: 900, color: 'rgba(184,150,12,0.13)', lineHeight: 1, position: 'absolute', top: 16, right: 24, fontFamily: 'Inter, sans-serif', userSelect: 'none' }}>
+      {String(n).padStart(2, '0')}
+    </div>
+  )
+}
+
+/* ─── Card header ─── */
+function CardHeader({ title, icon }: { title: string; icon: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+      <span style={{ fontSize: 20 }}>{icon}</span>
+      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: '#b8960c', textTransform: 'uppercase' }}>
+        {title}
+      </span>
+    </div>
+  )
+}
+
+/* ─── 7-Day content plan card ─── */
+function ContentPlanCard({ section, num }: { section: Section; num: number }) {
+  const [activeDay, setActiveDay] = useState(0)
+
+  // Parse "Day N:" blocks
+  const blocks: { day: string; lines: string[] }[] = []
+  let cur: { day: string; lines: string[] } | null = null
+  for (const line of section.content.split('\n')) {
+    const m = line.match(/^Day\s+(\d+)[:\-]?\s*(.*)/i)
+    if (m) {
+      if (cur) blocks.push(cur)
+      cur = { day: `Day ${m[1]}`, lines: m[2].trim() ? [m[2].trim()] : [] }
+    } else if (cur) {
+      cur.lines.push(line)
+    }
+  }
+  if (cur) blocks.push(cur)
+
+  const icon = getIcon(section.title)
+
+  return (
+    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+      <SectionNum n={num} />
+      <CardHeader title={section.title} icon={icon} />
+
+      {blocks.length > 0 ? (
+        <>
+          {/* Day chips */}
+          <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 16, marginBottom: 24, scrollbarWidth: 'none' }}>
+            {blocks.map((b, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveDay(i)}
+                style={{
+                  padding: '8px 18px', borderRadius: 50, flexShrink: 0,
+                  background: activeDay === i ? '#225840' : 'rgba(255,255,255,0.04)',
+                  border: `1px solid ${activeDay === i ? '#2d6a4f' : 'rgba(255,255,255,0.1)'}`,
+                  color: activeDay === i ? '#fff' : 'rgba(255,255,255,0.45)',
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+                  transition: 'all 0.18s ease', fontFamily: 'inherit'
+                }}
+              >
+                {b.day}
+              </button>
+            ))}
+          </div>
+          {/* Active day */}
+          <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 14, padding: '24px 28px', border: '1px solid rgba(45,106,79,0.12)' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#2d6a4f', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 16 }}>
+              {blocks[activeDay]?.day}
+            </div>
+            {blocks[activeDay]?.lines.map((l, i) => renderLine(l, i))}
+          </div>
+        </>
+      ) : (
+        <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
+      )}
+    </div>
+  )
+}
+
+/* ─── 30-Day action plan card ─── */
+function ActionPlanCard({ section, num }: { section: Section; num: number }) {
+  // Parse "Week N:" blocks
+  const weeks: { week: string; lines: string[] }[] = []
+  let cur: { week: string; lines: string[] } | null = null
+  for (const line of section.content.split('\n')) {
+    const m = line.match(/^Week\s+(\d+)[:\-]?\s*(.*)/i)
+    if (m) {
+      if (cur) weeks.push(cur)
+      cur = { week: `Week ${m[1]}${m[2].trim() ? ': ' + m[2].trim() : ''}`, lines: [] }
+    } else if (cur) {
+      cur.lines.push(line)
+    }
+  }
+  if (cur) weeks.push(cur)
+
+  const icon = getIcon(section.title)
+
+  return (
+    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+      <SectionNum n={num} />
+      <CardHeader title={section.title} icon={icon} />
+
+      {weeks.length > 0 ? (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          {weeks.map((w, i) => (
+            <div key={i} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 14, padding: '20px 18px', border: '1px solid rgba(45,106,79,0.12)' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#b8960c', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 14 }}>{w.week}</div>
+              {w.lines.map((l, j) => renderLine(l, j))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
+      )}
+    </div>
+  )
+}
+
+/* ─── Skeleton loader ─── */
+function SkeletonCards() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {[1, 0.8, 1, 0.7, 0.9, 0.6].map((_, i) => (
+        <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.1)', borderRadius: 20, padding: '36px 40px' }}>
+          <div style={{ height: 12, background: 'rgba(255,255,255,0.06)', borderRadius: 6, width: '30%', marginBottom: 24, animation: 'skPulse 1.4s ease-in-out infinite' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[90, 75, 85, 60, 80].map((w, j) => (
+              <div key={j} style={{ height: 14, background: 'rgba(255,255,255,0.05)', borderRadius: 6, width: w + '%', animation: `skPulse 1.4s ${j * 0.12}s ease-in-out infinite` }} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ─── Main page ─── */
 export default function ResultsPage() {
   const router = useRouter()
   const [name, setName] = useState('')
@@ -39,7 +264,7 @@ export default function ResultsPage() {
       })
       const data = await res.json()
       setRoadmap(data.roadmap || '')
-    } catch (err) {
+    } catch {
       setRoadmap('Your personalised roadmap is being prepared. Check your inbox for the full PDF version.')
     } finally {
       setLoading(false)
@@ -51,12 +276,7 @@ export default function ResultsPage() {
       await fetch('/api/save-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: n,
-          email: e,
-          quiz_answers: a,
-          video_assigned: getVideoSlug(a.q1),
-        })
+        body: JSON.stringify({ name: n, email: e, quiz_answers: a, video_assigned: getVideoSlug(a.q1) })
       })
     } catch (err) {
       console.error('Lead save error:', err)
@@ -83,104 +303,232 @@ export default function ResultsPage() {
   }
 
   const firstName = name.split(' ')[0] || 'there'
+  const sections = parseRoadmap(roadmap)
+
+  /* ─── Card renderer ─── */
+  function renderCard(section: Section, idx: number) {
+    const num = idx + 1
+    const icon = getIcon(section.title)
+    const titleUpper = section.title.toUpperCase()
+
+    // 5th card: 7-day content plan
+    if (titleUpper.includes('CONTENT PLAN') || titleUpper.includes('7-DAY')) {
+      return <ContentPlanCard key={idx} section={section} num={num} />
+    }
+
+    // 6th card: 30-day action plan
+    if (titleUpper.includes('ACTION PLAN') || titleUpper.includes('30-DAY')) {
+      return <ActionPlanCard key={idx} section={section} num={num} />
+    }
+
+    // 7th card: Pricing — gold left border
+    if (titleUpper.includes('PRICING')) {
+      return (
+        <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderLeft: '4px solid #b8960c', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+          <SectionNum n={num} />
+          <CardHeader title={section.title} icon={icon} />
+          <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
+        </div>
+      )
+    }
+
+    // 8th card: Biggest opportunity — green left border, brighter bg
+    if (titleUpper.includes('OPPORTUNITY')) {
+      return (
+        <div key={idx} style={{ background: 'rgba(45,106,79,0.08)', border: '1px solid rgba(45,106,79,0.35)', borderLeft: '4px solid #2d6a4f', borderRadius: 20, padding: '40px 44px', position: 'relative', overflow: 'hidden' }}>
+          <SectionNum n={num} />
+          <CardHeader title={section.title} icon={icon} />
+          <div style={{ fontSize: 17, color: 'rgba(255,255,255,0.9)', lineHeight: 1.85 }}>
+            {section.content.split('\n').map((l, i) => {
+              const t = l.trim()
+              if (!t) return <div key={i} style={{ height: 8 }} />
+              return <p key={i} style={{ marginBottom: 12 }}>{inlineMd(t)}</p>
+            })}
+          </div>
+        </div>
+      )
+    }
+
+    // 2nd card: Signature offer — dark green gradient bg
+    if (titleUpper.includes('SIGNATURE OFFER') || titleUpper.includes('YOUR OFFER')) {
+      return (
+        <div key={idx} style={{ background: 'linear-gradient(135deg, rgba(26,58,42,0.9), rgba(34,88,64,0.5))', border: '1px solid rgba(45,106,79,0.4)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+          <SectionNum n={num} />
+          <CardHeader title={section.title} icon={icon} />
+          <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
+        </div>
+      )
+    }
+
+    // Default card
+    return (
+      <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+        <SectionNum n={num} />
+        <CardHeader title={section.title} icon={icon} />
+        <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
+      </div>
+    )
+  }
+
+  /* ─── Grid layout ─── */
+  function renderSections() {
+    if (sections.length === 0) return null
+
+    // Split into layout groups:
+    // [0] full width
+    // [1] full width, special style (handled in renderCard)
+    // [2] + [3] side by side
+    // [4+] full width each
+    const elements: React.ReactNode[] = []
+
+    sections.forEach((section, idx) => {
+      if (idx === 2 && sections[3]) {
+        // Sections 2 and 3 side by side
+        elements.push(
+          <div key="pair-2-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }} className="card-pair">
+            {renderCard(section, idx)}
+            {renderCard(sections[3], 3)}
+          </div>
+        )
+      } else if (idx === 3) {
+        // Already rendered with idx 2
+        return
+      } else {
+        elements.push(renderCard(section, idx))
+      }
+    })
+
+    return elements
+  }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f2ee', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', fontFamily: 'Inter, system-ui, sans-serif' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garant:wght@300;400;600;700;900&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { -webkit-font-smoothing: antialiased; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes skPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
         .fade-up { animation: fadeUp 0.6s ease both; }
-        .fade-up-2 { animation: fadeUp 0.6s 0.15s ease both; }
-        .fade-up-3 { animation: fadeUp 0.6s 0.3s ease both; }
-        .fade-up-4 { animation: fadeUp 0.6s 0.45s ease both; }
+        .fade-up-2 { animation: fadeUp 0.6s 0.12s ease both; }
+        .fade-up-3 { animation: fadeUp 0.6s 0.24s ease both; }
+        ::-webkit-scrollbar { height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(45,106,79,0.4); border-radius: 2px; }
+        @media (max-width: 700px) {
+          .card-pair { grid-template-columns: 1fr !important; }
+          .action-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .action-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
-      {/* Header */}
-      <header style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #f0f0f0', padding: '16px 40px', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <svg width="28" height="32" viewBox="0 0 32 36" fill="none">
-          <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#2d6a4f"/>
-          <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#2d6a4f" opacity="0.7"/>
-        </svg>
-        <span style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
+      {/* ─── Fixed Header ─── */}
+      <header style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        background: 'rgba(10,15,10,0.92)', backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(45,106,79,0.18)',
+        padding: '14px 32px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+      }}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <svg width="22" height="26" viewBox="0 0 32 36" fill="none">
+            <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#2d6a4f"/>
+            <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#2d6a4f" opacity="0.7"/>
+          </svg>
+          <span style={{ fontSize: 12, fontWeight: 800, color: '#4a9a6a', letterSpacing: '.08em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
+        </div>
+        {/* Center */}
+        <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.5)', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+          Your Blueprint
+        </span>
+        {/* Name pill */}
+        {firstName && firstName !== 'there' && (
+          <div style={{ background: 'rgba(45,106,79,0.2)', border: '1px solid rgba(45,106,79,0.35)', borderRadius: 50, padding: '5px 14px', fontSize: 12, fontWeight: 600, color: '#4a9a6a' }}>
+            {firstName}&apos;s Report
+          </div>
+        )}
       </header>
 
-      <div style={{ maxWidth: 760, margin: '0 auto', padding: '60px 24px 80px' }}>
+      {/* ─── Content ─── */}
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '100px 24px 80px' }}>
 
-        {/* Hero */}
-        <div className="fade-up" style={{ textAlign: 'center', marginBottom: 56 }}>
-          <div style={{ display: 'inline-block', background: '#e8f5ee', color: '#225840', fontSize: 12, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 50, marginBottom: 20 }}>
+        {/* ─── HERO ─── */}
+        <div className="fade-up" style={{ textAlign: 'center', paddingTop: 20, marginBottom: 64 }}>
+          <div style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#b8960c', textTransform: 'uppercase', marginBottom: 24 }}>
             Your Roadmap Is Ready
           </div>
-          <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 900, color: '#1a1a1a', lineHeight: 1.1, marginBottom: 16 }}>
+          <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(38px, 5vw, 56px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 20 }}>
             {firstName}, here is your<br />
-            <span style={{ color: '#225840', fontStyle: 'italic' }}>personalised blueprint.</span>
+            <span style={{ color: '#4a9a6a', fontStyle: 'italic' }}>personalised blueprint.</span>
           </h1>
-          <p style={{ fontSize: 16, color: '#666', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 36px' }}>
             Based on your 20 answers, The5th AI has mapped exactly where you are and what needs to happen next. We also sent your full PDF roadmap to your inbox.
           </p>
-        </div>
 
-        {/* Roadmap Box */}
-        <div className="fade-up-2" style={{ background: '#fff', borderRadius: 20, padding: '40px', marginBottom: 48, boxShadow: '0 4px 40px rgba(0,0,0,0.06)', border: '1px solid #e8e8e8' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: '#b8960c', textTransform: 'uppercase', marginBottom: 20 }}>
-            Your AI-Generated Roadmap
+          {/* Stat pills */}
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {answers.q1 && (
+              <div style={{ background: 'rgba(45,106,79,0.18)', border: '1px solid rgba(45,106,79,0.3)', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#4a9a6a' }}>
+                Stage: {formatStage(answers.q1)}
+              </div>
+            )}
+            {answers.q18 && (
+              <div style={{ background: 'rgba(45,106,79,0.18)', border: '1px solid rgba(45,106,79,0.3)', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#4a9a6a' }}>
+                Goal: {formatGoal(answers.q18)}
+              </div>
+            )}
+            {answers.q19 && (
+              <div style={{ background: 'rgba(45,106,79,0.18)', border: '1px solid rgba(45,106,79,0.3)', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#4a9a6a' }}>
+                {formatHours(answers.q19)}
+              </div>
+            )}
           </div>
-          {loading ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {[100, 80, 90, 70, 85].map((w, i) => (
-                <div key={i} style={{ height: 16, background: '#f0f0f0', borderRadius: 8, width: w + '%', animation: 'pulse 1.5s infinite' }} />
-              ))}
-              <p style={{ fontSize: 13, color: '#aaa', marginTop: 8 }}>Generating your personalised roadmap...</p>
-            </div>
-          ) : (
-            <div style={{ fontSize: 16, color: '#333', lineHeight: 1.85 }}>
-              {roadmap.split('\n').filter(p => p.trim()).map((para, i) => (
-                <p key={i} style={{ marginBottom: 18 }}>{para}</p>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Video Section */}
-        <div className="fade-up-3" style={{ background: 'linear-gradient(135deg, #1a3a2a, #225840)', borderRadius: 24, padding: '48px 40px', textAlign: 'center', marginBottom: 32 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: 16 }}>
+        {/* ─── ROADMAP CARDS ─── */}
+        <div className="fade-up-2" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 80 }}>
+          {loading ? <SkeletonCards /> : renderSections()}
+        </div>
+
+        {/* ─── VIDEO CTA ─── */}
+        <div className="fade-up-3" style={{ background: 'linear-gradient(135deg, #0f2818, #1a4a35)', border: '1px solid rgba(45,106,79,0.35)', borderRadius: 24, padding: '64px 48px', textAlign: 'center' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 20 }}>
             One More Thing
           </div>
-          <h2 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(30px, 4vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 20 }}>
             We did not want to just give you<br />a plan on a page.
           </h2>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 36px' }}>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, maxWidth: 480, margin: '0 auto 40px' }}>
             So we created a short video based on exactly where you are, because you deserve more than a generic answer. It is ready for you now.
           </p>
 
           {noVideoClicked ? (
-            <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 12, padding: '20px 28px', display: 'inline-block' }}>
-              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 15 }}>Your PDF is on its way to your inbox.</p>
+            <div style={{ background: 'rgba(45,106,79,0.15)', border: '1px solid rgba(45,106,79,0.25)', borderRadius: 14, padding: '20px 32px', display: 'inline-block' }}>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 15 }}>Noted. Your full roadmap is right above. We are rooting for you.</p>
             </div>
           ) : (
-            <>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
               <button
                 onClick={handleWatchVideo}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: '#fff', color: '#1a3a2a', fontSize: 17, fontWeight: 700, padding: '18px 40px', borderRadius: 50, border: 'none', cursor: 'pointer', marginBottom: 20, transition: 'transform 0.2s ease, box-shadow 0.2s ease', boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.25)'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.2)'; }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: '#fff', color: '#0f2818', fontSize: 17, fontWeight: 700, padding: '18px 44px', borderRadius: 50, border: 'none', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', boxShadow: '0 8px 32px rgba(0,0,0,0.3)', fontFamily: 'inherit' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 14px 40px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)'; }}
               >
-                <span style={{ width: 36, height: 36, borderRadius: '50%', background: '#225840', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 14, flexShrink: 0 }}>
-                  &#9654;
-                </span>
+                <span style={{ width: 34, height: 34, borderRadius: '50%', background: '#225840', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 13, flexShrink: 0 }}>&#9654;</span>
                 Watch My Video
               </button>
-              <br />
               <button
                 onClick={handleNoVideo}
-                style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.45)', fontSize: 14, cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' }}
+                style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', fontSize: 14, cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit', transition: 'color 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; }}
               >
                 No thanks, the roadmap is enough for me
               </button>
-            </>
+            </div>
           )}
         </div>
 
