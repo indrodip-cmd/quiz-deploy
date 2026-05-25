@@ -122,7 +122,7 @@ export default function VideoPage() {
             Ready to build this with support?
           </h2>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 36px' }}>
-            Book a free 60-minute strategy call with Indrodip. She will walk through your personalised roadmap with you and show you the exact next steps.
+            Book a free 60-minute strategy call with Indrodip. Indrodip will walk through your personalised roadmap with you and show you the exact next steps.
           </p>
           <a
             href="https://cal.com/indrodip-ghosh-ut1vxh/60min"

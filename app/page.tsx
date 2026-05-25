@@ -433,7 +433,7 @@ function FlameLogo() {
 /* ─── Site Header (start / quiz / email / otp) ─── */
 function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) {
   const isQuiz = screen === 'quiz'
-  const allDone = screen === 'email' || screen === 'otp'
+  const allDone = screen === 'email'
 
   return (
     <header style={{
@@ -773,7 +773,7 @@ function LandingTabletMockup() {
 
 /* ─── Page ─── */
 export default function Page() {
-  const [screen, setScreen] = useState<'start' | 'quiz' | 'email' | 'otp' | 'dashboard'>('start')
+  const [screen, setScreen] = useState<'start' | 'quiz' | 'email' | 'dashboard'>('start')
   const [currentQ, setCurrentQ] = useState(0)
   const [cardKey, setCardKey] = useState(0)
   const [slideDir, setSlideDir] = useState<'sir' | 'sil'>('sir')
@@ -861,20 +861,14 @@ export default function Page() {
   }
 
   /* ── Email submit ── */
-  const handleEmailSubmit = async () => {
+  const handleEmailSubmit = () => {
     if (!name.trim()) { setError('Please enter your name'); return }
     if (!/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email'); return }
     setSubmitting(true); setError('')
-    try {
-      const res = await fetch('/api/quiz/send-otp', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, answers: { ...answers, from: fromTo.from, to: fromTo.to } })
-      })
-      const data = await res.json()
-      if (data.error) { setError(data.error); return }
-      setScreen('otp')
-    } catch { setError('Something went wrong. Please try again.') }
-    finally { setSubmitting(false) }
+    sessionStorage.setItem('quiz_name', name)
+    sessionStorage.setItem('quiz_email', email)
+    sessionStorage.setItem('quiz_answers', JSON.stringify(answers))
+    window.location.href = '/results'
   }
 
   /* ── OTP ── */
@@ -1450,58 +1444,10 @@ export default function Page() {
             <input className="qinput" style={{ marginBottom: 20 }} type="email" placeholder="Your best email address" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()} />
             {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 14, textAlign: 'left' }}>{error}</p>}
             <button className="gbtn" onClick={handleEmailSubmit} disabled={submitting}>
-              {submitting ? 'Sending your roadmap…' : 'Send My Code →'}
+              {submitting ? 'Building your roadmap…' : 'Get My Roadmap →'}
             </button>
             <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 14 }}>🔒 Your info is private. We never spam.</p>
           </div>
-        </div>
-      </div>
-    </div>
-  )
-
-  /* ══════════════ OTP ══════════════ */
-  if (screen === 'otp') return (
-    <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
-      <style>{CSS}</style>
-      <SiteHeader screen="otp" currentQ={questions.length} />
-      {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
-
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 24px 60px' }}>
-        <div className="afu-1" style={{ maxWidth: 480, width: '100%', textAlign: 'center' }}>
-          {/* Green check icon */}
-          <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#e8f0eb', border: '2px solid #225840', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 24, color: '#225840', fontWeight: 700 }}>
-            ✓
-          </div>
-          <h2 style={{ fontSize: 28, fontWeight: 800, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.2 }}>Check your inbox</h2>
-          <p style={{ fontSize: 16, color: '#555', marginBottom: 36, lineHeight: 1.7 }}>
-            We sent a 6-digit code to<br /><strong style={{ color: '#0a0a0a' }}>{email}</strong>
-          </p>
-
-          {/* OTP boxes */}
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
-            {otpDigits.map((d, i) => (
-              <input
-                key={i}
-                className={`otp-box${d ? ' filled' : ''}${otpError ? ' otp-err' : ''}`}
-                type="text" inputMode="numeric" maxLength={1} value={d}
-                ref={el => { otpRefs.current[i] = el }}
-                onChange={e => handleOtpDigit(i, e.target.value)}
-                onKeyDown={e => handleOtpKey(i, e)}
-              />
-            ))}
-          </div>
-          {otpError && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 16 }}>{otpError}</p>}
-
-          <div style={{ maxWidth: 480, margin: '0 auto' }}>
-            <button className="gbtn" onClick={handleOtpSubmit} disabled={submitting}>
-              {submitting ? 'Verifying…' : 'Verify & Unlock →'}
-            </button>
-          </div>
-          <button
-            onClick={handleEmailSubmit}
-            style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}>
-            Didn&apos;t receive a code? Resend
-          </button>
         </div>
       </div>
     </div>

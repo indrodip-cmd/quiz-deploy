@@ -1,7 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+
+const BLOCKED_DOMAINS = [
+  'mailinator.com', 'guerrillamail.com', 'tempmail.com',
+  'throwam.com', 'yopmail.com', 'trashmail.com', 'trashmail.me', 'trashmail.net',
+  '10minutemail.com', 'minutemail.com', 'maildrop.cc', 'fakeinbox.com',
+  'mailnesia.com', 'discard.email', 'tempr.email', 'emailondeck.com',
+  'getairmail.com', 'spambox.us', 'mytrashmail.com', 'mohmal.com',
+]
 
 export default function VideoGatePage() {
   const router = useRouter()
@@ -10,9 +18,23 @@ export default function VideoGatePage() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  useEffect(() => {
+    const storedName = sessionStorage.getItem('quiz_name') || ''
+    const storedEmail = sessionStorage.getItem('quiz_email') || ''
+    setName(storedName)
+    setEmail(storedEmail)
+  }, [])
+
   const handleSubmit = async () => {
     if (!name.trim()) { setError('Please enter your name'); return }
     if (!/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email address'); return }
+
+    const emailDomain = email.split('@')[1]?.toLowerCase()
+    if (BLOCKED_DOMAINS.includes(emailDomain)) {
+      setError('Please use a real email address. Temporary emails are not accepted.')
+      return
+    }
+
     setSubmitting(true)
     setError('')
 
@@ -32,7 +54,7 @@ export default function VideoGatePage() {
       sessionStorage.setItem('video_name', name)
       sessionStorage.setItem('video_email', email)
       router.push('/video/' + videoSlug)
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.')
     } finally {
       setSubmitting(false)
