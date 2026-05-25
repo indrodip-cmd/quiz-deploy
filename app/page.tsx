@@ -898,6 +898,11 @@ export default function Page() {
       const data = await res.json()
       if (data.error) { setOtpError(data.error); return }
       setLead(data.lead); setRoadmap(data.roadmap)
+      sessionStorage.setItem('quiz_name', name)
+      sessionStorage.setItem('quiz_email', email)
+      sessionStorage.setItem('quiz_answers', JSON.stringify(answers))
+      window.location.href = '/results'
+      return
       setActiveDay(data.lead?.current_day || 1)
       setScreen('dashboard')
     } catch { setOtpError('Something went wrong.') }
