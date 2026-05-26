@@ -303,7 +303,7 @@ export default function ResultsPage() {
     setName(storedName)
     setEmail(storedEmail)
     setAnswers(storedAnswers)
-    generateRoadmap(storedName, storedAnswers)
+    generateRoadmap(storedName, storedEmail, storedAnswers)
     saveLead(storedName, storedEmail, storedAnswers)
   }, [])
 
@@ -314,7 +314,7 @@ export default function ResultsPage() {
     return 'v1'
   }
 
-  const generateRoadmap = async (n: string, a: Record<string, string>) => {
+  const generateRoadmap = async (n: string, e: string, a: Record<string, string>) => {
     try {
       const res = await fetch('/api/generate-roadmap', {
         method: 'POST',
@@ -323,6 +323,21 @@ export default function ResultsPage() {
       })
       const data = await res.json()
       setRoadmap(data.roadmap || '')
+
+      // Send blueprint email (fire-and-forget)
+      fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: n,
+          email: e,
+          roadmap: data.roadmap,
+          stage: a.q1 || 'launched',
+          goal: a.q18 || '$5K-$10K / month',
+          hours: a.q19 || '10-20',
+          videoSlug: getVideoSlug(a.q1)
+        })
+      }).catch(err => console.error('Email send error:', err))
     } catch {
       setRoadmap('Your personalised roadmap is being prepared. Check your inbox for the full PDF version.')
     } finally {
