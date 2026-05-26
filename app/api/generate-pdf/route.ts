@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+export const dynamic = 'force-dynamic'
+
+const getResend = () => {
+  const key = process.env.RESEND_API_KEY
+  if (!key) throw new Error('RESEND_API_KEY not configured')
+  return new Resend(key)
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -118,6 +124,7 @@ export async function POST(req: NextRequest) {
 </html>`
 
     // Send via Resend
+    const resend = getResend()
     const { data, error } = await resend.emails.send({
       from: 'Indrodip at The5th <Indrodip@10kroadmap.org>',
       to: email,
