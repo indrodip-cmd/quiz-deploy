@@ -58,26 +58,31 @@ function formatHours(q19: string): string {
   return m[q19] || q19 || 'hrs/week'
 }
 
+function getWeekTheme(n: number): string {
+  const themes: Record<number, string> = { 1: 'Foundation', 2: 'Visibility', 3: 'Outreach', 4: 'Conversion' }
+  return themes[n] || `Week ${n}`
+}
+
 /* ─── Inline markdown (bold **text**) ─── */
 function inlineMd(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g)
   if (parts.length === 1) return text
   return parts.map((p, i) =>
     p.startsWith('**') && p.endsWith('**')
-      ? <strong key={i} style={{ color: '#fff', fontWeight: 700 }}>{p.slice(2, -2)}</strong>
+      ? <strong key={i} style={{ color: '#0a0a0a', fontWeight: 700 }}>{p.slice(2, -2)}</strong>
       : p
   )
 }
 
-/* ─── Line renderer ─── */
+/* ─── Line renderer (light mode) ─── */
 function renderLine(line: string, i: number) {
   const t = line.trim()
   if (!t) return <div key={i} style={{ height: 8 }} />
   if (t.startsWith('- ') || t.startsWith('* ')) {
     return (
       <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'flex-start' }}>
-        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#2d6a4f', flexShrink: 0, marginTop: 9 }} />
-        <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>{inlineMd(t.slice(2))}</span>
+        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#225840', flexShrink: 0, marginTop: 9 }} />
+        <span style={{ fontSize: 15, color: '#555555', lineHeight: 1.75 }}>{inlineMd(t.slice(2))}</span>
       </div>
     )
   }
@@ -85,13 +90,13 @@ function renderLine(line: string, i: number) {
   if (boldFull) {
     return <p key={i} style={{ fontSize: 12, fontWeight: 700, color: '#b8960c', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8, marginTop: 20 }}>{boldFull[1]}</p>
   }
-  return <p key={i} style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, marginBottom: 10 }}>{inlineMd(t)}</p>
+  return <p key={i} style={{ fontSize: 15, color: '#555555', lineHeight: 1.8, marginBottom: 10 }}>{inlineMd(t)}</p>
 }
 
 /* ─── Section number label ─── */
 function SectionNum({ n }: { n: number }) {
   return (
-    <div style={{ fontSize: 80, fontWeight: 900, color: 'rgba(184,150,12,0.13)', lineHeight: 1, position: 'absolute', top: 16, right: 24, fontFamily: 'Inter, sans-serif', userSelect: 'none' }}>
+    <div style={{ fontSize: 80, fontWeight: 900, color: 'rgba(34,88,64,0.08)', lineHeight: 1, position: 'absolute', top: 16, right: 24, fontFamily: 'Inter, sans-serif', userSelect: 'none' }}>
       {String(n).padStart(2, '0')}
     </div>
   )
@@ -102,7 +107,7 @@ function CardHeader({ title, icon }: { title: string; icon: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
       <span style={{ fontSize: 20 }}>{icon}</span>
-      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: '#b8960c', textTransform: 'uppercase' }}>
+      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: '#225840', textTransform: 'uppercase' }}>
         {title}
       </span>
     </div>
@@ -113,7 +118,6 @@ function CardHeader({ title, icon }: { title: string; icon: string }) {
 function ContentPlanCard({ section, num }: { section: Section; num: number }) {
   const [activeDay, setActiveDay] = useState(0)
 
-  // Parse "Day N:" blocks
   const blocks: { day: string; lines: string[] }[] = []
   let cur: { day: string; lines: string[] } | null = null
   for (const line of section.content.split('\n')) {
@@ -130,13 +134,12 @@ function ContentPlanCard({ section, num }: { section: Section; num: number }) {
   const icon = getIcon(section.title)
 
   return (
-    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ background: '#ffffff', border: '1px solid #e8e8e8', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
       <SectionNum n={num} />
       <CardHeader title={section.title} icon={icon} />
 
       {blocks.length > 0 ? (
         <>
-          {/* Day chips */}
           <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 16, marginBottom: 24, scrollbarWidth: 'none' }}>
             {blocks.map((b, i) => (
               <button
@@ -144,9 +147,9 @@ function ContentPlanCard({ section, num }: { section: Section; num: number }) {
                 onClick={() => setActiveDay(i)}
                 style={{
                   padding: '8px 18px', borderRadius: 50, flexShrink: 0,
-                  background: activeDay === i ? '#225840' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${activeDay === i ? '#2d6a4f' : 'rgba(255,255,255,0.1)'}`,
-                  color: activeDay === i ? '#fff' : 'rgba(255,255,255,0.45)',
+                  background: activeDay === i ? '#225840' : '#f8f7f4',
+                  border: `1px solid ${activeDay === i ? '#225840' : '#e8e8e8'}`,
+                  color: activeDay === i ? '#fff' : '#555555',
                   fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
                   transition: 'all 0.18s ease', fontFamily: 'inherit'
                 }}
@@ -155,9 +158,8 @@ function ContentPlanCard({ section, num }: { section: Section; num: number }) {
               </button>
             ))}
           </div>
-          {/* Active day */}
-          <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 14, padding: '24px 28px', border: '1px solid rgba(45,106,79,0.12)' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#2d6a4f', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 16 }}>
+          <div style={{ background: '#f8f7f4', borderRadius: 14, padding: '24px 28px', border: '1px solid #e8e8e8' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#225840', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 16 }}>
               {blocks[activeDay]?.day}
             </div>
             {blocks[activeDay]?.lines.map((l, i) => renderLine(l, i))}
@@ -170,16 +172,44 @@ function ContentPlanCard({ section, num }: { section: Section; num: number }) {
   )
 }
 
-/* ─── 30-Day action plan card ─── */
+/* ─── Accordion week content ─── */
+function WeekContent({ lines }: { lines: string[] }) {
+  const bulletLines = lines.filter(l => l.trim().startsWith('- ') || l.trim().startsWith('* ')).slice(0, 3)
+  const allMeaningful = lines.filter(l => l.trim()).slice(0, 3)
+  const items = bulletLines.length > 0 ? bulletLines.map(l => l.trim().slice(2)) : allMeaningful
+  return (
+    <div style={{ background: '#f0f8f2', borderRadius: 12, padding: 20, marginBottom: 16 }}>
+      {items.map((item, j) => (
+        <div key={j} style={{ display: 'flex', gap: 14, marginBottom: j < items.length - 1 ? 16 : 0, alignItems: 'flex-start' }}>
+          <div style={{
+            width: 26, height: 26, borderRadius: '50%', background: '#225840',
+            color: '#fff', fontSize: 13, fontWeight: 700,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+          }}>
+            {j + 1}
+          </div>
+          <span style={{ fontSize: 14, color: '#333333', lineHeight: 1.7, paddingTop: 3 }}>
+            {inlineMd(item)}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ─── 30-Day action plan card — vertical accordion ─── */
 function ActionPlanCard({ section, num }: { section: Section; num: number }) {
-  // Parse "Week N:" blocks
-  const weeks: { week: string; lines: string[] }[] = []
-  let cur: { week: string; lines: string[] } | null = null
+  const [openWeek, setOpenWeek] = useState(0)
+
+  const weeks: { label: string; weekNum: number; theme: string; lines: string[] }[] = []
+  let cur: { label: string; weekNum: number; theme: string; lines: string[] } | null = null
   for (const line of section.content.split('\n')) {
     const m = line.match(/^Week\s+(\d+)[:\-]?\s*(.*)/i)
     if (m) {
       if (cur) weeks.push(cur)
-      cur = { week: `Week ${m[1]}${m[2].trim() ? ': ' + m[2].trim() : ''}`, lines: [] }
+      const weekNum = parseInt(m[1])
+      const parsedTheme = m[2].trim()
+      cur = { label: `Week ${m[1]}`, weekNum, theme: parsedTheme || getWeekTheme(weekNum), lines: [] }
     } else if (cur) {
       cur.lines.push(line)
     }
@@ -189,16 +219,45 @@ function ActionPlanCard({ section, num }: { section: Section; num: number }) {
   const icon = getIcon(section.title)
 
   return (
-    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ background: '#ffffff', border: '1px solid #e8e8e8', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
       <SectionNum n={num} />
       <CardHeader title={section.title} icon={icon} />
 
       {weeks.length > 0 ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           {weeks.map((w, i) => (
-            <div key={i} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 14, padding: '20px 18px', border: '1px solid rgba(45,106,79,0.12)' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#b8960c', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 14 }}>{w.week}</div>
-              {w.lines.map((l, j) => renderLine(l, j))}
+            <div key={i} style={{ borderBottom: i < weeks.length - 1 ? '1px solid #e8e8e8' : 'none' }}>
+              {/* Row header */}
+              <button
+                onClick={() => setOpenWeek(openWeek === i ? -1 : i)}
+                style={{
+                  width: '100%', display: 'flex', alignItems: 'center', gap: 16,
+                  padding: '18px 0', background: 'none', border: 'none',
+                  cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit'
+                }}
+              >
+                {/* Week pill */}
+                <div style={{
+                  background: '#225840', color: '#fff', borderRadius: 50,
+                  padding: '4px 14px', fontSize: 12, fontWeight: 700,
+                  flexShrink: 0, whiteSpace: 'nowrap'
+                }}>
+                  {w.label}
+                </div>
+                {/* Theme title */}
+                <span style={{ flex: 1, fontSize: 16, fontWeight: 700, color: '#0a0a0a' }}>
+                  {w.theme}
+                </span>
+                {/* Arrow */}
+                <span style={{
+                  color: '#225840', fontSize: 20, flexShrink: 0, lineHeight: 1,
+                  display: 'inline-block',
+                  transform: openWeek === i ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.22s ease'
+                }}>▾</span>
+              </button>
+              {/* Expanded area */}
+              {openWeek === i && <WeekContent lines={w.lines} />}
             </div>
           ))}
         </div>
@@ -214,11 +273,11 @@ function SkeletonCards() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {[1, 0.8, 1, 0.7, 0.9, 0.6].map((_, i) => (
-        <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.1)', borderRadius: 20, padding: '36px 40px' }}>
-          <div style={{ height: 12, background: 'rgba(255,255,255,0.06)', borderRadius: 6, width: '30%', marginBottom: 24, animation: 'skPulse 1.4s ease-in-out infinite' }} />
+        <div key={i} style={{ background: '#ffffff', border: '1px solid #e8e8e8', borderRadius: 20, padding: '36px 40px', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
+          <div style={{ height: 12, background: 'rgba(0,0,0,0.07)', borderRadius: 6, width: '30%', marginBottom: 24, animation: 'skPulse 1.4s ease-in-out infinite' }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[90, 75, 85, 60, 80].map((w, j) => (
-              <div key={j} style={{ height: 14, background: 'rgba(255,255,255,0.05)', borderRadius: 6, width: w + '%', animation: `skPulse 1.4s ${j * 0.12}s ease-in-out infinite` }} />
+              <div key={j} style={{ height: 14, background: 'rgba(0,0,0,0.05)', borderRadius: 6, width: w + '%', animation: `skPulse 1.4s ${j * 0.12}s ease-in-out infinite` }} />
             ))}
           </div>
         </div>
@@ -316,15 +375,15 @@ export default function ResultsPage() {
       return <ContentPlanCard key={idx} section={section} num={num} />
     }
 
-    // 6th card: 30-day action plan
+    // 6th card: 30-day action plan — accordion
     if (titleUpper.includes('ACTION PLAN') || titleUpper.includes('30-DAY')) {
       return <ActionPlanCard key={idx} section={section} num={num} />
     }
 
-    // 7th card: Pricing — gold left border
+    // Pricing card — gold left border
     if (titleUpper.includes('PRICING')) {
       return (
-        <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderLeft: '4px solid #b8960c', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+        <div key={idx} style={{ background: '#ffffff', border: '1px solid #e8e8e8', borderLeft: '4px solid #b8960c', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
           <SectionNum n={num} />
           <CardHeader title={section.title} icon={icon} />
           <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
@@ -332,13 +391,13 @@ export default function ResultsPage() {
       )
     }
 
-    // 8th card: Biggest opportunity — green left border, brighter bg
+    // Opportunity card — subtle green tint, green left border
     if (titleUpper.includes('OPPORTUNITY')) {
       return (
-        <div key={idx} style={{ background: 'rgba(45,106,79,0.08)', border: '1px solid rgba(45,106,79,0.35)', borderLeft: '4px solid #2d6a4f', borderRadius: 20, padding: '40px 44px', position: 'relative', overflow: 'hidden' }}>
+        <div key={idx} style={{ background: '#f5fbf7', border: '1px solid #e8e8e8', borderLeft: '4px solid #225840', borderRadius: 20, padding: '40px 44px', position: 'relative', overflow: 'hidden', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
           <SectionNum n={num} />
           <CardHeader title={section.title} icon={icon} />
-          <div style={{ fontSize: 17, color: 'rgba(255,255,255,0.9)', lineHeight: 1.85 }}>
+          <div style={{ fontSize: 17, color: '#333333', lineHeight: 1.85 }}>
             {section.content.split('\n').map((l, i) => {
               const t = l.trim()
               if (!t) return <div key={i} style={{ height: 8 }} />
@@ -349,10 +408,10 @@ export default function ResultsPage() {
       )
     }
 
-    // 2nd card: Signature offer — dark green gradient bg
+    // Signature offer card — green left border accent
     if (titleUpper.includes('SIGNATURE OFFER') || titleUpper.includes('YOUR OFFER')) {
       return (
-        <div key={idx} style={{ background: 'linear-gradient(135deg, rgba(26,58,42,0.9), rgba(34,88,64,0.5))', border: '1px solid rgba(45,106,79,0.4)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+        <div key={idx} style={{ background: '#ffffff', border: '1px solid #e8e8e8', borderLeft: '4px solid #225840', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
           <SectionNum n={num} />
           <CardHeader title={section.title} icon={icon} />
           <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
@@ -362,7 +421,7 @@ export default function ResultsPage() {
 
     // Default card
     return (
-      <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+      <div key={idx} style={{ background: '#ffffff', border: '1px solid #e8e8e8', borderRadius: 20, padding: '36px 40px', position: 'relative', overflow: 'hidden', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}>
         <SectionNum n={num} />
         <CardHeader title={section.title} icon={icon} />
         <div>{section.content.split('\n').map((l, i) => renderLine(l, i))}</div>
@@ -374,16 +433,10 @@ export default function ResultsPage() {
   function renderSections() {
     if (sections.length === 0) return null
 
-    // Split into layout groups:
-    // [0] full width
-    // [1] full width, special style (handled in renderCard)
-    // [2] + [3] side by side
-    // [4+] full width each
     const elements: React.ReactNode[] = []
 
     sections.forEach((section, idx) => {
       if (idx === 2 && sections[3]) {
-        // Sections 2 and 3 side by side
         elements.push(
           <div key="pair-2-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }} className="card-pair">
             {renderCard(section, idx)}
@@ -391,7 +444,6 @@ export default function ResultsPage() {
           </div>
         )
       } else if (idx === 3) {
-        // Already rendered with idx 2
         return
       } else {
         elements.push(renderCard(section, idx))
@@ -402,51 +454,47 @@ export default function ResultsPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0f0a', color: '#fff', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', color: '#0a0a0a', fontFamily: 'Inter, system-ui, sans-serif' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garant:wght@300;400;600;700;900&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { -webkit-font-smoothing: antialiased; }
         @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes skPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
+        @keyframes skPulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
         .fade-up { animation: fadeUp 0.6s ease both; }
         .fade-up-2 { animation: fadeUp 0.6s 0.12s ease both; }
         .fade-up-3 { animation: fadeUp 0.6s 0.24s ease both; }
         ::-webkit-scrollbar { height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(45,106,79,0.4); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: rgba(34,88,64,0.3); border-radius: 2px; }
         @media (max-width: 700px) {
           .card-pair { grid-template-columns: 1fr !important; }
-          .action-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 480px) {
-          .action-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
       {/* ─── Fixed Header ─── */}
       <header style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: 'rgba(10,15,10,0.92)', backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(45,106,79,0.18)',
+        background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid #f0f0f0',
         padding: '14px 32px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between'
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <svg width="22" height="26" viewBox="0 0 32 36" fill="none">
-            <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#2d6a4f"/>
-            <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#2d6a4f" opacity="0.7"/>
+            <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#225840"/>
+            <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#225840" opacity="0.7"/>
           </svg>
-          <span style={{ fontSize: 12, fontWeight: 800, color: '#4a9a6a', letterSpacing: '.08em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
+          <span style={{ fontSize: 12, fontWeight: 800, color: '#225840', letterSpacing: '.08em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
         </div>
         {/* Center */}
-        <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.5)', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a', position: 'absolute', left: '50%', transform: 'translateX(-50%)', opacity: 0.55 }}>
           Your Blueprint
         </span>
-        {/* Name pill */}
+        {/* Name badge */}
         {firstName && firstName !== 'there' && (
-          <div style={{ background: 'rgba(45,106,79,0.2)', border: '1px solid rgba(45,106,79,0.35)', borderRadius: 50, padding: '5px 14px', fontSize: 12, fontWeight: 600, color: '#4a9a6a' }}>
+          <div style={{ background: '#225840', borderRadius: 50, padding: '5px 14px', fontSize: 12, fontWeight: 600, color: '#ffffff' }}>
             {firstName}&apos;s Report
           </div>
         )}
@@ -456,32 +504,32 @@ export default function ResultsPage() {
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '100px 24px 80px' }}>
 
         {/* ─── HERO ─── */}
-        <div className="fade-up" style={{ textAlign: 'center', paddingTop: 20, marginBottom: 64 }}>
+        <div className="fade-up" style={{ background: '#f8f7f4', borderRadius: 24, textAlign: 'center', padding: '52px 40px 56px', marginBottom: 48 }}>
           <div style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#b8960c', textTransform: 'uppercase', marginBottom: 24 }}>
             Your Roadmap Is Ready
           </div>
-          <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(38px, 5vw, 56px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 20 }}>
+          <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(38px, 5vw, 56px)', fontWeight: 900, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 20 }}>
             {firstName}, here is your<br />
-            <span style={{ color: '#4a9a6a', fontStyle: 'italic' }}>personalised blueprint.</span>
+            <span style={{ color: '#225840', fontStyle: 'italic' }}>personalised blueprint.</span>
           </h1>
-          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 36px' }}>
+          <p style={{ fontSize: 16, color: '#555555', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 36px' }}>
             Based on your 20 answers, The5th AI has mapped exactly where you are and what needs to happen next. We also sent your full PDF roadmap to your inbox.
           </p>
 
           {/* Stat pills */}
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
             {answers.q1 && (
-              <div style={{ background: 'rgba(45,106,79,0.18)', border: '1px solid rgba(45,106,79,0.3)', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#4a9a6a' }}>
+              <div style={{ background: '#e8f5ee', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#225840' }}>
                 Stage: {formatStage(answers.q1)}
               </div>
             )}
             {answers.q18 && (
-              <div style={{ background: 'rgba(45,106,79,0.18)', border: '1px solid rgba(45,106,79,0.3)', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#4a9a6a' }}>
+              <div style={{ background: '#e8f5ee', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#225840' }}>
                 Goal: {formatGoal(answers.q18)}
               </div>
             )}
             {answers.q19 && (
-              <div style={{ background: 'rgba(45,106,79,0.18)', border: '1px solid rgba(45,106,79,0.3)', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#4a9a6a' }}>
+              <div style={{ background: '#e8f5ee', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#225840' }}>
                 {formatHours(answers.q19)}
               </div>
             )}
@@ -493,9 +541,9 @@ export default function ResultsPage() {
           {loading ? <SkeletonCards /> : renderSections()}
         </div>
 
-        {/* ─── VIDEO CTA ─── */}
-        <div className="fade-up-3" style={{ background: 'linear-gradient(135deg, #0f2818, #1a4a35)', border: '1px solid rgba(45,106,79,0.35)', borderRadius: 24, padding: '64px 48px', textAlign: 'center' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 20 }}>
+        {/* ─── VIDEO CTA — stays dark green ─── */}
+        <div className="fade-up-3" style={{ background: 'linear-gradient(135deg, #1a3a2a, #225840)', border: '1px solid rgba(45,106,79,0.35)', borderRadius: 24, padding: '64px 48px', textAlign: 'center' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', marginBottom: 20 }}>
             One More Thing
           </div>
           <h2 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(30px, 4vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 20 }}>
