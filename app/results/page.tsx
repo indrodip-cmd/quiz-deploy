@@ -286,6 +286,16 @@ function SkeletonCards() {
   )
 }
 
+/* ─── Loading messages ─── */
+const LOADING_MESSAGES = [
+  'Reading your 20 answers...',
+  'Mapping your business stage...',
+  'Identifying your biggest opportunity...',
+  'Building your signature offer...',
+  'Writing your 7-day content plan...',
+  'Finalising your personalised blueprint...',
+]
+
 /* ─── Main page ─── */
 export default function ResultsPage() {
   const router = useRouter()
@@ -295,6 +305,25 @@ export default function ResultsPage() {
   const [roadmap, setRoadmap] = useState('')
   const [loading, setLoading] = useState(true)
   const [noVideoClicked, setNoVideoClicked] = useState(false)
+  const [msgIdx, setMsgIdx] = useState(0)
+  const [progress, setProgress] = useState(0)
+
+  // Cycle loading messages every 2 s
+  useEffect(() => {
+    if (!loading) return
+    const iv = setInterval(() => setMsgIdx(i => (i + 1) % LOADING_MESSAGES.length), 2000)
+    return () => clearInterval(iv)
+  }, [loading])
+
+  // Animate progress bar 0→90 over 10 s while loading, snap to 100 when done
+  useEffect(() => {
+    if (loading) {
+      const t = setTimeout(() => setProgress(90), 50)
+      return () => clearTimeout(t)
+    } else {
+      setProgress(100)
+    }
+  }, [loading])
 
   useEffect(() => {
     const storedName = sessionStorage.getItem('quiz_name') || ''
@@ -468,6 +497,50 @@ export default function ResultsPage() {
     return elements
   }
 
+  /* ─── Full-screen loading experience ─── */
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#f8f7f4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, system-ui, sans-serif' }}>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+          *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+          @keyframes spin { to { transform: rotate(360deg); } }
+          @keyframes msgFade { 0% { opacity:0; transform:translateY(6px); } 12% { opacity:1; transform:translateY(0); } 88% { opacity:1; transform:translateY(0); } 100% { opacity:0; transform:translateY(-4px); } }
+        `}</style>
+        <div style={{ textAlign: 'center', maxWidth: 320, padding: '0 24px', width: '100%' }}>
+          {/* Spinner */}
+          <div style={{
+            width: 40, height: 40, borderRadius: '50%',
+            border: '3px solid rgba(34,88,64,0.12)',
+            borderTopColor: '#225840',
+            animation: 'spin 0.85s linear infinite',
+            margin: '0 auto 36px'
+          }} />
+          {/* Cycling message */}
+          <p key={msgIdx} style={{
+            fontSize: 16, fontWeight: 600, color: '#0a0a0a',
+            marginBottom: 10, minHeight: 26, lineHeight: 1.4,
+            animation: 'msgFade 2s ease forwards'
+          }}>
+            {LOADING_MESSAGES[msgIdx]}
+          </p>
+          {/* Hint */}
+          <p style={{ fontSize: 13, color: '#aaaaaa', marginBottom: 28 }}>
+            This usually takes 8–12 seconds
+          </p>
+          {/* Progress bar */}
+          <div style={{ height: 3, background: '#e8e8e8', borderRadius: 2, overflow: 'hidden' }}>
+            <div style={{
+              height: '100%', background: '#225840', borderRadius: 2,
+              width: `${progress}%`,
+              transition: 'width 10s linear'
+            }} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#0a0a0a', fontFamily: 'Inter, system-ui, sans-serif' }}>
       <style>{`
@@ -553,7 +626,7 @@ export default function ResultsPage() {
 
         {/* ─── ROADMAP CARDS ─── */}
         <div className="fade-up-2" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 80 }}>
-          {loading ? <SkeletonCards /> : renderSections()}
+          {renderSections()}
         </div>
 
         {/* ─── VIDEO CTA — stays dark green ─── */}

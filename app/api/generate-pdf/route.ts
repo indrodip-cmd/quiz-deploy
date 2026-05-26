@@ -20,28 +20,55 @@ export async function POST(req: NextRequest) {
 
     const videoUrl = `https://quiz.the5th.consulting/video/${videoSlug || 'v1'}`
 
-    // Build HTML email with roadmap content
-    const roadmapHtml = roadmap
-      .split('\n')
-      .map((line: string) => {
-        const trimmed = line.trim()
-        if (!trimmed) return '<br/>'
-        if (trimmed.startsWith('## ')) {
-          return `<h2 style="color:#1d5c3a;font-size:16px;margin-top:24px;margin-bottom:8px;font-family:sans-serif;">${trimmed.replace('## ', '')}</h2>`
+    // Build HTML email with roadmap content — section dividers, green dots, bold black
+    const roadmapHtml = (() => {
+      const lines = roadmap.split('\n')
+      const parts: string[] = []
+      let inList = false
+      for (const line of lines) {
+        const t = line.trim()
+        if (!t) {
+          if (inList) { parts.push('</ul>'); inList = false }
+          continue
         }
-        if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
-          return `<p style="font-weight:bold;margin:4px 0;font-family:sans-serif;">${trimmed.replace(/\*\*/g, '')}</p>`
+        if (t.startsWith('## ')) {
+          if (inList) { parts.push('</ul>'); inList = false }
+          const heading = t.replace(/^## /, '')
+          parts.push(
+            '<div style="margin-top:28px;padding-top:16px;border-top:2px solid #1d5c3a;">' +
+            '<h2 style="color:#1d5c3a;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;font-family:sans-serif;">' + heading + '</h2>' +
+            '</div>'
+          )
+          continue
         }
-        if (trimmed.includes('**')) {
-          const formatted = trimmed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-          return `<p style="margin:4px 0;font-family:sans-serif;">${formatted}</p>`
+        if (t.startsWith('**') && t.endsWith('**')) {
+          if (inList) { parts.push('</ul>'); inList = false }
+          parts.push('<p style="font-weight:700;color:#0a0a0a;font-size:14px;margin:10px 0 4px;font-family:sans-serif;">' + t.replace(/\*\*/g, '') + '</p>')
+          continue
         }
-        if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-          return `<li style="margin:4px 0;font-family:sans-serif;color:#3d3d3d;">${trimmed.slice(2)}</li>`
+        if (t.includes('**')) {
+          if (inList) { parts.push('</ul>'); inList = false }
+          const formatted = t.replace(/\*\*([^*]+)\*\*/g, '<strong style="color:#0a0a0a;font-weight:700;">$1</strong>')
+          parts.push('<p style="margin:6px 0;font-family:sans-serif;color:#3d3d3d;line-height:1.6;font-size:14px;">' + formatted + '</p>')
+          continue
         }
-        return `<p style="margin:6px 0;font-family:sans-serif;color:#3d3d3d;line-height:1.6;">${trimmed}</p>`
-      })
-      .join('\n')
+        if (t.startsWith('- ') || t.startsWith('* ')) {
+          if (!inList) { parts.push('<ul style="margin:8px 0 12px;padding-left:0;list-style:none;">'); inList = true }
+          const item = t.slice(2)
+          parts.push(
+            '<li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-family:sans-serif;color:#3d3d3d;font-size:14px;line-height:1.6;">' +
+            '<span style="color:#1d5c3a;font-weight:700;flex-shrink:0;margin-top:2px;">&#9679;</span>' +
+            '<span>' + item + '</span>' +
+            '</li>'
+          )
+          continue
+        }
+        if (inList) { parts.push('</ul>'); inList = false }
+        parts.push('<p style="margin:6px 0;font-family:sans-serif;color:#3d3d3d;line-height:1.6;font-size:14px;">' + t + '</p>')
+      }
+      if (inList) parts.push('</ul>')
+      return parts.join('')
+    })()
 
     const firstName = name.split(' ')[0]
 
@@ -128,7 +155,7 @@ export async function POST(req: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: 'Indrodip at The5th <Indrodip@10kroadmap.org>',
       to: email,
-      subject: `${firstName}, your personalised blueprint is ready`,
+      subject: `Your personalised blueprint is ready, ${firstName}`,
       html: emailHtml,
     })
 

@@ -53,6 +53,12 @@ const questions: Question[] = [
       { value: 'wellness', emoji: '💚', label: 'Health and wellness seekers', sub: 'Body transformation, energy, holistic health' },
       { value: 'mindset', emoji: '🧠', label: 'Personal development and mindset', sub: 'Confidence, relationships, life purpose' },
       { value: 'other', emoji: '✨', label: 'Other / coaches and consultants', sub: 'Helping others grow their expertise business' },
+      { value: 'financial', emoji: '💰', label: 'Financial freedom seekers', sub: 'Debt freedom, investing, wealth building, passive income' },
+      { value: 'relationships', emoji: '❤️', label: 'Relationship and dating coaches', sub: 'Finding love, marriage, divorce recovery, connection' },
+      { value: 'spiritual', emoji: '🌙', label: 'Spiritual and energy work', sub: 'Healing, intuition, purpose, consciousness' },
+      { value: 'parenting', emoji: '👨‍👩‍👧', label: 'Parents and family coaches', sub: 'Raising kids, family dynamics, empty nest, aging parents' },
+      { value: 'creativity', emoji: '🎨', label: 'Creative entrepreneurs', sub: 'Artists, writers, musicians monetizing their craft' },
+      { value: 'corporate', emoji: '🏛️', label: 'Corporate and executive coaching', sub: 'Leadership, team performance, executive presence' },
     ]
   },
   {
