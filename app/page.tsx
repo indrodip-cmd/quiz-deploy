@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
 /* ─── Types ─── */
 type QuizAnswers = Record<string, string | string[]>
@@ -276,6 +276,7 @@ function StatCard({ label, value, unit, color }: { label: string; value: number;
 
 /* ─── CSS ─── */
 const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garant:wght@300;400;600;700;900&display=swap');
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: #f5f2ee; }
@@ -383,6 +384,215 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
   .lp-section-pad { padding: 60px 24px !important; }
   .hero-inner { padding: 80px 24px 40px !important; }
   .landing-tablet { max-width: 320px !important; }
+}
+
+/* ══ PREMIUM LANDING ══ */
+:root {
+  --cream: #faf6f1;
+  --ink: #0d0d0b;
+  --forest: #1c4a32;
+  --forest-mid: #2a6647;
+  --sage: #4a8c64;
+  --gold: #b8920a;
+  --gold-light: #e8c84a;
+  --warm-grey: #8a8680;
+  --border: rgba(28,74,50,0.12);
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-2%,-3%)}
+  20%{transform:translate(3%,2%)}30%{transform:translate(-1%,4%)}
+  40%{transform:translate(4%,-1%)}50%{transform:translate(-3%,3%)}
+  60%{transform:translate(2%,-4%)}70%{transform:translate(-4%,1%)}
+  80%{transform:translate(3%,-2%)}90%{transform:translate(-1%,3%)}
+}
+@keyframes float-slow {
+  0%,100%{transform:translateY(0px) rotate(0deg);}
+  33%{transform:translateY(-12px) rotate(1deg);}
+  66%{transform:translateY(-6px) rotate(-0.5deg);}
+}
+@keyframes reveal-up {
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes reveal-left {
+  from{opacity:0;transform:translateX(-30px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes shimmer {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes line-draw {
+  from{width:0;}to{width:98%;}
+}
+@keyframes ticker {
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+@keyframes morph {
+  0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%;}
+  25%{border-radius:40% 60% 70% 30%/40% 70% 30% 60%;}
+  50%{border-radius:30% 70% 40% 60%/50% 40% 60% 50%;}
+  75%{border-radius:70% 30% 60% 40%/30% 60% 40% 70%;}
+}
+.lp-root{min-height:100vh;background:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+.grain-overlay{position:fixed;inset:-200%;width:400%;height:400%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9997;animation:grain 8s steps(2) infinite;opacity:0.4;}
+.lp-nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 48px;background:rgba(250,246,241,0.88);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.lp-nav-logo{font-family:'Playfair Display',serif;font-size:15px;
+  font-weight:700;color:var(--forest);letter-spacing:0.04em;}
+.lp-nav-pill{background:var(--forest);color:#fff;font-size:11px;
+  font-weight:600;padding:6px 16px;border-radius:50px;
+  letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;
+  transition:background 0.2s ease,transform 0.2s ease;border:none;}
+.lp-nav-pill:hover{background:var(--forest-mid);transform:translateY(-1px);}
+.lp-hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:100px 48px 60px;gap:60px;
+  max-width:1280px;margin:0 auto;position:relative;}
+.lp-eyebrow{display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:600;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--sage);margin-bottom:28px;
+  opacity:0;animation:reveal-left 0.7s 0.2s ease forwards;}
+.lp-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.lp-headline{font-family:'Playfair Display',serif;
+  font-size:clamp(42px,4.5vw,68px);font-weight:900;line-height:1.06;
+  color:var(--ink);margin-bottom:8px;
+  opacity:0;animation:reveal-up 0.8s 0.35s ease forwards;}
+.lp-headline-accent{font-family:'Playfair Display',serif;
+  font-size:clamp(42px,4.5vw,68px);font-weight:900;line-height:1.06;
+  font-style:italic;color:var(--forest);display:block;margin-bottom:24px;
+  opacity:0;animation:reveal-up 0.8s 0.45s ease forwards;}
+.lp-subtext{font-size:15px;line-height:1.8;color:var(--warm-grey);
+  max-width:480px;margin-bottom:36px;
+  opacity:0;animation:reveal-up 0.8s 0.6s ease forwards;}
+.lp-cta-group{display:flex;flex-direction:column;gap:14px;
+  opacity:0;animation:reveal-up 0.8s 0.75s ease forwards;}
+.lp-cta-primary{position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--forest);color:#fff;font-size:16px;font-weight:600;
+  padding:18px 36px;border-radius:4px;border:none;cursor:pointer;
+  width:fit-content;letter-spacing:0.01em;font-family:'DM Sans',sans-serif;
+  transition:transform 0.25s ease,box-shadow 0.25s ease;
+  box-shadow:0 8px 32px rgba(28,74,50,0.28);}
+.lp-cta-primary::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
+  background-size:200% 100%;animation:shimmer 3s ease infinite;}
+.lp-cta-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(28,74,50,0.35);}
+.lp-cta-arrow{width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,0.15);display:flex;
+  align-items:center;justify-content:center;font-size:16px;
+  transition:transform 0.2s ease;}
+.lp-cta-primary:hover .lp-cta-arrow{transform:translateX(3px);}
+.lp-trust-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.lp-avatars{display:flex;}
+.lp-avatar{width:32px;height:32px;border-radius:50%;
+  border:2px solid var(--cream);font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  margin-left:-8px;position:relative;}
+.lp-avatar:first-child{margin-left:0;}
+.lp-trust-text{font-size:12px;color:var(--warm-grey);}
+.lp-stars{color:var(--gold);font-size:13px;}
+.lp-hero-right{opacity:0;animation:reveal-up 0.9s 0.5s ease forwards;}
+.lp-stat-card{background:#fff;border:1px solid var(--border);
+  border-radius:16px;padding:32px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.06);position:relative;}
+.lp-stat-card-label{font-size:11px;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--warm-grey);margin-bottom:24px;}
+.lp-big-stat{font-family:'Playfair Display',serif;
+  font-size:72px;font-weight:900;line-height:1;color:var(--forest);margin-bottom:4px;}
+.lp-big-stat-label{font-size:12px;color:var(--warm-grey);
+  margin-bottom:24px;letter-spacing:0.06em;text-transform:uppercase;}
+.lp-stat-bar{width:100%;height:6px;background:#f0f0ee;
+  border-radius:3px;margin-bottom:4px;overflow:hidden;}
+.lp-stat-bar-fill{height:100%;
+  background:linear-gradient(90deg,var(--forest),var(--sage));
+  border-radius:3px;width:0%;transition:width 1.8s 0.5s ease;}
+.lp-mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.lp-mini-stat{background:var(--cream);border-radius:10px;padding:16px;}
+.lp-mini-stat-num{font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:700;color:var(--ink);}
+.lp-mini-stat-label{font-size:11px;color:var(--warm-grey);margin-top:2px;line-height:1.4;}
+.lp-blob{position:absolute;width:420px;height:420px;
+  background:radial-gradient(circle at 40% 40%,rgba(74,140,100,0.07),transparent 70%);
+  border-radius:60% 40% 30% 70%/60% 30% 70% 40%;
+  animation:morph 12s ease-in-out infinite,float-slow 8s ease-in-out infinite;
+  pointer-events:none;z-index:0;}
+.lp-ticker-wrap{background:var(--forest);padding:13px 0;overflow:hidden;}
+.lp-ticker{display:flex;width:max-content;animation:ticker 22s linear infinite;}
+.lp-ticker-item{display:flex;align-items:center;white-space:nowrap;}
+.lp-ticker-text{font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);
+  padding:0 32px;letter-spacing:0.05em;text-transform:uppercase;}
+.lp-ticker-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;}
+.lp-benefits{padding:100px 48px;max-width:1280px;margin:0 auto;}
+.lp-section-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--sage);text-align:center;margin-bottom:16px;}
+.lp-section-title{font-family:'Playfair Display',serif;
+  font-size:clamp(36px,3.5vw,52px);font-weight:900;line-height:1.1;
+  text-align:center;color:var(--ink);margin-bottom:8px;}
+.lp-section-title em{font-style:italic;color:var(--forest);}
+.lp-section-sub{text-align:center;font-size:15px;color:var(--warm-grey);
+  line-height:1.75;max-width:520px;margin:0 auto 64px;}
+.lp-benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.lp-benefit-card{background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:36px 32px;position:relative;overflow:hidden;
+  transition:transform 0.3s ease,box-shadow 0.3s ease;cursor:default;}
+.lp-benefit-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.08);}
+.lp-benefit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--forest),var(--sage));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;}
+.lp-benefit-card:hover::before{transform:scaleX(1);}
+.lp-benefit-num{font-family:'Playfair Display',serif;font-size:52px;
+  font-weight:900;color:rgba(0,0,0,0.05);line-height:1;margin-bottom:16px;}
+.lp-benefit-title{font-size:18px;font-weight:700;color:var(--ink);
+  margin-bottom:10px;font-family:'DM Sans',sans-serif;}
+.lp-benefit-body{font-size:14px;color:var(--warm-grey);line-height:1.75;}
+.lp-testimonials{background:var(--ink);padding:100px 48px;}
+.lp-testimonials-inner{max-width:1280px;margin:0 auto;}
+.lp-testimonials-title{font-family:'Playfair Display',serif;
+  font-size:clamp(32px,3vw,48px);font-weight:900;color:#fff;
+  text-align:center;margin-bottom:60px;line-height:1.15;}
+.lp-testimonials-title em{color:#e8c84a;font-style:italic;}
+.lp-testi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.lp-testi-card{background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:32px;
+  transition:background 0.3s ease,transform 0.3s ease;}
+.lp-testi-card:hover{background:rgba(255,255,255,0.07);transform:translateY(-4px);}
+.lp-testi-quote{font-size:13px;color:rgba(255,255,255,0.75);
+  line-height:1.8;margin-bottom:24px;font-style:italic;}
+.lp-testi-author{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.lp-testi-avatar{width:40px;height:40px;border-radius:50%;font-size:14px;
+  font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lp-testi-name{font-size:13px;font-weight:700;color:#fff;}
+.lp-testi-role{font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px;}
+.lp-testi-badge{margin-left:auto;background:rgba(74,140,100,0.25);
+  color:rgba(160,220,160,0.9);font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:20px;flex-shrink:0;}
+.lp-final-cta{padding:120px 48px;text-align:center;
+  background:var(--cream);position:relative;overflow:hidden;}
+.lp-final-cta-inner{max-width:640px;margin:0 auto;position:relative;z-index:1;}
+.lp-final-headline{font-family:'Playfair Display',serif;
+  font-size:clamp(36px,4vw,56px);font-weight:900;
+  line-height:1.1;color:var(--ink);margin-bottom:12px;}
+.lp-final-headline em{font-style:italic;color:var(--forest);}
+.lp-final-sub{font-size:15px;color:var(--warm-grey);line-height:1.75;margin-bottom:40px;}
+.lp-final-cta-bg{position:absolute;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(28,74,50,0.06) 0%,transparent 70%);
+  border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+@media(max-width:768px){
+  .lp-hero{grid-template-columns:1fr;padding:88px 24px 40px;gap:40px;}
+  .lp-hero-right{display:none;}
+  .lp-nav{padding:16px 24px;}
+  .lp-benefits{padding:60px 24px;}
+  .lp-benefits-grid{grid-template-columns:1fr;}
+  .lp-testimonials{padding:60px 24px;}
+  .lp-testi-grid{grid-template-columns:1fr;}
+  .lp-final-cta{padding:80px 24px;}
+  .lp-headline{font-size:36px;}
 }
 `
 
@@ -1112,269 +1322,207 @@ export default function Page() {
 
   /* ══════════════ START ══════════════ */
   if (screen === 'start') return (
-    <div style={{ minHeight: '100vh', background: '#f5f2ee', display: 'flex', flexDirection: 'column' }}>
+    <div className="lp-root">
       <style>{CSS}</style>
-      {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
-      <SiteHeader screen="start" currentQ={0} />
+      <div className="grain-overlay" />
 
-      {/* ── SECTION 1: HERO ── */}
-      <section style={{ background: '#f5f2ee' }}>
-        <div className="hero-grid hero-inner" style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 60px 60px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
+      <nav className="lp-nav">
+        <div className="lp-nav-logo">The5th Consulting</div>
+        <div style={{display:'flex',alignItems:'center',gap:24}}>
+          <span style={{fontSize:13,color:'var(--warm-grey)'}}>Free · 5 min quiz</span>
+          <button className="lp-nav-pill" onClick={() => setScreen('quiz')}>
+            Take The Quiz
+          </button>
+        </div>
+      </nav>
 
-          {/* LEFT COLUMN */}
-          <div style={{ animation: 'fadeInLeft 0.8s ease both' }}>
-            {/* Label */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#666', textTransform: 'uppercase' }}>
-                — WORLD&apos;S MOST POWERFUL AI BUSINESS QUIZ
-              </span>
-            </div>
-            {/* Headline */}
-            <div style={{ marginBottom: 16 }}>
-              <div className="hero-headline-line" style={{ fontSize: 64, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.0 }}>Discover Your</div>
-              <div className="hero-headline-line" style={{ fontSize: 64, fontWeight: 800, color: '#225840', fontStyle: 'italic', lineHeight: 1.0 }}>$10K/Month</div>
-              <div className="hero-headline-line" style={{ fontSize: 64, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.0 }}>Blueprint</div>
-            </div>
-            {/* Subtext */}
-            <div style={{ fontSize: 14, color: '#888', fontStyle: 'italic', marginBottom: 24 }}>
-              Trained on $15M+ of real coaching data
-            </div>
-            {/* Body copy */}
-            <p style={{ fontSize: 16, color: '#444', lineHeight: 1.7, marginBottom: 32 }}>
-              Answer <strong>20 deep questions</strong> and get your personalized $10K blueprint — plus a <strong>free 7-day AI coaching email series</strong> built specifically from your answers. Your niche, your offer, your pricing. Zero templates. Powered by The5th AI acting as your personal CMO.
-            </p>
-            {/* Social proof row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32, flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex' }}>
-                {[
-                  { init: 'A', bg: '#e8d5b7' },
-                  { init: 'L', bg: '#d4e8d5' },
-                  { init: 'S', bg: '#d5d4e8' },
-                  { init: 'M', bg: '#e8d5d5' },
-                  { init: 'R', bg: '#d5e8e8' },
-                ].map(({ init, bg }, idx) => (
-                  <div key={idx} style={{ width: 36, height: 36, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, marginLeft: idx > 0 ? -8 : 0, border: '2px solid #f5f2ee', position: 'relative', zIndex: 5 - idx }}>
-                    {init}
-                  </div>
-                ))}
-              </div>
-              <span style={{ fontSize: 18 }}>⭐⭐⭐⭐⭐</span>
-              <span style={{ fontSize: 13, color: '#666' }}>2,400+ coaches already got their blueprint</span>
-            </div>
-            {/* CTA Button */}
-            <button
-              onClick={() => setScreen('quiz')}
-              style={{ background: '#225840', color: 'white', fontSize: 17, fontWeight: 700, padding: '18px 40px', borderRadius: 50, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, animation: 'pulseGlow 2s infinite', marginBottom: 12, width: 'fit-content', transition: 'background 0.2s ease, transform 0.2s ease' }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#1a4a35'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#225840'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              Find My Business Blueprint
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>→</div>
-            </button>
-            <div style={{ fontSize: 12, color: '#999' }}>Free · 5 minutes · 7-day personalized AI coaching included</div>
+      <section className="lp-hero">
+        <div className="lp-blob" style={{top:'-80px',right:'-40px'}} />
+
+        <div style={{position:'relative',zIndex:1}}>
+          <div className="lp-eyebrow">
+            <div className="lp-eyebrow-dot" />
+            Free AI Business Blueprint
           </div>
-
-          {/* RIGHT COLUMN — Stats Panel */}
-          <div style={{ animation: 'fadeInRight 0.8s ease 0.2s both' }}>
-            <div style={{ background: 'white', borderRadius: 20, padding: 32, boxShadow: '0 4px 40px rgba(0,0,0,0.08)' }}>
-              {/* Top stat */}
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ fontSize: 56, fontWeight: 900, color: '#225840', lineHeight: 1 }}>98%</div>
-                <div style={{ fontSize: 10, letterSpacing: '2px', color: '#888', textTransform: 'uppercase', marginBottom: 8 }}>OF QUIZ TAKERS GET CLARITY ON THEIR OFFER</div>
-                <div style={{ width: '100%', height: 6, background: '#f0f0f0', borderRadius: 3 }}>
-                  <div style={{ width: '98%', height: '100%', background: 'linear-gradient(90deg, #225840, #4a9a6a)', borderRadius: 3 }} />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#aaa', marginTop: 4 }}>
-                  <span>0%</span><span>2,400 coaches profiled</span><span>100%</span>
-                </div>
-              </div>
-              {/* 4 mini stat cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-                {[
-                  { num: '$15M+', numColor: '#b8960c', label: 'Real coaching data trained into this AI' },
-                  { num: '7', numColor: '#1a1a1a', label: 'Unique business profiles mapped' },
-                  { num: '93%', numColor: '#225840', label: 'Niche clarity achieved' },
-                  { num: '30', numColor: '#1a1a1a', label: 'Day action plan generated for you' },
-                ].map(({ num, numColor, label }) => (
-                  <div key={num} style={{ background: '#f9f9f9', borderRadius: 12, padding: 16 }}>
-                    <div style={{ fontSize: 28, fontWeight: 800, color: numColor }}>{num}</div>
-                    <div style={{ fontSize: 11, color: '#888', marginTop: 2, lineHeight: 1.4 }}>{label}</div>
+          <h1 className="lp-headline">
+            If you&apos;re over 40,<br />you already have
+          </h1>
+          <span className="lp-headline-accent">what it takes.</span>
+          <p className="lp-subtext">
+            You&apos;ve spent years building real expertise. Maybe raising a family,
+            surviving a career shift, or simply living through things most people
+            only read about. That experience is worth something. Probably more than
+            you think. Take our 20-question quiz and get a free personalised roadmap
+            showing exactly how to turn what you know into consistent income.
+          </p>
+          <div className="lp-cta-group">
+            <button className="lp-cta-primary" onClick={() => setScreen('quiz')}>
+              Find My Business Blueprint
+              <div className="lp-cta-arrow">&#8594;</div>
+            </button>
+            <div className="lp-trust-row">
+              <div className="lp-avatars">
+                {[{i:'L',bg:'#d4e8d5'},{i:'A',bg:'#e8d5b7'},{i:'J',bg:'#d5d4e8'},
+                  {i:'M',bg:'#e8d5d5'},{i:'S',bg:'#d5e8e8'}].map((a,idx) => (
+                  <div key={idx} className="lp-avatar"
+                    style={{background:a.bg,color:'#333',zIndex:5-idx}}>
+                    {a.i}
                   </div>
                 ))}
               </div>
-              {/* Testimonial cards */}
+              <span className="lp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              <span className="lp-trust-text">2,400+ women got their blueprint</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="lp-hero-right">
+          <div className="lp-stat-card">
+            <div className="lp-stat-card-label">Quiz takers who get offer clarity</div>
+            <div className="lp-big-stat">98%</div>
+            <div className="lp-big-stat-label">clarity rate</div>
+            <div className="lp-stat-bar">
+              <div className="lp-stat-bar-fill"
+                ref={(el) => { if(el) setTimeout(()=>{el.style.width='98%';},300); }} />
+            </div>
+            <div style={{display:'flex',justifyContent:'space-between',
+              fontSize:11,color:'var(--warm-grey)',marginBottom:20,marginTop:4}}>
+              <span>0%</span><span>2,400 profiled</span><span>100%</span>
+            </div>
+            <div className="lp-mini-stats">
               {[
-                {
-                  quote: 'After 12 years as a fitness coach I closed my first VIP client at $8,500 in a single call — the quiz showed me exactly how to reframe my offer.',
-                  init: 'A', avatarBg: '#e8f5ee',
-                  name: 'Amelia Ramsey', role: 'Health Transformation Coach', badge: '$8,500 per VIP client',
-                },
-                {
-                  quote: 'I was charging $200 per session. Two weeks after the quiz I restructured and sold a $4,500 package in one conversation.',
-                  init: 'L', avatarBg: '#d4e8d5',
-                  name: 'Laurie Gerber', role: 'Dating & Relationships Coach', badge: '$4,500 per client',
-                },
-              ].map(({ quote, init, avatarBg, name, role, badge }, i) => (
-                <div key={i} style={{ background: 'white', border: '1px solid #eee', borderRadius: 12, padding: 20, marginTop: 12, position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: 14, right: 16, fontSize: 28, color: '#225840', lineHeight: 1, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
-                  <p style={{ fontSize: 13, color: '#444', lineHeight: 1.6, marginBottom: 12, paddingRight: 24 }}>{quote}</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{init}</div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a' }}>{name}</div>
-                      <div style={{ fontSize: 11, color: '#888' }}>{role}</div>
-                    </div>
-                    <div style={{ background: '#e8f5ee', color: '#225840', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0 }}>{badge}</div>
-                  </div>
+                {num:'20',label:'Deep questions that reveal your path'},
+                {num:'7',label:'Business archetypes mapped'},
+                {num:'$15M+',label:'Real coaching data trained in'},
+                {num:'45s',label:'To generate your roadmap'},
+              ].map((s,i) => (
+                <div key={i} className="lp-mini-stat">
+                  <div className="lp-mini-stat-num">{s.num}</div>
+                  <div className="lp-mini-stat-label">{s.label}</div>
                 </div>
               ))}
+            </div>
+            <div style={{marginTop:20,padding:'16px 20px',
+              background:'var(--cream)',borderRadius:10,
+              borderLeft:'3px solid var(--forest)'}}>
+              <p style={{fontSize:12,color:'#555',lineHeight:1.65,
+                fontStyle:'italic',margin:0}}>
+                &ldquo;I had spent over $10,000 on coaches before. None gave me
+                the clarity Indrodip did. Six weeks later I closed my first client.&rdquo;
+              </p>
+              <div style={{fontSize:11,fontWeight:700,color:'var(--forest)',marginTop:8}}>
+                Jeanne T. &mdash; Business Coach
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── SECTION 2: MARQUEE TICKER BAR ── */}
-      <section style={{ background: '#225840', padding: '14px 0', overflow: 'hidden' }}>
-        <div style={{ display: 'flex', animation: 'marquee 20s linear infinite', width: 'max-content' }}>
-          {[0, 1].map((pass) => (
-            <div key={pass} style={{ display: 'flex', alignItems: 'center' }}>
-              {['Niche Clarity', 'Offer Design', 'Pricing Strategy', '30-Day Action Plan', 'Content Roadmap', 'AI-Powered Results'].map((item, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.8)', padding: '0 32px', whiteSpace: 'nowrap' }}>{item}</span>
-                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'rgba(255,255,255,0.5)', flexShrink: 0 }} />
-                </div>
+      <div className="lp-ticker-wrap">
+        <div className="lp-ticker">
+          {[0,1].map(pass => (
+            <div key={pass} style={{display:'flex',alignItems:'center'}}>
+              {['Niche Clarity','Signature Offer','Pricing Strategy',
+                '7-Day Content Plan','30-Day Roadmap','Lead Magnet',
+                'Digital Product','AI Coaching'].map((item,i) => (
+                <React.Fragment key={i}>
+                  <span className="lp-ticker-text">{item}</span>
+                  <div className="lp-ticker-dot" />
+                </React.Fragment>
               ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <section className="lp-benefits">
+        <div className="lp-section-eyebrow">What You Get &mdash; Completely Free</div>
+        <h2 className="lp-section-title">
+          Not a generic quiz.<br /><em>Your actual blueprint.</em>
+        </h2>
+        <p className="lp-section-sub">
+          Most online quizzes put you in a box and hand you a PDF everyone else got too.
+          This is different. Each roadmap is written for you, about you,
+          around what you actually told us.
+        </p>
+        <div className="lp-benefits-grid">
+          {[
+            {num:'01',title:'Your $10K Personalised Blueprint',
+              body:'20 answers analysed against 2,400+ real coaching profiles. Your niche, your offer, your pricing, your 30-day plan. Not a template. Yours.'},
+            {num:'02',title:'7 Days of AI Coaching Emails',
+              body:'For a week after your quiz, The5th AI sends you one coaching email a day written from your exact answers. Real homework. Real strategies. Not recycled advice.'},
+            {num:'03',title:'Your Personalised Video',
+              body:'Based on where you are in your business journey, we created a short video speaking directly to your stage. Just the one thing you probably need to hear right now.'},
+          ].map((b,i) => (
+            <div key={i} className="lp-benefit-card">
+              <div className="lp-benefit-num">{b.num}</div>
+              <div className="lp-benefit-title">{b.title}</div>
+              <div className="lp-benefit-body">{b.body}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── SECTION 3: BENEFITS ── */}
-      <section className="lp-section-pad" style={{ background: '#f5f2ee', padding: '100px 60px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <AnimateOnScroll>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#888', textAlign: 'center', marginBottom: 16, textTransform: 'uppercase' }}>
-              WHAT YOU GET — COMPLETELY FREE
-            </div>
-            <div style={{ textAlign: 'center', marginBottom: 60 }}>
-              <div style={{ fontSize: 52, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.1 }}>Not a generic quiz.</div>
-              <div style={{ fontSize: 52, fontWeight: 800, color: '#225840', fontStyle: 'italic', lineHeight: 1.1 }}>Your personal AI CMO for 7 days.</div>
-            </div>
-          </AnimateOnScroll>
-          <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
+      <section className="lp-testimonials">
+        <div className="lp-testimonials-inner">
+          <h2 className="lp-testimonials-title">
+            Real women.<br /><em>Real results.</em>
+          </h2>
+          <div className="lp-testi-grid">
             {[
-              { num: '01', bg: '#e8f0e8', title: 'Your Instant $10K Blueprint', body: '20 deep questions analyzed against 2,400+ real coaching profiles. Your niche, your offer, your pricing strategy, and 4-week roadmap — generated in seconds, built only for you.', delay: 0 },
-              { num: '02', bg: '#f0ece4', title: '7-Day AI CMO Email Series', body: 'For 7 days after your quiz, The5th AI sends you one daily coaching email written from your exact answers — with real homework assignments. Zero templates. Never recycled.', delay: 150 },
-              { num: '03', bg: '#e4eaf0', title: 'Hyper-Personalized Guidance', body: 'Every email references your specific pain, your zone of genius, your pricing block, your goals. It reads like someone who truly knows your business — because The5th AI does.', delay: 300 },
-            ].map(({ num, bg, title, body, delay }) => (
-              <AnimateOnScroll key={num} delay={delay}>
-                <div className="lp-benefit-card" style={{ background: bg, borderRadius: 20, padding: 40, height: '100%' }}>
-                  <div style={{ fontSize: 56, fontWeight: 900, color: 'rgba(0,0,0,0.08)', marginBottom: 16, lineHeight: 1 }}>{num}</div>
-                  <h3 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>{title}</h3>
-                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7 }}>{body}</p>
-                </div>
-              </AnimateOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 4: TABLET REVEAL ── */}
-      <section style={{ background: '#f5f2ee', padding: '0 0 100px' }}>
-        <div className="lp-section-pad" style={{ padding: '0 60px' }}>
-          <LandingTabletMockup />
-        </div>
-      </section>
-
-      {/* ── SECTION 5: HOW IT WORKS ── */}
-      <section className="lp-section-pad" style={{ background: 'white', padding: '100px 60px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <AnimateOnScroll>
-            <div style={{ textAlign: 'center', marginBottom: 60 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#888', textTransform: 'uppercase', marginBottom: 16 }}>HOW IT WORKS</div>
-              <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.1 }}>Three steps. One blueprint. Built for you.</h2>
-            </div>
-          </AnimateOnScroll>
-          <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32, alignItems: 'stretch' }}>
-            {[
-              { bg: '#e8f0e8', mockup: <BrowserMockup />, title: 'Answer 20 Deep Questions', body: "Tell us about your expertise, your niche, your goals, and what's blocking you. Our AI listens to every answer.", delay: 0 },
-              { bg: '#f0ece4', mockup: <PhoneMockup />, title: 'Get Your AI Blueprint', body: "In seconds, The5th AI generates your personalized $10K roadmap — built from your exact profile, not a template.", delay: 120 },
-              { bg: '#e4eaf0', mockup: <ChatMockup />, title: '7 Days of AI Coaching', body: 'Every day for 7 days, you receive a personalized coaching email with real assignments. Your AI CMO, on demand.', delay: 240 },
-            ].map(({ bg, mockup, title, body, delay }) => (
-              <AnimateOnScroll key={title} delay={delay} style={{ height: '100%' }}>
-                <div className="lp-step-card" style={{ background: bg, borderRadius: 20, padding: 32, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ maxHeight: 240, overflow: 'hidden', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{mockup}</div>
+              {quote:'After a failed launch I had lost confidence completely. We rebuilt the strategy, repositioned my pricing from $79 to $225, and within three months generated $26,000 in revenue.',
+                name:'Laurie Gerber',role:'Online Course Creator',badge:'$26K in 3 months',init:'L',bg:'#2a5c3a'},
+              {quote:'I had spoken to multiple agencies before finding Indrodip. None delivered. Within one month I became an Amazon bestselling author. I honestly did not think it would happen that fast.',
+                name:'Abbas Jamie',role:'Author and Speaker',badge:'Bestselling Author',init:'A',bg:'#3a3a5c'},
+              {quote:'I had spent over $10,000 on coaches before. None gave me the clarity he did. He rebuilt how I saw my business from niche to offer to the sales conversation. Six weeks later I closed my first client.',
+                name:'Jeanne Tomasak',role:'Business Coach',badge:'First client in 6 weeks',init:'J',bg:'#5c3a3a'},
+              {quote:'Twenty years running education programs across the UK. I burned through $25,000 on coaches who did not get my context. Two months with Indrodip and I closed my first $2,500 sale. For someone who had nearly given up, that meant everything.',
+                name:'Angela Gregg',role:'Education Director',badge:'$2,500 first sale',init:'G',bg:'#3a5c4a'},
+            ].map((t,i) => (
+              <div key={i} className="lp-testi-card">
+                <p className="lp-testi-quote">&ldquo;{t.quote}&rdquo;</p>
+                <div className="lp-testi-author">
+                  <div className="lp-testi-avatar" style={{background:t.bg,color:'#fff'}}>
+                    {t.init}
+                  </div>
                   <div>
-                    <h3 style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>{title}</h3>
-                    <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7 }}>{body}</p>
+                    <div className="lp-testi-name">{t.name}</div>
+                    <div className="lp-testi-role">{t.role}</div>
                   </div>
+                  <div className="lp-testi-badge">{t.badge}</div>
                 </div>
-              </AnimateOnScroll>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SECTION 6: TESTIMONIALS ── */}
-      <section className="lp-section-pad" style={{ background: '#f5f2ee', padding: '100px 60px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <AnimateOnScroll>
-            <div style={{ textAlign: 'center', marginBottom: 60 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#888', textTransform: 'uppercase', marginBottom: 16 }}>REAL RESULTS</div>
-              <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1a1a1a' }}>What coaches are saying</h2>
-            </div>
-          </AnimateOnScroll>
-          <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
-            {[
-              { init: 'J', avatarBg: '#e8d5b7', name: 'Jeanné Tomasak', role: 'Passion Coach', badge: 'First client in 15 days', quote: "I'd been sitting on my expertise for 2 years not knowing where to start. The quiz gave me a roadmap that finally made sense for MY situation. Within 15 days I had my first paying client.", delay: 0 },
-              { init: 'L', avatarBg: '#d4e8d5', name: 'Laurie Gerber', role: 'Dating Coach · 20 years in the dating industry', badge: '$4,500 first package', quote: "I was skeptical about another quiz. But the AI roadmap it generated was so specific to me — my platform, my challenge, my timeline. I made my first sale in week two.", delay: 100 },
-              { init: 'V', avatarBg: '#d5d4e8', name: 'Jennifer Van Edwards', role: 'Communication Coach', badge: 'Game changer', quote: "I've done every program out there. This was different because it started with where I actually am — not where some generic template assumes I am. Game changer.", delay: 200 },
-            ].map(({ init, avatarBg, name, role, badge, quote, delay }) => (
-              <AnimateOnScroll key={name} delay={delay}>
-                <div className="lp-testimonial" style={{ background: 'white', borderRadius: 16, padding: 32, boxShadow: '0 2px 20px rgba(0,0,0,0.06)', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, flexShrink: 0 }}>{init}</div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, color: '#1a1a1a', fontSize: 15 }}>{name}</div>
-                      <div style={{ fontSize: 12, color: '#888' }}>{role}</div>
-                    </div>
-                    <div style={{ background: '#e8f5ee', color: '#225840', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0 }}>{badge}</div>
-                  </div>
-                  <div style={{ color: '#f0a500', fontSize: 14, marginBottom: 12 }}>⭐⭐⭐⭐⭐</div>
-                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.7, fontStyle: 'italic', flex: 1 }}>&ldquo;{quote}&rdquo;</p>
-                </div>
-              </AnimateOnScroll>
-            ))}
+      <section className="lp-final-cta">
+        <div className="lp-final-cta-bg" />
+        <div className="lp-final-cta-inner">
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:'0.14em',
+            textTransform:'uppercase',color:'var(--sage)',marginBottom:16}}>
+            Start Now &mdash; It Is Free
           </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 7: FINAL CTA ── */}
-      <section className="lp-section-pad" style={{ background: '#1a3a2a', padding: '120px 60px', textAlign: 'center' }}>
-        <AnimateOnScroll>
-          <div style={{ fontSize: 11, letterSpacing: '3px', color: 'rgba(255,255,255,0.5)', marginBottom: 20, textTransform: 'uppercase' }}>
-            START NOW — IT IS FREE
-          </div>
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 56, fontWeight: 800, color: 'white', lineHeight: 1.1 }}>Ready to find your</div>
-            <div style={{ fontSize: 56, fontWeight: 800, color: '#7dd4a0', fontStyle: 'italic', lineHeight: 1.1 }}>$10K/Month blueprint?</div>
-          </div>
-          <p style={{ color: 'rgba(255,255,255,0.6)', maxWidth: 500, margin: '0 auto 40px', fontSize: 16, lineHeight: 1.7 }}>
-            Join 2,400+ coaches who discovered exactly what their business needs to reach consistent $10K months.
+          <h2 className="lp-final-headline">
+            You already have<br /><em>what it takes.</em>
+          </h2>
+          <p className="lp-final-sub">
+            You just need the roadmap. 20 questions. 45 seconds to generate.
+            A plan built entirely around your experience, your goals,
+            and where you actually are right now.
           </p>
-          <button
-            onClick={() => setScreen('quiz')}
-            style={{ background: 'white', color: '#1a3a2a', fontSize: 17, fontWeight: 700, padding: '18px 40px', borderRadius: 50, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16, transition: 'transform 0.2s ease' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
-          >
-            Take the Free Quiz Now →
+          <button className="lp-cta-primary" onClick={() => setScreen('quiz')}
+            style={{margin:'0 auto'}}>
+            Take The Free Quiz
+            <div className="lp-cta-arrow">&#8594;</div>
           </button>
-          <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>Free · 5 minutes · 7-day AI coaching series included</div>
-        </AnimateOnScroll>
+          <div style={{marginTop:16,fontSize:12,color:'var(--warm-grey)'}}>
+            Free &middot; 5 minutes &middot; No credit card
+          </div>
+        </div>
       </section>
 
-      <Footer />
     </div>
   )
 
