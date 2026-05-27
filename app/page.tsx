@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion'
 
 /* ─── Types ─── */
 type QuizAnswers = Record<string, string | string[]>
@@ -988,6 +989,527 @@ function LandingTabletMockup() {
   )
 }
 
+/* ─── Landing page data ─── */
+const LP_TICKER = ['Niche Clarity','Signature Offer','Pricing Strategy','7-Day Content Plan','30-Day Roadmap','Lead Magnet','Digital Product','AI Coaching']
+
+const LP_BENEFITS = [
+  { num:'01', title:'Your $10K Personalised Blueprint',
+    body:'20 answers analysed against 2,400 real coaching profiles. Your niche, your offer, your pricing, your 30-day plan. Not a template. Not recycled advice. Yours.' },
+  { num:'02', title:'7 Days of AI Coaching Emails',
+    body:'For a week after your quiz, The5th AI sends you one coaching email a day written from your exact answers. Real homework. Real strategies. It reads like someone who actually knows your situation — because it does.' },
+  { num:'03', title:'Your Personalised Video',
+    body:'Based on where you are in your business journey, we created a short video speaking directly to your stage. Not a webinar replay. Just the one thing you probably need to hear right now.' },
+]
+
+const LP_TESTIMONIALS = [
+  { quote:'After a failed launch I had lost confidence completely. We rebuilt the strategy, repositioned my pricing from $79 to $225, and within three months generated $26,000 in revenue. I still find that number hard to believe.',
+    name:'Laurie Gerber', role:'Online Course Creator', badge:'$26K in 3 months', init:'L', bg:'#2a5c3a' },
+  { quote:'I had spoken to multiple agencies before finding Indrodip. None delivered. Within one month I became an Amazon bestselling author. I honestly did not think it would happen that fast.',
+    name:'Abbas Jamie', role:'Author and Speaker', badge:'Bestselling Author', init:'A', bg:'#3a3a5c' },
+  { quote:'I had spent over $10,000 on coaches before working with Indrodip. None gave me the clarity he did. He rebuilt how I saw my business from niche to offer to the sales conversation. Six weeks later I closed my first client.',
+    name:'Jeanne Tomasak', role:'Business Coach', badge:'First client in 6 weeks', init:'J', bg:'#5c3a3a' },
+  { quote:'Twenty years running education programs across the UK. I burned through $25,000 on coaches who did not get my context. Two months with Indrodip and I closed my first $2,500 sale. For someone who had nearly given up, that meant everything.',
+    name:'Angela Gregg', role:'Education Director', badge:'$2,500 first sale', init:'G', bg:'#3a5c4a' },
+]
+
+const LP_CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+:root{--cream:#faf6f1;--ink:#0d0d0b;--forest:#1c4a32;--forest-mid:#2a6647;--sage:#4a8c64;--gold:#b8920a;--warm-grey:#8a8680;--border:rgba(28,74,50,0.12);}
+.lp2{min-height:100vh;background:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
+.lp2 *,.lp2 *::before,.lp2 *::after{box-sizing:border-box;margin:0;padding:0;}
+.lp2-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 64px;background:rgba(250,246,241,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.lp2-logo{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);letter-spacing:.04em;}
+.lp2-nav-right{display:flex;align-items:center;gap:24px;}
+.lp2-nav-hint{font-size:13px;color:var(--warm-grey);}
+.lp2-pill{background:var(--forest);color:#fff;font-size:11px;font-weight:600;padding:8px 20px;border-radius:50px;letter-spacing:.06em;text-transform:uppercase;cursor:none;border:none;font-family:'DM Sans',sans-serif;}
+.lp2-hero-wrap{position:relative;overflow:hidden;}
+.lp2-hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 64px 60px;gap:64px;max-width:1320px;margin:0 auto;position:relative;z-index:1;}
+.lp2-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:28px;}
+.lp2-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.lp2-h1{font-family:'Playfair Display',serif;font-size:clamp(44px,4.8vw,70px);font-weight:900;line-height:1.04;color:var(--ink);}
+.lp2-h1-accent{font-family:'Playfair Display',serif;font-size:clamp(44px,4.8vw,70px);font-weight:900;line-height:1.04;font-style:italic;color:var(--forest);display:block;margin-bottom:28px;}
+.lp2-sub{font-size:15px;line-height:1.82;color:var(--warm-grey);max-width:460px;margin-bottom:40px;}
+.lp2-cta-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:16px;}
+.lp2-cta{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:14px;background:var(--forest);color:#fff;font-size:15px;font-weight:600;padding:18px 36px;border-radius:4px;border:none;cursor:none;letter-spacing:.01em;font-family:'DM Sans',sans-serif;box-shadow:0 8px 32px rgba(28,74,50,0.28);}
+.lp2-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.1) 50%,transparent 100%);background-size:200% 100%;animation:lp2sh 2.8s linear infinite;}
+@keyframes lp2sh{0%{background-position:-200% center}100%{background-position:200% center}}
+.lp2-arrow{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.lp2-trust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.lp2-avatars{display:flex;}
+.lp2-av{width:32px;height:32px;border-radius:50%;border:2px solid var(--cream);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-left:-8px;}
+.lp2-av:first-child{margin-left:0;}
+.lp2-stars{color:var(--gold);font-size:13px;letter-spacing:1px;}
+.lp2-trust-txt{font-size:12px;color:var(--warm-grey);}
+.lp2-blob{position:absolute;width:480px;height:480px;background:radial-gradient(circle at 40% 40%,rgba(74,140,100,0.09),transparent 70%);pointer-events:none;z-index:0;}
+.lp2-stat-card{background:#fff;border:1px solid var(--border);border-left:3px solid var(--forest);border-radius:20px;padding:36px;box-shadow:0 24px 64px rgba(0,0,0,0.07);}
+.lp2-card-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:20px;}
+.lp2-big-num{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;line-height:1;color:var(--forest);}
+.lp2-big-sub{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--warm-grey);margin:6px 0 20px;}
+.lp2-bar-track{width:100%;height:5px;background:#f0efee;border-radius:3px;overflow:hidden;margin-bottom:4px;}
+.lp2-bar-fill{height:100%;background:linear-gradient(90deg,var(--forest),var(--sage));border-radius:3px;transition:width 1.8s cubic-bezier(0.16,1,0.3,1);}
+.lp2-bar-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--warm-grey);margin-bottom:24px;}
+.lp2-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.lp2-mini{background:var(--cream);border-radius:10px;padding:14px 16px;}
+.lp2-mini-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);line-height:1;margin-bottom:4px;}
+.lp2-mini-lbl{font-size:10px;color:var(--warm-grey);line-height:1.45;}
+.lp2-cq{padding:16px 18px;background:var(--cream);border-radius:10px;border-left:3px solid var(--forest);}
+.lp2-cq-txt{font-size:12px;color:#555;line-height:1.65;font-style:italic;}
+.lp2-cq-attr{font-size:11px;font-weight:700;color:var(--forest);margin-top:8px;}
+.lp2-ticker-wrap{background:var(--forest);padding:14px 0;overflow:hidden;}
+.lp2-ticker-inner{display:flex;width:max-content;}
+.lp2-ticker-txt{font-size:11px;font-weight:600;color:rgba(255,255,255,0.82);padding:0 28px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
+.lp2-ticker-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;align-self:center;}
+.lp2-benefits-wrap{background:var(--cream);}
+.lp2-benefits{padding:120px 64px;max-width:1320px;margin:0 auto;}
+.lp2-sect-ey{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);text-align:center;margin-bottom:16px;}
+.lp2-sect-h{font-family:'Playfair Display',serif;font-size:clamp(36px,3.5vw,54px);font-weight:900;line-height:1.1;text-align:center;color:var(--ink);}
+.lp2-sect-h em{font-style:italic;color:var(--forest);}
+.lp2-sect-sub{text-align:center;font-size:15px;color:var(--warm-grey);line-height:1.8;max-width:520px;margin:18px auto 64px;}
+.lp2-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.lp2-benefit{background:#fff;border:1px solid var(--border);border-radius:14px;padding:40px 32px;position:relative;overflow:hidden;cursor:default;}
+.lp2-benefit::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--forest),var(--sage));transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.lp2-benefit:hover::before{transform:scaleX(1);}
+.lp2-benefit-num{font-family:'Playfair Display',serif;font-size:56px;font-weight:900;color:rgba(0,0,0,0.05);line-height:1;margin-bottom:16px;}
+.lp2-benefit-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:10px;font-family:'DM Sans',sans-serif;}
+.lp2-benefit-body{font-size:14px;color:var(--warm-grey);line-height:1.78;}
+.lp2-testi-section{background:var(--ink);padding:120px 64px;}
+.lp2-testi-inner{max-width:1320px;margin:0 auto;}
+.lp2-testi-h{font-family:'Playfair Display',serif;font-size:clamp(36px,3.5vw,52px);font-weight:900;color:#fff;text-align:center;margin-bottom:64px;line-height:1.12;}
+.lp2-testi-h em{color:#e8c84a;font-style:italic;}
+.lp2-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.lp2-testi{background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:32px;backdrop-filter:blur(4px);cursor:default;}
+.lp2-testi-q{font-size:13px;color:rgba(255,255,255,0.72);line-height:1.82;margin-bottom:24px;font-style:italic;}
+.lp2-testi-auth{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.lp2-testi-av{width:40px;height:40px;border-radius:50%;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lp2-testi-name{font-size:13px;font-weight:700;color:#fff;}
+.lp2-testi-role{font-size:11px;color:rgba(255,255,255,0.42);margin-top:1px;}
+.lp2-testi-badge{margin-left:auto;background:rgba(74,140,100,0.22);color:rgba(160,220,160,0.9);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;flex-shrink:0;}
+.lp2-final{padding:140px 64px;text-align:center;background:var(--cream);position:relative;overflow:hidden;}
+.lp2-final-inner{max-width:640px;margin:0 auto;position:relative;z-index:1;}
+.lp2-final-ey{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:20px;}
+.lp2-final-h{font-family:'Playfair Display',serif;font-size:clamp(40px,4.5vw,60px);font-weight:900;line-height:1.1;color:var(--ink);margin-bottom:20px;}
+.lp2-final-h em{font-style:italic;color:var(--forest);}
+.lp2-final-sub{font-size:15px;color:var(--warm-grey);line-height:1.8;margin-bottom:44px;}
+.lp2-final-note{margin-top:16px;font-size:12px;color:var(--warm-grey);}
+.lp2-glow{position:absolute;width:640px;height:640px;background:radial-gradient(circle,rgba(28,74,50,0.06) 0%,transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+@media(max-width:1024px){.lp2-hero{gap:40px;padding:100px 40px 60px}.lp2-benefits{padding:80px 40px}.lp2-testi-section{padding:80px 40px}.lp2-final{padding:100px 40px}}
+@media(max-width:768px){.lp2-hero{grid-template-columns:1fr;padding:88px 24px 40px}.lp2-stat-card{display:none}.lp2-nav{padding:16px 24px}.lp2-benefits{padding:60px 24px}.lp2-grid3{grid-template-columns:1fr}.lp2-testi-section{padding:60px 24px}.lp2-grid2{grid-template-columns:1fr}.lp2-final{padding:80px 24px}.lp2{cursor:auto}.lp2-pill,.lp2-cta{cursor:pointer}}
+@media(max-width:375px){.lp2-h1{font-size:36px}.lp2-h1-accent{font-size:36px}}
+`
+
+/* ─── LandingPage component ─── */
+function LandingPage({ onStart }: { onStart: () => void }) {
+  const [prefersReduced] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+
+  /* ── Custom cursor ── */
+  const dotX = useSpring(-100, { stiffness: 800, damping: 40 })
+  const dotY = useSpring(-100, { stiffness: 800, damping: 40 })
+  const ringX = useSpring(-100, { stiffness: 140, damping: 22 })
+  const ringY = useSpring(-100, { stiffness: 140, damping: 22 })
+  const [hovering, setHovering] = useState(false)
+
+  useEffect(() => {
+    if (prefersReduced) return
+    const move = (e: MouseEvent) => {
+      dotX.set(e.clientX - 5)
+      dotY.set(e.clientY - 5)
+      ringX.set(e.clientX - 17)
+      ringY.set(e.clientY - 17)
+    }
+    window.addEventListener('mousemove', move)
+    return () => window.removeEventListener('mousemove', move)
+  }, [dotX, dotY, ringX, ringY, prefersReduced])
+
+  /* ── Scroll parallax ── */
+  const heroWrapRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroWrapRef, offset: ['start start', 'end start'] })
+  const headlineY   = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
+  const blobY       = useTransform(scrollYProgress, [0, 1], ['0px', '-70px'])
+  const statCardY   = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
+
+  /* ── Stat counters ── */
+  const statsRef  = useRef<HTMLDivElement>(null)
+  const statsInView = useInView(statsRef, { once: true, amount: 0.25 })
+  const [c98, setC98]     = useState(0)
+  const [c2400, setC2400] = useState(0)
+  const [c20, setC20]     = useState(0)
+  const [c7, setC7]       = useState(0)
+  const [barW, setBarW]   = useState('0%')
+
+  useEffect(() => {
+    if (!statsInView) return
+    setBarW('98%')
+    const run = (setter: (v: number) => void, target: number, frames: number) => {
+      let f = 0
+      const id = setInterval(() => {
+        f++
+        setter(Math.min(Math.round((f / frames) * target), target))
+        if (f >= frames) clearInterval(id)
+      }, 16)
+      return id
+    }
+    const t1 = run(setC98,   98,   90)
+    const t2 = run(setC2400, 2400, 125)
+    const t3 = run(setC20,   20,   50)
+    const t4 = run(setC7,    7,    50)
+    return () => [t1, t2, t3, t4].forEach(clearInterval)
+  }, [statsInView])
+
+  /* ── Section in-view refs ── */
+  const benefitsRef = useRef<HTMLDivElement>(null)
+  const benefitsInView = useInView(benefitsRef, { once: true, amount: 0.12 })
+  const testiRef    = useRef<HTMLDivElement>(null)
+  const testiInView = useInView(testiRef, { once: true, amount: 0.1 })
+  const finalRef    = useRef<HTMLDivElement>(null)
+  const finalInView = useInView(finalRef, { once: true, amount: 0.2 })
+
+  /* ── Magnetic buttons ── */
+  const ctaRef     = useRef<HTMLButtonElement>(null)
+  const pillRef    = useRef<HTMLButtonElement>(null)
+  const ctaMX  = useSpring(0, { stiffness: 200, damping: 20 })
+  const ctaMY  = useSpring(0, { stiffness: 200, damping: 20 })
+  const pillMX = useSpring(0, { stiffness: 200, damping: 20 })
+  const pillMY = useSpring(0, { stiffness: 200, damping: 20 })
+
+  const magMove = (
+    e: React.MouseEvent, el: HTMLElement | null,
+    mx: ReturnType<typeof useSpring>, my: ReturnType<typeof useSpring>
+  ) => {
+    if (prefersReduced || !el) return
+    const r = el.getBoundingClientRect()
+    mx.set((e.clientX - r.left - r.width / 2) * 0.28)
+    my.set((e.clientY - r.top  - r.height / 2) * 0.28)
+  }
+  const magLeave = (mx: ReturnType<typeof useSpring>, my: ReturnType<typeof useSpring>) => {
+    mx.set(0); my.set(0)
+  }
+
+  /* ── Shared transition helper ── */
+  const ease = [0.22, 1, 0.36, 1] as const
+  const tr = (d = 0) => prefersReduced ? { duration: 0 } : { duration: 0.65, delay: d, ease }
+  const spr = { type: 'spring' as const, stiffness: 260, damping: 24 }
+  const fadeUp = (d = 0) => ({
+    initial: prefersReduced ? {} : { opacity: 0, y: 40 },
+    animate: { opacity: 1, y: 0 },
+    transition: tr(d),
+  })
+
+  return (
+    <div className="lp2">
+      <style>{LP_CSS}</style>
+
+      {/* ── Cursor ── */}
+      {!prefersReduced && (<>
+        <motion.div style={{
+          position:'fixed',top:0,left:0,width:10,height:10,borderRadius:'50%',
+          background:'var(--forest)',pointerEvents:'none',zIndex:9999,
+          x:dotX, y:dotY,
+        }}
+          animate={{ scale: hovering ? 3 : 1 }}
+          transition={{ type:'spring', stiffness:400, damping:20 }}
+        />
+        <motion.div style={{
+          position:'fixed',top:0,left:0,width:34,height:34,borderRadius:'50%',
+          border:'1.5px solid var(--forest)',pointerEvents:'none',zIndex:9998,
+          x:ringX, y:ringY, opacity:0.45,
+        }}
+          animate={{ scale: hovering ? 1.5 : 1 }}
+          transition={{ type:'spring', stiffness:300, damping:22 }}
+        />
+      </>)}
+
+      {/* ── Grain overlay ── */}
+      <motion.div style={{
+        position:'fixed',top:'-50%',left:'-50%',width:'200%',height:'200%',
+        backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`,
+        pointerEvents:'none',zIndex:9997,opacity:0.35,
+      }}
+        animate={prefersReduced ? {} : { x:[0,-4,6,-3,0], y:[0,-6,4,8,0] }}
+        transition={{ duration:8, repeat:Infinity, ease:'linear' }}
+      />
+
+      {/* ══ NAV ══════════════════════════════════ */}
+      <motion.nav className="lp2-nav"
+        initial={prefersReduced ? {} : { y:-64, opacity:0 }}
+        animate={{ y:0, opacity:1 }}
+        transition={tr(0)}
+      >
+        <div className="lp2-logo">The5th Consulting</div>
+        <div className="lp2-nav-right">
+          <span className="lp2-nav-hint">Free · 5 min quiz</span>
+          <motion.button ref={pillRef} className="lp2-pill"
+            onClick={onStart}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => { setHovering(false); magLeave(pillMX, pillMY) }}
+            onMouseMove={e => magMove(e, pillRef.current, pillMX, pillMY)}
+            style={{ x:pillMX, y:pillMY }}
+            whileHover={prefersReduced ? {} : { scale:1.05, y:-2 }}
+            whileTap={{ scale:0.96 }}
+            transition={spr}
+          >Take The Quiz</motion.button>
+        </div>
+      </motion.nav>
+
+      {/* ══ HERO ═════════════════════════════════ */}
+      <div className="lp2-hero-wrap" ref={heroWrapRef}>
+        <div className="lp2-hero">
+
+          {/* Morphing blob */}
+          <motion.div className="lp2-blob"
+            style={{ top:'-120px', right:'-80px', y:blobY }}
+            animate={prefersReduced ? {} : { borderRadius:[
+              '60% 40% 30% 70% / 60% 30% 70% 40%',
+              '40% 60% 70% 30% / 40% 70% 30% 60%',
+              '30% 70% 40% 60% / 50% 40% 60% 50%',
+              '70% 30% 60% 40% / 30% 60% 40% 70%',
+              '60% 40% 30% 70% / 60% 30% 70% 40%',
+            ]}}
+            transition={{ duration:16, repeat:Infinity, ease:'easeInOut' }}
+          />
+
+          {/* Left — copy */}
+          <motion.div style={{ position:'relative', zIndex:1, y: prefersReduced ? 0 : headlineY }}>
+            <motion.div className="lp2-eyebrow" {...fadeUp(0.1)}>
+              <div className="lp2-eyebrow-dot" />
+              Free AI Business Blueprint
+            </motion.div>
+
+            <motion.h1 className="lp2-h1" {...fadeUp(0.28)}>If you&apos;re over 40,</motion.h1>
+            <motion.h1 className="lp2-h1" {...fadeUp(0.36)}>you already have</motion.h1>
+            <motion.span className="lp2-h1-accent" {...fadeUp(0.44)}>what it takes.</motion.span>
+
+            <motion.p className="lp2-sub" {...fadeUp(0.52)}>
+              You&apos;ve spent years building real expertise. Maybe raising a family,
+              surviving a career shift, or simply living through things most people
+              only read about. That experience is worth something. Probably more than
+              you think. Take our 20-question quiz and get a free personalised roadmap
+              showing exactly how to turn what you know into consistent income.
+            </motion.p>
+
+            <motion.div className="lp2-cta-wrap"
+              initial={prefersReduced ? {} : { opacity:0, scale:0.9 }}
+              animate={{ opacity:1, scale:1 }}
+              transition={{ ...spr, delay:0.7 }}
+            >
+              <motion.button ref={ctaRef} className="lp2-cta"
+                onClick={onStart}
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => { setHovering(false); magLeave(ctaMX, ctaMY) }}
+                onMouseMove={e => magMove(e, ctaRef.current, ctaMX, ctaMY)}
+                style={{ x:ctaMX, y:ctaMY }}
+                whileHover={prefersReduced ? {} : {
+                  scale:1.02, y:-3,
+                  boxShadow:'0 18px 48px rgba(28,74,50,0.38)',
+                }}
+                whileTap={{ scale:0.97 }}
+                transition={spr}
+              >
+                Find My Business Blueprint
+                <motion.div className="lp2-arrow"
+                  whileHover={prefersReduced ? {} : { x:4 }}
+                  transition={spr}
+                >&#8594;</motion.div>
+              </motion.button>
+
+              <div className="lp2-trust">
+                <div className="lp2-avatars">
+                  {[{i:'L',bg:'#d4e8d5'},{i:'A',bg:'#e8d5b7'},{i:'J',bg:'#d5d4e8'},{i:'M',bg:'#e8d5d5'},{i:'S',bg:'#d5e8e8'}]
+                    .map((a, idx) => (
+                      <div key={idx} className="lp2-av"
+                        style={{ background:a.bg, color:'#333', zIndex:5-idx }}>{a.i}</div>
+                    ))}
+                </div>
+                <span className="lp2-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span className="lp2-trust-txt">2,400+ women already got their blueprint</span>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right — Stats card */}
+          <motion.div
+            ref={statsRef}
+            style={{ y: prefersReduced ? 0 : statCardY }}
+            initial={prefersReduced ? {} : { opacity:0, x:50 }}
+            animate={{ opacity:1, x:0 }}
+            transition={tr(0.42)}
+          >
+            <div className="lp2-stat-card">
+              <div className="lp2-card-lbl">Women who get offer clarity</div>
+              <div className="lp2-big-num">{c98}%</div>
+              <div className="lp2-big-sub">clarity rate</div>
+              <div className="lp2-bar-track">
+                <div className="lp2-bar-fill" style={{ width: barW }} />
+              </div>
+              <div className="lp2-bar-lbls">
+                <span>0%</span>
+                <span>{c2400.toLocaleString()} profiled</span>
+                <span>100%</span>
+              </div>
+              <div className="lp2-mini-grid">
+                {[
+                  { num:`${c20}`,   lbl:'Deep questions that reveal your path' },
+                  { num:`${c7}`,    lbl:'Business archetypes mapped' },
+                  { num:'$15M+',    lbl:'Real coaching data trained in' },
+                  { num:'45s',      lbl:'To generate your roadmap' },
+                ].map((s, i) => (
+                  <div key={i} className="lp2-mini">
+                    <div className="lp2-mini-num">{s.num}</div>
+                    <div className="lp2-mini-lbl">{s.lbl}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="lp2-cq">
+                <div className="lp2-cq-txt">
+                  &ldquo;I had spent over $10,000 on coaches before. None gave me the clarity
+                  Indrodip did. Six weeks later I closed my first client.&rdquo;
+                </div>
+                <div className="lp2-cq-attr">Jeanne T. &mdash; Business Coach</div>
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
+      </div>
+
+      {/* ══ TICKER ═══════════════════════════════ */}
+      <div className="lp2-ticker-wrap">
+        <motion.div className="lp2-ticker-inner"
+          animate={prefersReduced ? {} : { x:['0%','-50%'] }}
+          transition={{ duration:25, repeat:Infinity, ease:'linear' }}
+        >
+          {[0, 1].map(pass => (
+            <div key={pass} style={{ display:'flex', alignItems:'center' }}>
+              {LP_TICKER.map((item, i) => (
+                <React.Fragment key={`${pass}-${i}`}>
+                  <span className="lp2-ticker-txt">{item}</span>
+                  <div className="lp2-ticker-dot" />
+                </React.Fragment>
+              ))}
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ══ BENEFITS ═════════════════════════════ */}
+      <div className="lp2-benefits-wrap">
+        <div className="lp2-benefits" ref={benefitsRef}>
+          <motion.div
+            initial={prefersReduced ? {} : { opacity:0, y:32 }}
+            animate={benefitsInView ? { opacity:1, y:0 } : {}}
+            transition={tr(0)}
+          >
+            <div className="lp2-sect-ey">What You Get &mdash; Completely Free</div>
+            <h2 className="lp2-sect-h">
+              Not a generic quiz.<br /><em>Your actual blueprint.</em>
+            </h2>
+            <p className="lp2-sect-sub">
+              Most online quizzes put you in a box and hand you a PDF everyone else got too.
+              This is different. Each roadmap is written for you, about you,
+              around what you actually told us.
+            </p>
+          </motion.div>
+          <div className="lp2-grid3">
+            {LP_BENEFITS.map((b, i) => (
+              <motion.div key={i} className="lp2-benefit"
+                initial={prefersReduced ? {} : { opacity:0, y:40 }}
+                animate={benefitsInView ? { opacity:1, y:0 } : {}}
+                transition={tr(i * 0.12)}
+                whileHover={prefersReduced ? {} : {
+                  y:-8,
+                  boxShadow:'0 20px 56px rgba(0,0,0,0.09)',
+                  borderColor:'rgba(28,74,50,0.24)',
+                }}
+              >
+                <div className="lp2-benefit-num">{b.num}</div>
+                <div className="lp2-benefit-title">{b.title}</div>
+                <div className="lp2-benefit-body">{b.body}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ══ TESTIMONIALS ═════════════════════════ */}
+      <section className="lp2-testi-section">
+        <div className="lp2-testi-inner" ref={testiRef}>
+          <motion.h2 className="lp2-testi-h"
+            initial={prefersReduced ? {} : { opacity:0, y:40 }}
+            animate={testiInView ? { opacity:1, y:0 } : {}}
+            transition={tr(0)}
+          >
+            Real women.<br /><em>Real results.</em>
+          </motion.h2>
+          <div className="lp2-grid2">
+            {LP_TESTIMONIALS.map((t, i) => (
+              <motion.div key={i} className="lp2-testi"
+                initial={prefersReduced ? {} : { opacity:0, y:30 }}
+                animate={testiInView ? { opacity:1, y:0 } : {}}
+                transition={tr(i * 0.1)}
+                whileHover={prefersReduced ? {} : {
+                  y:-5,
+                  background:'rgba(255,255,255,0.075)',
+                  borderColor:'rgba(255,255,255,0.16)',
+                }}
+              >
+                <p className="lp2-testi-q">&ldquo;{t.quote}&rdquo;</p>
+                <div className="lp2-testi-auth">
+                  <div className="lp2-testi-av" style={{ background:t.bg, color:'#fff' }}>{t.init}</div>
+                  <div>
+                    <div className="lp2-testi-name">{t.name}</div>
+                    <div className="lp2-testi-role">{t.role}</div>
+                  </div>
+                  <div className="lp2-testi-badge">{t.badge}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ FINAL CTA ════════════════════════════ */}
+      <section className="lp2-final">
+        <div className="lp2-glow" />
+        <div className="lp2-final-inner" ref={finalRef}>
+          <motion.div
+            initial={prefersReduced ? {} : { opacity:0, y:40 }}
+            animate={finalInView ? { opacity:1, y:0 } : {}}
+            transition={tr(0)}
+          >
+            <div className="lp2-final-ey">Start Now &mdash; It Is Free</div>
+            <h2 className="lp2-final-h">
+              You already have<br /><em>what it takes.</em>
+            </h2>
+            <p className="lp2-final-sub">
+              You just need the roadmap. 20 questions. 45 seconds to generate.
+              A plan built entirely around your experience, your goals,
+              and where you actually are right now.
+            </p>
+            <motion.button className="lp2-cta"
+              onClick={onStart}
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
+              style={{ margin:'0 auto' }}
+              whileHover={prefersReduced ? {} : {
+                scale:1.02, y:-3,
+                boxShadow:'0 18px 48px rgba(28,74,50,0.38)',
+              }}
+              whileTap={{ scale:0.97 }}
+              transition={spr}
+            >
+              Take The Free Quiz
+              <div className="lp2-arrow">&#8594;</div>
+            </motion.button>
+            <div className="lp2-final-note">Free &middot; 5 minutes &middot; No credit card</div>
+          </motion.div>
+        </div>
+      </section>
+
+    </div>
+  )
+}
+
 /* ─── Page ─── */
 export default function Page() {
   const [screen, setScreen] = useState<'start' | 'quiz' | 'email' | 'dashboard'>('start')
@@ -1321,210 +1843,7 @@ export default function Page() {
   )
 
   /* ══════════════ START ══════════════ */
-  if (screen === 'start') return (
-    <div className="lp-root">
-      <style>{CSS}</style>
-      <div className="grain-overlay" />
-
-      <nav className="lp-nav">
-        <div className="lp-nav-logo">The5th Consulting</div>
-        <div style={{display:'flex',alignItems:'center',gap:24}}>
-          <span style={{fontSize:13,color:'var(--warm-grey)'}}>Free · 5 min quiz</span>
-          <button className="lp-nav-pill" onClick={() => setScreen('quiz')}>
-            Take The Quiz
-          </button>
-        </div>
-      </nav>
-
-      <section className="lp-hero">
-        <div className="lp-blob" style={{top:'-80px',right:'-40px'}} />
-
-        <div style={{position:'relative',zIndex:1}}>
-          <div className="lp-eyebrow">
-            <div className="lp-eyebrow-dot" />
-            Free AI Business Blueprint
-          </div>
-          <h1 className="lp-headline">
-            If you&apos;re over 40,<br />you already have
-          </h1>
-          <span className="lp-headline-accent">what it takes.</span>
-          <p className="lp-subtext">
-            You&apos;ve spent years building real expertise. Maybe raising a family,
-            surviving a career shift, or simply living through things most people
-            only read about. That experience is worth something. Probably more than
-            you think. Take our 20-question quiz and get a free personalised roadmap
-            showing exactly how to turn what you know into consistent income.
-          </p>
-          <div className="lp-cta-group">
-            <button className="lp-cta-primary" onClick={() => setScreen('quiz')}>
-              Find My Business Blueprint
-              <div className="lp-cta-arrow">&#8594;</div>
-            </button>
-            <div className="lp-trust-row">
-              <div className="lp-avatars">
-                {[{i:'L',bg:'#d4e8d5'},{i:'A',bg:'#e8d5b7'},{i:'J',bg:'#d5d4e8'},
-                  {i:'M',bg:'#e8d5d5'},{i:'S',bg:'#d5e8e8'}].map((a,idx) => (
-                  <div key={idx} className="lp-avatar"
-                    style={{background:a.bg,color:'#333',zIndex:5-idx}}>
-                    {a.i}
-                  </div>
-                ))}
-              </div>
-              <span className="lp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-              <span className="lp-trust-text">2,400+ women got their blueprint</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="lp-hero-right">
-          <div className="lp-stat-card">
-            <div className="lp-stat-card-label">Quiz takers who get offer clarity</div>
-            <div className="lp-big-stat">98%</div>
-            <div className="lp-big-stat-label">clarity rate</div>
-            <div className="lp-stat-bar">
-              <div className="lp-stat-bar-fill"
-                ref={(el) => { if(el) setTimeout(()=>{el.style.width='98%';},300); }} />
-            </div>
-            <div style={{display:'flex',justifyContent:'space-between',
-              fontSize:11,color:'var(--warm-grey)',marginBottom:20,marginTop:4}}>
-              <span>0%</span><span>2,400 profiled</span><span>100%</span>
-            </div>
-            <div className="lp-mini-stats">
-              {[
-                {num:'20',label:'Deep questions that reveal your path'},
-                {num:'7',label:'Business archetypes mapped'},
-                {num:'$15M+',label:'Real coaching data trained in'},
-                {num:'45s',label:'To generate your roadmap'},
-              ].map((s,i) => (
-                <div key={i} className="lp-mini-stat">
-                  <div className="lp-mini-stat-num">{s.num}</div>
-                  <div className="lp-mini-stat-label">{s.label}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{marginTop:20,padding:'16px 20px',
-              background:'var(--cream)',borderRadius:10,
-              borderLeft:'3px solid var(--forest)'}}>
-              <p style={{fontSize:12,color:'#555',lineHeight:1.65,
-                fontStyle:'italic',margin:0}}>
-                &ldquo;I had spent over $10,000 on coaches before. None gave me
-                the clarity Indrodip did. Six weeks later I closed my first client.&rdquo;
-              </p>
-              <div style={{fontSize:11,fontWeight:700,color:'var(--forest)',marginTop:8}}>
-                Jeanne T. &mdash; Business Coach
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="lp-ticker-wrap">
-        <div className="lp-ticker">
-          {[0,1].map(pass => (
-            <div key={pass} style={{display:'flex',alignItems:'center'}}>
-              {['Niche Clarity','Signature Offer','Pricing Strategy',
-                '7-Day Content Plan','30-Day Roadmap','Lead Magnet',
-                'Digital Product','AI Coaching'].map((item,i) => (
-                <React.Fragment key={i}>
-                  <span className="lp-ticker-text">{item}</span>
-                  <div className="lp-ticker-dot" />
-                </React.Fragment>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <section className="lp-benefits">
-        <div className="lp-section-eyebrow">What You Get &mdash; Completely Free</div>
-        <h2 className="lp-section-title">
-          Not a generic quiz.<br /><em>Your actual blueprint.</em>
-        </h2>
-        <p className="lp-section-sub">
-          Most online quizzes put you in a box and hand you a PDF everyone else got too.
-          This is different. Each roadmap is written for you, about you,
-          around what you actually told us.
-        </p>
-        <div className="lp-benefits-grid">
-          {[
-            {num:'01',title:'Your $10K Personalised Blueprint',
-              body:'20 answers analysed against 2,400+ real coaching profiles. Your niche, your offer, your pricing, your 30-day plan. Not a template. Yours.'},
-            {num:'02',title:'7 Days of AI Coaching Emails',
-              body:'For a week after your quiz, The5th AI sends you one coaching email a day written from your exact answers. Real homework. Real strategies. Not recycled advice.'},
-            {num:'03',title:'Your Personalised Video',
-              body:'Based on where you are in your business journey, we created a short video speaking directly to your stage. Just the one thing you probably need to hear right now.'},
-          ].map((b,i) => (
-            <div key={i} className="lp-benefit-card">
-              <div className="lp-benefit-num">{b.num}</div>
-              <div className="lp-benefit-title">{b.title}</div>
-              <div className="lp-benefit-body">{b.body}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="lp-testimonials">
-        <div className="lp-testimonials-inner">
-          <h2 className="lp-testimonials-title">
-            Real women.<br /><em>Real results.</em>
-          </h2>
-          <div className="lp-testi-grid">
-            {[
-              {quote:'After a failed launch I had lost confidence completely. We rebuilt the strategy, repositioned my pricing from $79 to $225, and within three months generated $26,000 in revenue.',
-                name:'Laurie Gerber',role:'Online Course Creator',badge:'$26K in 3 months',init:'L',bg:'#2a5c3a'},
-              {quote:'I had spoken to multiple agencies before finding Indrodip. None delivered. Within one month I became an Amazon bestselling author. I honestly did not think it would happen that fast.',
-                name:'Abbas Jamie',role:'Author and Speaker',badge:'Bestselling Author',init:'A',bg:'#3a3a5c'},
-              {quote:'I had spent over $10,000 on coaches before. None gave me the clarity he did. He rebuilt how I saw my business from niche to offer to the sales conversation. Six weeks later I closed my first client.',
-                name:'Jeanne Tomasak',role:'Business Coach',badge:'First client in 6 weeks',init:'J',bg:'#5c3a3a'},
-              {quote:'Twenty years running education programs across the UK. I burned through $25,000 on coaches who did not get my context. Two months with Indrodip and I closed my first $2,500 sale. For someone who had nearly given up, that meant everything.',
-                name:'Angela Gregg',role:'Education Director',badge:'$2,500 first sale',init:'G',bg:'#3a5c4a'},
-            ].map((t,i) => (
-              <div key={i} className="lp-testi-card">
-                <p className="lp-testi-quote">&ldquo;{t.quote}&rdquo;</p>
-                <div className="lp-testi-author">
-                  <div className="lp-testi-avatar" style={{background:t.bg,color:'#fff'}}>
-                    {t.init}
-                  </div>
-                  <div>
-                    <div className="lp-testi-name">{t.name}</div>
-                    <div className="lp-testi-role">{t.role}</div>
-                  </div>
-                  <div className="lp-testi-badge">{t.badge}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="lp-final-cta">
-        <div className="lp-final-cta-bg" />
-        <div className="lp-final-cta-inner">
-          <div style={{fontSize:11,fontWeight:700,letterSpacing:'0.14em',
-            textTransform:'uppercase',color:'var(--sage)',marginBottom:16}}>
-            Start Now &mdash; It Is Free
-          </div>
-          <h2 className="lp-final-headline">
-            You already have<br /><em>what it takes.</em>
-          </h2>
-          <p className="lp-final-sub">
-            You just need the roadmap. 20 questions. 45 seconds to generate.
-            A plan built entirely around your experience, your goals,
-            and where you actually are right now.
-          </p>
-          <button className="lp-cta-primary" onClick={() => setScreen('quiz')}
-            style={{margin:'0 auto'}}>
-            Take The Free Quiz
-            <div className="lp-cta-arrow">&#8594;</div>
-          </button>
-          <div style={{marginTop:16,fontSize:12,color:'var(--warm-grey)'}}>
-            Free &middot; 5 minutes &middot; No credit card
-          </div>
-        </div>
-      </section>
-
-    </div>
-  )
+  if (screen === 'start') return <LandingPage onStart={() => setScreen('quiz')} />
 
   /* ══════════════ QUIZ ══════════════ */
   if (screen === 'quiz') {
