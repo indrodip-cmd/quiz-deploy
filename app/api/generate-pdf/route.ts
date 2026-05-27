@@ -67,6 +67,36 @@ export async function POST(req: NextRequest) {
     const firstName = name.split(' ')[0]
     const videoUrl = `https://quiz.the5th.consulting/video/${videoSlug || 'v1'}`
 
+    // Generate PDF via Render microservice
+    const PDF_SERVICE_URL = process.env.PDF_SERVICE_URL || 'https://the5th-pdf-service.onrender.com'
+    let pdfAttachment: Array<{ filename: string; content: string }> | undefined = undefined
+
+    try {
+      const pdfRes = await fetch(`${PDF_SERVICE_URL}/generate-pdf`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          stage: stage || 'launched',
+          goal: goal || '$5K-$10K / month',
+          hours: hours || '10-20',
+          video_url: videoUrl,
+          roadmap,
+        }),
+        signal: AbortSignal.timeout(30000),
+      })
+      if (pdfRes.ok) {
+        const pdfBytes = await pdfRes.arrayBuffer()
+        const pdfBase64 = Buffer.from(pdfBytes).toString('base64')
+        pdfAttachment = [{ filename: `${firstName}-blueprint.pdf`, content: pdfBase64 }]
+        console.log('PDF generated successfully, size:', pdfBytes.byteLength)
+      } else {
+        console.error('PDF service error:', pdfRes.status, await pdfRes.text())
+      }
+    } catch (err) {
+      console.error('PDF generation failed, sending email without PDF:', err)
+    }
+
     const emailHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,8 +241,9 @@ export async function POST(req: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: 'Indrodip at The5th <Indrodip@10kroadmap.org>',
       to: email,
-      subject: `Your personalised blueprint is ready, ${firstName}`,
+      subject: `${firstName}, your personalised blueprint is ready`,
       html: emailHtml,
+      attachments: pdfAttachment,
     })
 
     if (error) {
