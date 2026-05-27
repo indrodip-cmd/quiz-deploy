@@ -44,6 +44,8 @@ export async function POST(req: NextRequest) {
         video_assigned,
         video_requested: video_requested || false,
         no_video: no_video || false,
+        sequence_assigned: no_video ? 'A' : (video_requested ? 'B' : null),
+        last_email_day: -1,
         created_at: new Date().toISOString()
       }, { onConflict: 'email' })
       .select()

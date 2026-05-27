@@ -49,7 +49,8 @@ export default function VideoPage() {
         body: JSON.stringify({
           email: e,
           video_watched: true,
-          video_watched_at: new Date().toISOString()
+          video_watched_at: new Date().toISOString(),
+          sequence_assigned: 'B',
         })
       }).catch(err => console.error('Track error:', err))
     }

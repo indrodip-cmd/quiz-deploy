@@ -381,6 +381,34 @@ export default function ResultsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: n, email: e, quiz_answers: a, video_assigned: getVideoSlug(a.q1) })
       })
+
+      // Sync to Attio CRM and Beehiiv (fire-and-forget)
+      fetch('/api/sync-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: n,
+          email: e,
+          stage: a.q1 || 'starting',
+          goal: a.q18 || '$5K-$10K / month',
+          hours: a.q19 || '10-20',
+          video_assigned: getVideoSlug(a.q1),
+          quiz_answers: a,
+        })
+      }).catch(err => console.error('Sync error:', err))
+
+      // Send Day 0 sequence email immediately (fire-and-forget)
+      fetch('/api/send-sequence-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: e,
+          name: n,
+          day: 0,
+          sequence: 'A',
+          video_slug: getVideoSlug(a.q1),
+        })
+      }).catch(err => console.error('Day 0 email error:', err))
     } catch (err) {
       console.error('Lead save error:', err)
     }
