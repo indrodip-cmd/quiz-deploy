@@ -597,43 +597,6 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
 }
 `
 
-/* ─── Exit Popup ─── */
-function ExitPopup({ onClose, onResume }: { onClose: () => void; onResume: () => void }) {
-  return (
-    <div
-      onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <div
-        className="popup-in"
-        onClick={e => e.stopPropagation()}
-        style={{ background: '#fff', borderRadius: 12, maxWidth: 460, width: '100%', padding: '40px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)', position: 'relative' }}>
-        <button
-          onClick={onClose}
-          style={{ position: 'absolute', top: 16, right: 20, background: 'none', border: 'none', fontSize: 24, color: '#9ca3af', cursor: 'pointer', lineHeight: 1 }}>
-          ×
-        </button>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🎯</div>
-          <h2 style={{ fontSize: 26, fontWeight: 700, color: '#0a0a0a', marginBottom: 12, lineHeight: 1.25 }}>
-            Wait — your roadmap takes 90 seconds to unlock.
-          </h2>
-          <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.7, marginBottom: 28 }}>
-            You&apos;re almost there. Get your free AI-generated 15-day plan showing exactly what to do to make your first $5,000 online. Completely free.
-          </p>
-          <button className="gbtn" onClick={onResume} style={{ marginBottom: 14 }}>
-            Finish My Quiz →
-          </button>
-          <button
-            onClick={() => { sessionStorage.setItem('exit_dismissed', '1'); onClose(); }}
-            style={{ display: 'block', margin: '0 auto', background: 'none', border: 'none', color: '#9ca3af', fontSize: 14, cursor: 'pointer', textDecoration: 'underline' }}>
-            No thanks, I&apos;ll figure it out alone
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 /* ─── Flame Logo ─── */
 function FlameLogo() {
   return (
@@ -1538,23 +1501,8 @@ export default function Page() {
   const [activeDay, setActiveDay] = useState(1)
   const [confettiFired, setConfettiFired] = useState(false)
 
-  const [showExitPopup, setShowExitPopup] = useState(false)
-  const exitShown = useRef(false)
   const otpRefs = useRef<(HTMLInputElement | null)[]>([])
   const chatEndRef = useRef<HTMLDivElement>(null)
-
-  /* ── Exit intent ── */
-  useEffect(() => {
-    if (screen === 'dashboard') return
-    const handler = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !exitShown.current && !sessionStorage.getItem('exit_dismissed')) {
-        setShowExitPopup(true)
-        exitShown.current = true
-      }
-    }
-    document.addEventListener('mouseleave', handler)
-    return () => document.removeEventListener('mouseleave', handler)
-  }, [screen])
 
   /* ── Navigation ── */
   const goForward = useCallback(() => {
@@ -1853,7 +1801,6 @@ export default function Page() {
     return (
       <div style={{ minHeight: '100vh', background: '#f9f9f9' }}>
         <style>{CSS}</style>
-        {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
         <SiteHeader screen="quiz" currentQ={currentQ} />
 
@@ -2021,7 +1968,6 @@ export default function Page() {
     <div style={{ minHeight: '100vh', background: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
       <style>{CSS}</style>
       <SiteHeader screen="email" currentQ={questions.length} />
-      {showExitPopup && <ExitPopup onClose={() => setShowExitPopup(false)} onResume={() => setShowExitPopup(false)} />}
 
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 24px 60px' }}>
         <div className="afu-1" style={{ maxWidth: 520, width: '100%', textAlign: 'center' }}>
