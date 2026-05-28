@@ -1093,8 +1093,8 @@ const LP_CSS = `
 .lp2-cq{padding:16px 18px;background:var(--cream);border-radius:10px;border-left:3px solid var(--forest);}
 .lp2-cq-txt{font-size:12px;color:#555;line-height:1.65;font-style:italic;}
 .lp2-cq-attr{font-size:11px;font-weight:700;color:var(--forest);margin-top:8px;}
-.lp2-ticker-wrap{background:var(--forest);padding:14px 0;overflow:hidden;}
-.lp2-ticker-inner{display:flex;width:max-content;}
+.lp2-ticker-wrap{background:var(--forest);padding:14px 0;overflow:hidden;-webkit-overflow-scrolling:touch;}
+.lp2-ticker-inner{display:flex;width:max-content;will-change:transform;-webkit-animation-play-state:running !important;animation-play-state:running !important;}
 .lp2-ticker-txt{font-size:11px;font-weight:600;color:rgba(255,255,255,0.82);padding:0 28px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
 .lp2-ticker-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;align-self:center;}
 .lp2-benefits-wrap{background:var(--cream);}
@@ -1131,8 +1131,10 @@ const LP_CSS = `
 .lp2-final-note{margin-top:16px;font-size:12px;color:var(--warm-grey);}
 .lp2-glow{position:absolute;width:640px;height:640px;background:radial-gradient(circle,rgba(28,74,50,0.06) 0%,transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
 @media(max-width:1024px){.lp2-hero{gap:40px;padding:100px 40px 60px}.lp2-benefits{padding:80px 40px}.lp2-testi-section{padding:80px 40px}.lp2-final{padding:100px 40px}}
-@media(max-width:768px){.lp2-hero{grid-template-columns:1fr;padding:88px 24px 40px}.lp2-stat-card{display:none}.lp2-nav{padding:16px 24px}.lp2-benefits{padding:60px 24px}.lp2-grid3{grid-template-columns:1fr}.lp2-testi-section{padding:60px 24px}.lp2-grid2{grid-template-columns:1fr}.lp2-final{padding:80px 24px}.lp2{cursor:auto}.lp2-pill,.lp2-cta{cursor:pointer}}
-@media(max-width:375px){.lp2-h1{font-size:36px}.lp2-h1-accent{font-size:36px}}
+@media(max-width:768px){.lp2-hero{grid-template-columns:1fr;padding:88px 24px 40px}.lp2-stat-card{display:none}.lp2-nav{padding:16px 24px}.lp2-benefits{padding:60px 24px}.lp2-grid3{grid-template-columns:1fr}.lp2-testi-section{padding:60px 24px}.lp2-grid2{grid-template-columns:1fr}.lp2-final{padding:80px 24px}.lp2{cursor:auto}.lp2-pill,.lp2-cta{cursor:pointer}.lp2-h1{font-size:38px !important;line-height:1.08 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:38px !important;line-height:1.08 !important;letter-spacing:-0.5px !important}}
+@media(max-width:480px){.lp2-h1{font-size:34px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:34px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}}
+@media(min-width:390px) and (max-width:480px){.lp2-h1{font-size:40px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:40px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}}
+@media(max-width:375px){.lp2-h1{font-size:30px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:30px !important;line-height:1.06 !important}}
 `
 
 /* ─── LandingPage component ─── */
@@ -1314,8 +1316,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               Free AI Business Blueprint
             </motion.div>
 
-            <motion.h1 className="lp2-h1" {...fadeUp(0.28)}>If you&apos;re over 40,</motion.h1>
-            <motion.h1 className="lp2-h1" {...fadeUp(0.36)}>you already have</motion.h1>
+            <motion.h1 className="lp2-h1" {...fadeUp(0.28)}>If you&apos;re over 40, you already have</motion.h1>
             <motion.span className="lp2-h1-accent" {...fadeUp(0.44)}>what it takes.</motion.span>
 
             <motion.p className="lp2-sub" {...fadeUp(0.52)}>
@@ -1416,6 +1417,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
         <motion.div className="lp2-ticker-inner"
           animate={prefersReduced ? {} : { x:['0%','-50%'] }}
           transition={{ duration:25, repeat:Infinity, ease:'linear' }}
+          style={{ willChange: 'transform' }}
         >
           {[0, 1].map(pass => (
             <div key={pass} style={{ display:'flex', alignItems:'center' }}>
