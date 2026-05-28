@@ -80,6 +80,10 @@ export default function VideoPage() {
           font-family: inherit;
         }
         .cta-btn:hover { transform: translateY(-2px); }
+        @media (max-width: 480px) {
+          .video-cta-section { padding: 32px 20px !important; }
+          .video-cta-h2 { font-size: 24px !important; }
+        }
       `}</style>
 
       {/* Header */}
@@ -107,7 +111,7 @@ export default function VideoPage() {
         </div>
 
         {/* Video Placeholder */}
-        <div className="fade-up-2" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.25)', borderRadius: 20, overflow: 'hidden', marginBottom: 56, aspectRatio: '16/9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+        <div className="fade-up-2" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(45,106,79,0.25)', borderRadius: 20, overflow: 'hidden', marginBottom: 56, aspectRatio: '16/9', width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
           <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(45,106,79,0.3)', border: '2px solid rgba(45,106,79,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>
             &#9654;
           </div>
@@ -118,8 +122,8 @@ export default function VideoPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="fade-up-3" style={{ textAlign: 'center', background: 'rgba(45,106,79,0.07)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 24, padding: '48px 40px' }}>
-          <h2 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: '#fff', marginBottom: 16, lineHeight: 1.2 }}>
+        <div className="fade-up-3 video-cta-section" style={{ textAlign: 'center', background: 'rgba(45,106,79,0.07)', border: '1px solid rgba(45,106,79,0.2)', borderRadius: 24, padding: '48px 40px' }}>
+          <h2 className="video-cta-h2" style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: '#fff', marginBottom: 16, lineHeight: 1.2 }}>
             Ready to build this with support?
           </h2>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 36px' }}>

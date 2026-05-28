@@ -584,17 +584,92 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
 .lp-final-cta-bg{position:absolute;width:600px;height:600px;
   background:radial-gradient(circle,rgba(28,74,50,0.06) 0%,transparent 70%);
   border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-@media(max-width:768px){
-  .lp-hero{grid-template-columns:1fr;padding:88px 24px 40px;gap:40px;}
-  .lp-hero-right{display:none;}
-  .lp-nav{padding:16px 24px;}
-  .lp-benefits{padding:60px 24px;}
-  .lp-benefits-grid{grid-template-columns:1fr;}
-  .lp-testimonials{padding:60px 24px;}
-  .lp-testi-grid{grid-template-columns:1fr;}
-  .lp-final-cta{padding:80px 24px;}
-  .lp-headline{font-size:36px;}
+@media (max-width: 1024px) {
+  .lp-hero { grid-template-columns: 1fr !important; padding: 88px 40px 60px !important; gap: 48px !important; min-height: auto !important; }
+  .lp-hero-right { max-width: 560px !important; margin: 0 auto !important; width: 100% !important; }
+  .lp-nav { padding: 16px 32px !important; }
+  .lp-benefits-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+  .lp-testi-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+  .lp-benefits { padding: 80px 40px !important; }
+  .lp-testimonials { padding: 80px 40px !important; }
+  .lp-final-cta { padding: 80px 40px !important; }
 }
+@media (max-width: 768px) {
+  .lp-hero { grid-template-columns: 1fr !important; padding: 80px 24px 48px !important; gap: 40px !important; }
+  .lp-hero-right { display: none !important; }
+  .lp-nav { padding: 14px 20px !important; }
+  .lp-nav-logo { font-size: 13px !important; }
+  .lp-headline { font-size: 36px !important; line-height: 1.1 !important; }
+  .lp-headline-accent { font-size: 36px !important; line-height: 1.1 !important; }
+  .lp-subtext { font-size: 15px !important; }
+  .lp-cta-primary { width: 100% !important; justify-content: center !important; font-size: 15px !important; padding: 16px 24px !important; }
+  .lp-benefits { padding: 60px 24px !important; }
+  .lp-benefits-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .lp-benefit-card { padding: 28px 24px !important; }
+  .lp-section-title { font-size: 32px !important; }
+  .lp-testimonials { padding: 60px 24px !important; }
+  .lp-testi-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .lp-testi-card { padding: 24px !important; }
+  .lp-final-cta { padding: 60px 24px !important; }
+  .lp-final-headline { font-size: 32px !important; }
+  .lp-ticker-text { font-size: 11px !important; padding: 0 20px !important; }
+}
+@media (max-width: 480px) {
+  .lp-hero { padding: 72px 20px 40px !important; }
+  .lp-nav { padding: 12px 16px !important; }
+  .lp-eyebrow { font-size: 10px !important; }
+  .lp-headline { font-size: 30px !important; }
+  .lp-headline-accent { font-size: 30px !important; }
+  .lp-subtext { font-size: 14px !important; line-height: 1.7 !important; }
+  .lp-cta-primary { font-size: 14px !important; padding: 15px 20px !important; }
+  .lp-trust-text { font-size: 11px !important; }
+  .lp-benefits { padding: 48px 20px !important; }
+  .lp-section-title { font-size: 26px !important; }
+  .lp-section-sub { font-size: 14px !important; }
+  .lp-benefit-card { padding: 24px 20px !important; }
+  .lp-benefit-title { font-size: 16px !important; }
+  .lp-benefit-body { font-size: 13px !important; }
+  .lp-testimonials { padding: 48px 20px !important; }
+  .lp-testimonials-title { font-size: 26px !important; }
+  .lp-testi-quote { font-size: 12px !important; }
+  .lp-testi-card { padding: 20px !important; }
+  .lp-final-cta { padding: 48px 20px !important; }
+  .lp-final-headline { font-size: 26px !important; }
+  .lp-final-sub { font-size: 13px !important; }
+  .quiz-title { font-size: 22px !important; line-height: 1.25 !important; }
+  .quiz-sub { font-size: 14px !important; }
+  .qopt { padding: 14px 16px !important; margin-bottom: 8px !important; }
+  .qopt span { font-size: 15px !important; }
+  .scale-btn { height: 52px !important; font-size: 18px !important; }
+  .gbtn { padding: 16px 24px !important; font-size: 16px !important; }
+  .dot-cur { width: 8px !important; height: 8px !important; }
+  .site-header-logo-text { display: none !important; }
+  .site-header-tag { display: none !important; }
+  .email-screen-inner { padding: 72px 20px 40px !important; }
+}
+@media (max-width: 768px) and (orientation: landscape) {
+  .lp-hero { min-height: auto !important; padding: 70px 32px 40px !important; }
+  .lp-headline { font-size: 28px !important; }
+  .lp-headline-accent { font-size: 28px !important; margin-bottom: 16px !important; }
+  .lp-subtext { font-size: 13px !important; margin-bottom: 24px !important; }
+}
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .lp-hero { grid-template-columns: 1fr 1fr !important; padding: 88px 40px 60px !important; min-height: 100vh !important; }
+  .lp-hero-right { display: block !important; }
+  .lp-headline { font-size: 40px !important; }
+  .lp-headline-accent { font-size: 40px !important; }
+  .lp-benefits-grid { grid-template-columns: repeat(3,1fr) !important; }
+  .lp-testi-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .qopt { min-height: 56px !important; }
+  .gbtn { min-height: 52px !important; }
+  .scale-btn { min-height: 52px !important; }
+  .lp-cta-primary { min-height: 52px !important; }
+  .lp-nav-pill { min-height: 40px !important; padding: 10px 18px !important; }
+}
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+* { -webkit-tap-highlight-color: rgba(28,74,50,0.1); }
 `
 
 /* ─── Flame Logo ─── */
@@ -606,7 +681,7 @@ function FlameLogo() {
         <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#2d6a4f" opacity="0.7"/>
         <path d="M14 25C14 25 13 26.5 13 27.5C13 29.4 14.3 31 16 31C17.7 31 19 29.4 19 27.5C19 26.5 18 25 18 25C18 25 17.5 26 16.5 26.5C16 26.7 16 26.7 16 26.7C16 26.7 16.5 25.5 14 25Z" fill="#1a4a35"/>
       </svg>
-      <span style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
+      <span className="site-header-logo-text" style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
     </div>
   )
 }
@@ -654,7 +729,7 @@ function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) 
       </div>
 
       {/* Right: tag line — invisible during quiz to preserve layout */}
-      <div style={{
+      <div className="site-header-tag" style={{
         fontSize: 13, color: '#999', whiteSpace: 'nowrap', flexShrink: 0,
         visibility: isQuiz ? 'hidden' : 'visible',
         minWidth: 110, textAlign: 'right',
@@ -1969,7 +2044,7 @@ export default function Page() {
       <style>{CSS}</style>
       <SiteHeader screen="email" currentQ={questions.length} />
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 24px 60px' }}>
+      <div className="email-screen-inner" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 24px 60px' }}>
         <div className="afu-1" style={{ maxWidth: 520, width: '100%', textAlign: 'center' }}>
           {/* Gold label */}
           <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b8960c', marginBottom: 20 }}>

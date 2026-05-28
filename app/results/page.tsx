@@ -586,6 +586,19 @@ export default function ResultsPage() {
         @media (max-width: 700px) {
           .card-pair { grid-template-columns: 1fr !important; }
         }
+        @media (max-width: 768px) {
+          .results-hero h1 { font-size: 32px !important; }
+          .results-cards { padding: 0 16px !important; }
+          .results-card { padding: 24px 20px !important; }
+          .two-col-grid { grid-template-columns: 1fr !important; }
+          .week-cols { grid-template-columns: 1fr !important; }
+          .stat-pills { flex-direction: column !important; gap: 8px !important; }
+        }
+        @media (max-width: 480px) {
+          .results-hero { padding: 32px 20px 24px !important; }
+          .results-hero h1 { font-size: 26px !important; }
+          .section-number { font-size: 40px !important; }
+        }
       `}</style>
 
       {/* ─── Fixed Header ─── */}

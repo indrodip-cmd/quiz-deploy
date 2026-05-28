@@ -75,6 +75,9 @@ export default function VideoGatePage() {
         }
         .input-field:focus { border-color: #225840; }
         .input-field::placeholder { color: #9ca3af; }
+        @media (max-width: 480px) {
+          .video-gate-inner { padding: 40px 20px !important; }
+        }
       `}</style>
 
       <header style={{ background: 'rgba(255,255,255,0.97)', borderBottom: '1px solid #f0f0f0', padding: '16px 40px', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -84,7 +87,7 @@ export default function VideoGatePage() {
         <span style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
       </header>
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
+      <div className="video-gate-inner" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
         <div className="fade-up" style={{ maxWidth: 480, width: '100%', textAlign: 'center' }}>
 
           <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'linear-gradient(135deg, #225840, #2d6a4f)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 24 }}>

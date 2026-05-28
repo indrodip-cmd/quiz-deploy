@@ -1,8 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "Find Your $5K/Month Path | The5th",
   description: "Answer 8 questions and get your personalized 15-day AI roadmap to $5,000/month from your expertise.",
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({

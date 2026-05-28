@@ -52,6 +52,11 @@ function ThankYouContent() {
         .fade-up-2 { animation: fadeUp 0.6s 0.2s ease both; }
         .fade-up-3 { animation: fadeUp 0.6s 0.4s ease both; }
         .scale-in { animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        @media (max-width: 480px) {
+          .thankyou-inner { padding: 40px 20px !important; }
+          .thankyou-h1 { font-size: 28px !important; }
+          .booking-details { padding: 24px 20px !important; }
+        }
       `}</style>
 
       <header style={{ background: 'rgba(255,255,255,0.97)', borderBottom: '1px solid #f0f0f0', padding: '16px 40px', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -61,7 +66,7 @@ function ThankYouContent() {
         <span style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
       </header>
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
+      <div className="thankyou-inner" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
         <div style={{ maxWidth: 560, width: '100%', textAlign: 'center' }}>
 
           <div className="scale-in" style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg, #225840, #2d6a4f)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 32px', fontSize: 36 }}>
@@ -69,7 +74,7 @@ function ThankYouContent() {
           </div>
 
           <div className="fade-up">
-            <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: '#1a1a1a', lineHeight: 1.1, marginBottom: 16 }}>
+            <h1 className="thankyou-h1" style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: '#1a1a1a', lineHeight: 1.1, marginBottom: 16 }}>
               You are booked, {firstName}.
             </h1>
             <p style={{ fontSize: 17, color: '#555', lineHeight: 1.7, marginBottom: 36 }}>
@@ -78,7 +83,7 @@ function ThankYouContent() {
           </div>
 
           {(date || time) ? (
-            <div className="fade-up-2" style={{ background: '#fff', borderRadius: 20, padding: '32px 40px', marginBottom: 36, boxShadow: '0 4px 40px rgba(0,0,0,0.06)', border: '1px solid #e8e8e8' }}>
+            <div className="fade-up-2 booking-details" style={{ background: '#fff', borderRadius: 20, padding: '32px 40px', marginBottom: 36, boxShadow: '0 4px 40px rgba(0,0,0,0.06)', border: '1px solid #e8e8e8' }}>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: '#b8960c', textTransform: 'uppercase', marginBottom: 20 }}>
                 Your Confirmed Session
               </div>
