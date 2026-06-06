@@ -673,6 +673,20 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
 }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
 * { -webkit-tap-highlight-color: rgba(28,74,50,0.1); }
+
+/* ── Quiz options 2-column grid on desktop ── */
+.qopt-grid { display: flex; flex-direction: column; }
+@media (min-width: 768px) {
+  .qopt-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .qopt-grid .qopt { margin-bottom: 0 !important; }
+}
+@media (max-width: 767px) {
+  .qopt-grid { display: flex !important; flex-direction: column !important; }
+}
+/* Quiz content area responsive */
+@media (max-width: 767px) {
+  .quiz-content-area { max-width: 640px !important; padding: 88px 20px 100px !important; }
+}
 `
 
 /* ─── Flame Logo ─── */
@@ -1959,7 +1973,7 @@ export default function Page() {
         </div>
 
         {/* Content area */}
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '88px 20px 100px', position:'relative', zIndex:1 }}>
+        <div className="quiz-content-area" style={{ maxWidth: 800, margin: '0 auto', padding: '88px 40px 100px', position:'relative', zIndex:1 }}>
 
           {/* Animated question wrapper */}
           <div key={cardKey} className={slideDir}>
@@ -1974,30 +1988,34 @@ export default function Page() {
             )}
 
             {/* Options container */}
-            <div style={{ maxWidth: 500, margin: '0 auto' }}>
+            <div style={{ maxWidth: 720, margin: '0 auto' }}>
 
               {/* SELECT */}
-              {q.type === 'select' && q.options.map(opt => {
-                const sel = answers[q.id] === opt.value
-                return (
-                  <button
-                    key={opt.value}
-                    className={`qopt${sel ? ' sel' : ''}`}
-                    onClick={() => handleSelectAnswer(q.id, opt.value)}>
-                    <span style={{ flex: 1 }}>
-                      <span style={{ display: 'block', fontSize: 17, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>
-                        {opt.label}
-                      </span>
-                      {opt.sub && (
-                        <span style={{ display: 'block', fontSize: 13, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 3 }}>
-                          {opt.sub}
+              {q.type === 'select' && (
+                <div className="qopt-grid">
+                  {q.options.map(opt => {
+                    const sel = answers[q.id] === opt.value
+                    return (
+                      <button
+                        key={opt.value}
+                        className={`qopt${sel ? ' sel' : ''}`}
+                        onClick={() => handleSelectAnswer(q.id, opt.value)}>
+                        <span style={{ flex: 1 }}>
+                          <span style={{ display: 'block', fontSize: 17, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>
+                            {opt.label}
+                          </span>
+                          {opt.sub && (
+                            <span style={{ display: 'block', fontSize: 13, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 3 }}>
+                              {opt.sub}
+                            </span>
+                          )}
                         </span>
-                      )}
-                    </span>
-                    {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700, marginLeft: 12 }}>✓</span>}
-                  </button>
-                )
-              })}
+                        {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700, marginLeft: 12 }}>✓</span>}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
 
               {/* TEXTAREA */}
               {q.type === 'textarea' && (
@@ -2061,33 +2079,35 @@ export default function Page() {
               {/* MULTI */}
               {q.type === 'multi' && (
                 <>
-                  {q.options.map(opt => {
-                    const sel = (multiAnswers[q.id] || []).includes(opt.value)
-                    return (
-                      <button
-                        key={opt.value}
-                        className={`qopt${sel ? ' sel' : ''}`}
-                        onClick={() => {
-                          setMultiAnswers(m => {
-                            const cur = m[q.id] || []
-                            return { ...m, [q.id]: sel ? cur.filter(v => v !== opt.value) : [...cur, opt.value] }
-                          })
-                          setError('')
-                        }}>
-                        <span style={{ flex: 1 }}>
-                          <span style={{ display: 'block', fontSize: 17, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>
-                            {opt.label}
-                          </span>
-                          {opt.sub && (
-                            <span style={{ display: 'block', fontSize: 13, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 3 }}>
-                              {opt.sub}
+                  <div className="qopt-grid">
+                    {q.options.map(opt => {
+                      const sel = (multiAnswers[q.id] || []).includes(opt.value)
+                      return (
+                        <button
+                          key={opt.value}
+                          className={`qopt${sel ? ' sel' : ''}`}
+                          onClick={() => {
+                            setMultiAnswers(m => {
+                              const cur = m[q.id] || []
+                              return { ...m, [q.id]: sel ? cur.filter(v => v !== opt.value) : [...cur, opt.value] }
+                            })
+                            setError('')
+                          }}>
+                          <span style={{ flex: 1 }}>
+                            <span style={{ display: 'block', fontSize: 17, fontWeight: 500, color: sel ? '#fff' : '#0a0a0a' }}>
+                              {opt.label}
                             </span>
-                          )}
-                        </span>
-                        {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700, marginLeft: 12 }}>✓</span>}
-                      </button>
-                    )
-                  })}
+                            {opt.sub && (
+                              <span style={{ display: 'block', fontSize: 13, color: sel ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginTop: 3 }}>
+                                {opt.sub}
+                              </span>
+                            )}
+                          </span>
+                          {sel && <span style={{ fontSize: 14, color: '#fff', flexShrink: 0, fontWeight: 700, marginLeft: 12 }}>✓</span>}
+                        </button>
+                      )
+                    })}
+                  </div>
                   {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
                   <button className="gbtn" style={{ marginTop: 8 }} onClick={validateAndNext}>Continue →</button>
                 </>
