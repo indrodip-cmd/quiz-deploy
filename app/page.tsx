@@ -1313,10 +1313,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
   const HOV = { onMouseEnter: () => setHovering(true), onMouseLeave: () => setHovering(false) }
 
   const ARCHETYPES = [
-    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You have the expertise and the drive. Your first paying client is closer than you think.' },
-    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You have proven it works. Now you need it to work every single month without starting from zero.' },
-    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You are in motion. The ceiling you are hitting is architectural, not personal.' },
-    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'You are already winning. The next level requires a different kind of strategy entirely.' },
+    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You create momentum quickly. You love ideas, innovation, and opportunities. Your challenge is creating consistency and focus.' },
+    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You care deeply about helping people. You naturally build trust and transformation. Your challenge is turning expertise into predictable revenue.' },
+    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You are exceptional at solving problems and creating value. Your challenge is building systems that scale beyond your personal involvement.' },
+    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'People naturally trust your wisdom and perspective. Your challenge is turning influence into a reliable client acquisition engine.' },
   ]
 
   return (
@@ -1351,7 +1351,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="qp-hero-inner">
 
           <motion.div {...up(0.08)}>
-            <Annotation>find out in 4 minutes</Annotation>
+            <Annotation>AI-Powered Growth Assessment For Coaches & Experts</Annotation>
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
@@ -1365,9 +1365,8 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             margin: '0 auto 24px',
             fontFamily: "'Playfair Display', serif",
           }}>
-            What if your coaching<br />
-            strategy is working<br />
-            against your personality?
+            What If The Real Reason You're Stuck Isn't Your Offer...<br />
+            But The Growth Strategy You're Following?
           </motion.h1>
 
           <motion.p className="qp-hero-sub" {...up(0.32)} style={{
@@ -1377,13 +1376,13 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            Most coaches fail not because they lack talent, but because they are using the wrong strategy for who they actually are. Your Expert Archetype reveals the approach built specifically for your personality type and the fastest path to $10K months.
+            Most coaches don't fail because they lack talent, expertise, or ambition. They struggle because they're trying to grow their business using strategies that were designed for someone else. The problem is that most people never discover which path is naturally aligned with how they operate. Take this AI-powered assessment to discover your Expert Income Archetype™, identify what's actually limiting your growth, and receive a personalised roadmap designed specifically for you.
           </motion.p>
 
           <motion.div {...up(0.44)}>
             <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
-              Discover My Archetype
+              DISCOVER MY ARCHETYPE
             </motion.button>
           </motion.div>
 
@@ -1416,9 +1415,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 <path d="M14 2 C14 2 20 10 18 20 C17 26 10 28 10 28" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round"/>
                 <path d="M6 24 L10 29 L15 25" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="qp-sect-h"><em style={{ fontStyle:'italic', color:'#1c4a32' }}>Four</em> Archetypes. One is yours.</h2>
+              <h2 className="qp-sect-h"><em style={{ fontStyle:'italic', color:'#1c4a32' }}>Four</em> Archetypes. Four Different Ways To Build A Successful Coaching Business.</h2>
               <p className="qp-sect-sub">
-                Every coach has a natural way of selling, showing up, and scaling. When your strategy matches your Archetype, $10K months stop feeling impossible. When it does not, no amount of hard work closes the gap.
+                Most coaches are following advice that works perfectly for someone else. This assessment helps you discover the growth model that aligns with your natural strengths.
               </p>
             </div>
           </motion.div>
@@ -1446,7 +1445,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           >
             <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
-              Find Out Which One You Are
+              TAKE THE ASSESSMENT
             </motion.button>
           </motion.div>
 
@@ -1464,7 +1463,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             transition={tr(0)}
           >
             <Annotation dark>see the methodology</Annotation>
-            <h2 className="qp-about-h">About the Quiz</h2>
+            <h2 className="qp-about-h">This Is Not Another Personality Quiz</h2>
           </motion.div>
 
           <div className="qp-about-cards">
@@ -1473,14 +1472,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               animate={aboutInView ? { opacity:1, x:0 } : {}}
               transition={tr(0.1)}
             >
-              <div className="qp-card-h">Why take the Expert Income Quiz?</div>
+              <div className="qp-card-h">Here's What You'll Discover</div>
               <ul className="qp-bullet-list">
                 {[
-                  { t:'Get honest clarity on where you actually are', s:'Not where you think you are. Where you actually are.' },
-                  { t:'Understand what is really holding you back',   s:'It is almost never what you think it is.' },
-                  { t:'Get a personalised roadmap for your exact stage', s:'Built from your answers, not a template.' },
-                  { t:'7 days of free AI coaching included',        s:'Daily emails written specifically from your quiz answers.' },
-                  { t:'Free 7-day coaching built for YOUR personality', s:'We will not ask you to hustle if you are not a hustler. Every email is built for how you are actually wired.' },
+                  { t:'Your Expert Income Archetype™', s:"Understand how you're naturally wired to grow your business." },
+                  { t:'Your Hidden Growth Bottleneck', s:'Identify the single biggest factor limiting your next level of growth.' },
+                  { t:'Your Personalised Growth Blueprint', s:'Receive strategic recommendations tailored to your strengths, business stage, and goals.' },
+                  { t:'Your Next Best Move', s:'Know exactly what to focus on next instead of chasing endless strategies.' },
+                  { t:'Your 7-Day Coaching Experience', s:'Receive personalised coaching insights designed around your results.' },
                 ].map(({ t, s }, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-bullet-star">★</span>
@@ -1498,12 +1497,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               animate={aboutInView ? { opacity:1, x:0 } : {}}
               transition={tr(0.15)}
             >
-              <div className="qp-card-h">How it works</div>
+              <div className="qp-card-h">How It Works</div>
               <ul className="qp-bullet-list">
                 {[
-                  'Answer 20 honest questions — takes less than 4 minutes. No fluff.',
-                  'Receive your Expert Income Archetype and blueprint in your inbox immediately.',
-                  'Get 7 days of free AI coaching — one email a day, written for your exact situation, your stage, your next move.',
+                  'Answer 20 carefully designed questions about your business, goals, and growth challenges.',
+                  'Our AI analyses your responses and identifies patterns, strengths, blind spots, and opportunities.',
+                  'Receive your Expert Income Archetype™, growth diagnosis, and personalised blueprint instantly.',
                 ].map((s, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-step-num">{i + 1}</span>
@@ -1512,7 +1511,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 ))}
               </ul>
               <p className="qp-card-closing">
-                Whether you thrive on action or need a gentler path, your 7 days of coaching will never ask you to be someone you are not. Built for your personality type. Built for your pace.
+                Apply your recommendations and continue receiving personalised coaching guidance over the next 7 days. Simple. Personalised. Actionable.
               </p>
             </motion.div>
           </div>
@@ -1551,18 +1550,18 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             transition={tr(0)}
           >
             <div className="qp-dark-annotation">
-              <span style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600 }}>only takes 4 minutes →</span>
+              <span style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600 }}>⏱ Takes approximately 5 minutes.</span>
               <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
                 <path d="M13 2 C13 2 20 9 18 18 C17 22 11 24 11 24" stroke="rgba(255,255,255,.55)" strokeWidth="1.8" strokeLinecap="round"/>
                 <path d="M7 21 L11 25 L15 21" stroke="rgba(255,255,255,.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
             <h2 className="qp-dark-h">
-              Ready to find out<br />which expert you are?
+              Discover The Growth Strategy That's Actually Aligned With You
             </h2>
             <motion.button className="qp-btn-dark-gold" onClick={onStart} {...HOV}
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
-              Discover Now
+              DISCOVER MY ARCHETYPE
             </motion.button>
           </motion.div>
         </div>
