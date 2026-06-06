@@ -1369,15 +1369,19 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             But The Growth Strategy You're Following?
           </motion.h1>
 
-          <motion.p className="qp-hero-sub" {...up(0.32)} style={{
+          <motion.div className="qp-hero-sub" {...up(0.32)} style={{
             maxWidth: '520px',
             fontSize: '17px',
             color: 'rgba(255,255,255,0.85)',
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            Most coaches don't fail because they lack talent, expertise, or ambition. They struggle because they're trying to grow their business using strategies that were designed for someone else. The problem is that most people never discover which path is naturally aligned with how they operate. Take this AI-powered assessment to discover your Expert Income Archetype™, identify what's actually limiting your growth, and receive a personalised roadmap designed specifically for you.
-          </motion.p>
+            <p>Most coaches don't fail because they lack talent, expertise, or ambition.</p>
+            <p>They struggle because they're following a growth strategy designed for someone else.</p>
+            <p>Some thrive through authority. Others through relationships. Others through systems. Others through visibility.</p>
+            <p>The problem? Most never discover which path is naturally theirs.</p>
+            <p>Take this AI-powered assessment to discover your Expert Income Archetype™, uncover what's actually limiting your growth, and receive a personalised roadmap built specifically for you.</p>
+          </motion.div>
 
           <motion.div {...up(0.44)}>
             <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
