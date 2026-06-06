@@ -1195,6 +1195,7 @@ const LP_CSS = `
 @media(max-width:1024px){
   .qp-nav{padding:16px 40px;}
   .qp-hero{padding:110px 32px 0;}
+  .qp-h1{font-size:clamp(40px,5.5vw,58px) !important;}
   .qp-arch-section{padding:160px 40px 80px;}
   .qp-about-section{padding:80px 40px;}
   .qp-dark-cta{padding:80px 40px;}
@@ -1204,7 +1205,7 @@ const LP_CSS = `
   .qp-nav{padding:14px 24px;}
   .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
   .qp-hero{padding:96px 24px 0;}
-  .qp-h1{font-size:clamp(38px,8vw,56px) !important;letter-spacing:-1px !important;}
+  .qp-h1{font-size:clamp(34px,7vw,48px) !important;letter-spacing:-1px !important;}
   .qp-arch-section{padding:140px 24px 60px;}
   .qp-arch-top-right{display:none;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
@@ -1217,7 +1218,7 @@ const LP_CSS = `
   .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
 }
 @media(max-width:480px){
-  .qp-h1{font-size:clamp(32px,9vw,44px) !important;letter-spacing:-0.5px !important;}
+  .qp-h1{font-size:clamp(28px,8vw,38px) !important;letter-spacing:-0.5px !important;}
   .qp-hero-inner{padding:0 20px !important;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
   .qp-arch-img-wrap{height:150px;}
@@ -1340,10 +1341,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
-            fontSize: 'clamp(56px, 6.5vw, 88px)',
+            fontSize: 'clamp(44px, 5vw, 68px)',
             fontWeight: 700,
-            lineHeight: 1.02,
-            letterSpacing: '-2px',
+            lineHeight: 1.05,
+            letterSpacing: '-1.5px',
             color: '#ffffff',
             textAlign: 'center',
             maxWidth: '900px',
