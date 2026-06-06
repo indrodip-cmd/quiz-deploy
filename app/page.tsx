@@ -1376,11 +1376,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            <p>Most coaches don't fail because they lack talent, expertise, or ambition.</p>
-            <p>They struggle because they're following a growth strategy designed for someone else.</p>
-            <p>Some thrive through authority. Others through relationships. Others through systems. Others through visibility.</p>
-            <p>The problem? Most never discover which path is naturally theirs.</p>
-            <p>Take this AI-powered assessment to discover your Expert Income Archetype™, uncover what's actually limiting your growth, and receive a personalised roadmap built specifically for you.</p>
+            <p>Most coaches don't need another strategy.</p>
+            <p>They need the right one.</p>
+            <p>Discover your Expert Income Archetype™, identify what's slowing your growth, and get a personalised roadmap in minutes.</p>
           </motion.div>
 
           <motion.div {...up(0.44)}>
@@ -1389,6 +1387,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               DISCOVER MY ARCHETYPE
             </motion.button>
           </motion.div>
+
+          <motion.p className="qp-hero-sub" {...up(0.52)} style={{ fontSize: '13px', margin: '16px auto 0', opacity: 0.7 }}>
+            ✓ Personalised Archetype Analysis &nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp; ✓ Custom Growth Blueprint &nbsp; ✓ Instant Results &nbsp; ⏱ Takes 5 minutes
+          </motion.p>
 
         </div>
 
