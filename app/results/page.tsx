@@ -44,7 +44,7 @@ function getIcon(title: string): string {
 }
 
 function formatStage(q1: string): string {
-  const m: Record<string, string> = { starting: 'Just Starting', idea: 'Idea Stage', launched: 'Launched', scaling: 'Scaling' }
+  const m: Record<string, string> = { starting: 'The Pioneer', idea: 'The Pioneer', launched: 'The Pathfinder', scaling: 'The Builder' }
   return m[q1] || q1 || 'Starting'
 }
 

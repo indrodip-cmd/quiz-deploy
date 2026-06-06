@@ -313,44 +313,47 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0a0a0
 
 .gbtn {
   display: block; width: 100%; padding: 18px 32px;
-  background: linear-gradient(135deg, #225840, #2d6a4f);
-  border: none; border-radius: 6px;
-  box-shadow: 0 4px 14px rgba(34,88,64,0.35);
-  color: #fff; font-size: 18px; font-weight: 700;
+  background: #1c4a32;
+  border: none; border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(28,74,50,0.38);
+  color: #fff; font-size: 17px; font-weight: 700;
   cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease;
   text-align: center; font-family: inherit;
 }
-.gbtn:hover { opacity: 0.92; transform: translateY(-1px); }
+.gbtn:hover { opacity: 0.88; transform: translateY(-1px); }
 .gbtn:active { transform: scale(0.98); opacity: 1; }
 .gbtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
 .qopt {
-  display: flex; align-items: center; width: 100%;
-  padding: 18px 24px; background: #fff;
-  border: 2px solid #e0e0e0; border-radius: 6px;
-  cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease;
+  display: flex; align-items: center; justify-content: flex-start; width: 100%;
+  padding: 18px 28px; background: #fff;
+  border: 2px solid transparent; border-radius: 50px;
+  cursor: pointer; transition: all 0.15s ease;
   text-align: left; margin-bottom: 12px; font-family: inherit;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-.qopt:hover { border-color: #225840; }
-.qopt.sel { background: #225840; border-color: #225840; }
+.qopt:hover { border-color: #1c4a32; box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
+.qopt.sel { background: #1c4a32; border-color: #1c4a32; }
 
 .qinput {
-  width: 100%; padding: 16px; border: 2px solid #e0e0e0;
-  border-radius: 6px; font-size: 17px; font-family: inherit;
+  width: 100%; padding: 16px; border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 16px; font-size: 17px; font-family: inherit;
   transition: border-color 0.2s ease; outline: none;
   color: #0a0a0a; background: #fff;
 }
-.qinput:focus { border-color: #225840; }
+.qinput:focus { border-color: #1c4a32; }
+.qinput::placeholder { color: #9ca3af; }
 .qinput::placeholder { color: #9ca3af; }
 
 .scale-btn {
-  flex: 1; height: 56px; border-radius: 6px;
-  border: 2px solid #e0e0e0; background: #fff;
+  flex: 1; height: 56px; border-radius: 50px;
+  border: 2px solid rgba(255,255,255,0.45); background: #fff;
   font-size: 20px; font-weight: 700; cursor: pointer;
-  transition: all 0.15s ease; color: #6b7280; font-family: inherit;
+  transition: all 0.15s ease; color: #111; font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-.scale-btn:hover { border-color: #225840; color: #225840; }
-.scale-btn.sel { background: #225840; border-color: #225840; color: #fff; }
+.scale-btn:hover { border-color: #1c4a32; color: #1c4a32; }
+.scale-btn.sel { background: #1c4a32; border-color: #1c4a32; color: #fff; }
 
 .otp-box {
   width: 52px; height: 60px; border: 2px solid #e0e0e0;
@@ -1063,14 +1066,14 @@ const LP_CSS = `
   background:rgba(139,127,207,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .qp-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
   color:#fff;letter-spacing:.04em;}
-.qp-nav-btn{background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;
+.qp-nav-btn{background:#1c4a32;color:#fff;font-family:'DM Sans',sans-serif;
   font-size:13px;font-weight:700;padding:10px 24px;border-radius:50px;
   border:none;cursor:none;letter-spacing:.03em;transition:transform .2s,box-shadow .2s;
-  box-shadow:0 4px 14px rgba(232,184,75,.38);}
-.qp-nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,184,75,.5);}
+  box-shadow:0 4px 14px rgba(28,74,50,.4);}
+.qp-nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(28,74,50,.5);}
 
 /* ─── hero ─── */
-.qp-hero{background:#8b7fcf;position:relative;overflow:hidden;
+.qp-hero{background:#8b7fcf;position:relative;overflow:visible;
   padding:120px 40px 0;text-align:center;}
 .qp-hero-grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.055;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
@@ -1083,29 +1086,28 @@ const LP_CSS = `
 .qp-hero-sub{font-size:18px;line-height:1.75;color:rgba(255,255,255,.75);
   max-width:520px;margin:0 auto 40px;}
 .qp-btn-gold{display:inline-flex;align-items:center;justify-content:center;
-  background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
+  background:#1c4a32;color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;
   font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:none;
-  letter-spacing:.02em;box-shadow:0 8px 28px rgba(232,184,75,.45);
+  letter-spacing:.02em;box-shadow:0 8px 28px rgba(28,74,50,.4);
   transition:transform .25s,box-shadow .25s;}
-.qp-btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(232,184,75,.55);}
+.qp-btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(28,74,50,.5);}
 .qp-btn-ghost{display:inline-flex;align-items:center;justify-content:center;
   background:transparent;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
   font-weight:700;padding:16px 48px;border-radius:50px;border:2px solid #111;
   cursor:none;letter-spacing:.02em;transition:all .25s;}
 .qp-btn-ghost:hover{background:#111;color:#fff;transform:translateY(-2px);}
-.qp-hero-graphic{display:block;width:100%;max-width:900px;margin:48px auto 0;
-  position:relative;z-index:1;}
+.qp-hero-graphic{display:block;width:100%;max-width:none;margin:48px auto -88px;
+  position:relative;z-index:2;}
 
 /* ─── archetypes section ─── */
-.qp-arch-section{background:#fff;padding:100px 60px;}
+.qp-arch-section{background:#fff;padding:180px 60px 100px;}
 .qp-arch-inner{max-width:1200px;margin:0 auto;}
-.qp-arch-top{display:grid;grid-template-columns:1fr auto;gap:48px;
-  align-items:flex-start;margin-bottom:64px;}
-.qp-arch-top-left{max-width:640px;}
-.qp-arch-top-right{text-align:right;flex-shrink:0;}
+.qp-arch-top{text-align:center;margin-bottom:16px;}
+.qp-arch-top-left{max-width:640px;margin:0 auto;}
+.qp-arch-top-right{display:none;}
 .qp-sect-h{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,60px);
   font-weight:900;line-height:1.08;color:#111;margin-bottom:16px;}
-.qp-sect-sub{font-size:16px;color:#555;line-height:1.8;max-width:560px;}
+.qp-sect-sub{font-size:16px;color:#555;line-height:1.8;max-width:560px;margin:0 auto 56px;text-align:center;}
 .qp-arch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-bottom:60px;}
 .qp-arch-card{text-align:center;}
 .qp-arch-img-wrap{height:200px;display:flex;align-items:flex-end;
@@ -1156,6 +1158,12 @@ const LP_CSS = `
 /* ─── dark CTA ─── */
 .qp-dark-cta{background:#1a1a1a;padding:100px 60px;text-align:center;}
 .qp-dark-inner{max-width:680px;margin:0 auto;}
+.qp-btn-dark-gold{display:inline-flex;align-items:center;justify-content:center;
+  background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
+  font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:none;
+  letter-spacing:.02em;box-shadow:0 8px 28px rgba(232,184,75,.45);
+  transition:transform .25s,box-shadow .25s;}
+.qp-btn-dark-gold:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(232,184,75,.55);}
 .qp-dark-annotation{font-family:'Caveat',cursive;font-size:22px;font-weight:600;
   color:rgba(255,255,255,.6);display:flex;align-items:center;
   justify-content:center;gap:8px;margin-bottom:8px;}
@@ -1187,7 +1195,7 @@ const LP_CSS = `
 @media(max-width:1024px){
   .qp-nav{padding:16px 40px;}
   .qp-hero{padding:110px 32px 0;}
-  .qp-arch-section{padding:80px 40px;}
+  .qp-arch-section{padding:160px 40px 80px;}
   .qp-about-section{padding:80px 40px;}
   .qp-dark-cta{padding:80px 40px;}
   .qp-footer{padding:48px 40px 32px;}
@@ -1197,8 +1205,7 @@ const LP_CSS = `
   .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
   .qp-hero{padding:96px 24px 0;}
   .qp-h1{font-size:clamp(40px,12vw,60px) !important;letter-spacing:-1px !important;}
-  .qp-arch-section{padding:60px 24px;}
-  .qp-arch-top{grid-template-columns:1fr;gap:0;}
+  .qp-arch-section{padding:140px 24px 60px;}
   .qp-arch-top-right{display:none;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
   .qp-about-section{padding:60px 24px;}
@@ -1289,10 +1296,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
   const HOV = { onMouseEnter: () => setHovering(true), onMouseLeave: () => setHovering(false) }
 
   const ARCHETYPES = [
-    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You have the expertise. You are building the bridge to your first paying client.' },
-    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You have clients and proof. Now you need consistency and a system.' },
-    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You are operating and growing. The next level requires a different architecture.' },
-    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'You are established and ready for a completely different scale of impact.' },
+    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You have the expertise and the drive. Your first paying client is closer than you think.' },
+    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You have proven it works. Now you need it to work every single month without starting from zero.' },
+    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You are in motion. The ceiling you are hitting is architectural, not personal.' },
+    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'You are already winning. The next level requires a different kind of strategy entirely.' },
   ]
 
   return (
@@ -1335,7 +1342,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.h1>
 
           <motion.p className="qp-hero-sub" {...up(0.32)}>
-            Find out exactly where you are, what is holding you back, and the one move that changes everything.
+            You have decades of expertise. Find out exactly how to turn it into consistent income — and what has been quietly standing in your way.
           </motion.p>
 
           <motion.div {...up(0.44)}>
@@ -1369,15 +1376,15 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             transition={tr(0)}
           >
             <div className="qp-arch-top-left">
-              <h2 className="qp-sect-h">Which Expert Are You?</h2>
+              <div style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600, color:'#8b7fcf', marginBottom:6 }}>find out which one you are</div>
+              <svg width="28" height="30" viewBox="0 0 28 30" fill="none" style={{ display:'block', margin:'0 auto 16px' }}>
+                <path d="M14 2 C14 2 20 10 18 20 C17 26 10 28 10 28" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round"/>
+                <path d="M6 24 L10 29 L15 25" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <h2 className="qp-sect-h">Which Expert Are <em style={{ fontStyle:'italic', color:'#1c4a32' }}>You?</em></h2>
               <p className="qp-sect-sub">
-                Every woman over 40 who has tried to monetise her expertise falls into one of four profiles.
-                Each one has a different strength, a different bottleneck, and a different next move.
-                The quiz finds yours in under 5 minutes.
+                Every woman over 40 who has tried to monetise her expertise falls into one of four archetypes. Each one has a different strength, a different blind spot, and a different path forward. Yours is waiting.
               </p>
-            </div>
-            <div className="qp-arch-top-right">
-              <AnnotationRight>find out{'\n'}which one you are</AnnotationRight>
             </div>
           </motion.div>
 
@@ -1434,10 +1441,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               <div className="qp-card-h">Why take the Expert Income Quiz?</div>
               <ul className="qp-bullet-list">
                 {[
-                  { t:'Get real clarity on where you actually are', s:'Stop guessing and get an honest picture of your stage.' },
-                  { t:'Understand what is really in your way',       s:'It is almost never what you think it is.' },
-                  { t:'Get a personalised roadmap for your exact stage', s:'Not a generic plan. A specific next move.' },
-                  { t:'7 days of free AI coaching included',        s:'Daily emails built from your exact quiz answers.' },
+                  { t:'Get honest clarity on where you actually are', s:'Not where you think you are. Where you actually are.' },
+                  { t:'Understand what is really holding you back',   s:'It is almost never what you think it is.' },
+                  { t:'Get a personalised roadmap for your exact stage', s:'Built from your answers, not a template.' },
+                  { t:'7 days of free AI coaching included',        s:'Daily emails written specifically from your quiz answers.' },
                 ].map(({ t, s }, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-bullet-star">★</span>
@@ -1458,9 +1465,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               <div className="qp-card-h">How it works</div>
               <ul className="qp-bullet-list">
                 {[
-                  'Answer 20 honest questions about where you are right now',
-                  'Receive your Expert Income Archetype and personalised blueprint sent directly to your inbox',
-                  'Get 7 days of free AI coaching emails written specifically from your answers — your niche, your stage, your exact next move',
+                  'Answer 20 honest questions — takes less than 4 minutes. No fluff.',
+                  'Receive your Expert Income Archetype and blueprint in your inbox immediately.',
+                  'Get 7 days of free AI coaching — one email a day, written for your exact situation, your stage, your next move.',
                 ].map((s, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-step-num">{i + 1}</span>
@@ -1469,7 +1476,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 ))}
               </ul>
               <p className="qp-card-closing">
-                Whether you are just starting out or already operating at a high level, your archetype is your roadmap to the next stage. Plus you get 7 days of real AI coaching completely free.
+                Whether you are just starting or already operating at a high level, your archetype tells you exactly what to do next.
               </p>
             </motion.div>
           </div>
@@ -1508,7 +1515,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             transition={tr(0)}
           >
             <div className="qp-dark-annotation">
-              <span style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600 }}>only takes 4 minutes</span>
+              <span style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600 }}>only takes 4 minutes →</span>
               <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
                 <path d="M13 2 C13 2 20 9 18 18 C17 22 11 24 11 24" stroke="rgba(255,255,255,.55)" strokeWidth="1.8" strokeLinecap="round"/>
                 <path d="M7 21 L11 25 L15 21" stroke="rgba(255,255,255,.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -1517,7 +1524,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             <h2 className="qp-dark-h">
               Ready to find out<br />which expert you are?
             </h2>
-            <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
+            <motion.button className="qp-btn-dark-gold" onClick={onStart} {...HOV}
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               Discover Now
             </motion.button>
@@ -1890,30 +1897,56 @@ export default function Page() {
     const q = questions[currentQ]
     const hasAnswer = q.type === 'select' ? !!answers[q.id] : q.type === 'scale' ? !!answers[q.id] : true
 
+    const GRAIN_URI = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")"
+    const StarSVG = ({ size = 28, style = {} }: { size?: number; style?: React.CSSProperties }) => (
+      <svg width={size} height={size} viewBox="0 0 28 28" fill="none" style={style}>
+        <path d="M14 2 L15.2 10.8 L22 6 L17.2 13.4 L26 14 L17.2 14.6 L22 22 L15.2 17.2 L14 26 L12.8 17.2 L6 22 L10.8 14.6 L2 14 L10.8 13.4 L6 6 L12.8 10.8 Z" stroke="#0d0d0b" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+      </svg>
+    )
     return (
-      <div style={{ minHeight: '100vh', background: '#f9f9f9' }}>
+      <div style={{ minHeight: '100vh', background: '#8b7fcf', position: 'relative' }}>
+        {/* Grain overlay */}
+        <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, opacity:.058,
+          backgroundImage: GRAIN_URI }} />
         <style>{CSS}</style>
 
-        <SiteHeader screen="quiz" currentQ={currentQ} />
+        {/* Minimal top bar: just back arrow + progress dots */}
+        <div style={{ position:'fixed', top:0, left:0, right:0, zIndex:100,
+          padding:'16px 24px', display:'flex', alignItems:'center', gap:16 }}>
+          <button onClick={goBack} aria-label="Go back"
+            style={{ background:'none', border:'none', fontSize:22, color:'rgba(255,255,255,.7)',
+              cursor:'pointer', lineHeight:1, padding:0, flexShrink:0 }}>←</button>
+          <div style={{ flex:1, display:'flex', justifyContent:'center', gap:6 }}>
+            {questions.map((_, i) => (
+              <div key={i} style={{ width:8, height:8, borderRadius:'50%',
+                background: i < currentQ ? '#1c4a32' : i === currentQ ? '#fff' : 'rgba(255,255,255,.28)',
+                transition:'background .3s' }} />
+            ))}
+          </div>
+          <div style={{ width:22, flexShrink:0 }} />
+        </div>
+
+        {/* Decorative stars bottom corners */}
+        <div style={{ position:'fixed', bottom:40, left:24, zIndex:1, pointerEvents:'none', opacity:.55 }}>
+          <StarSVG size={20} style={{ color:'#0d0d0b' }} />
+          <StarSVG size={14} style={{ marginTop:8, marginLeft:8, color:'#0d0d0b' }} />
+        </div>
+        <div style={{ position:'fixed', bottom:40, right:24, zIndex:1, pointerEvents:'none', opacity:.55 }}>
+          <StarSVG size={14} style={{ color:'#0d0d0b' }} />
+          <StarSVG size={20} style={{ marginTop:8, color:'#0d0d0b' }} />
+        </div>
 
         {/* Content area */}
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '88px 20px 100px' }}>
-          {/* Back arrow */}
-          <button
-            onClick={goBack}
-            aria-label="Go back"
-            style={{ background: 'none', border: 'none', fontSize: 22, color: '#9ca3af', cursor: 'pointer', padding: '18px 0 0', display: 'block', lineHeight: 1 }}>
-            ←
-          </button>
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '88px 20px 100px', position:'relative', zIndex:1 }}>
 
           {/* Animated question wrapper */}
           <div key={cardKey} className={slideDir}>
             {/* Question title */}
-            <h2 style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 800, color: '#0a0a0a', textAlign: 'center', margin: '40px auto 12px', lineHeight: 1.2, maxWidth: 560 }}>
+            <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 400, fontFamily: "'Playfair Display',serif", color: '#0d0d0b', textAlign: 'center', margin: '40px auto 12px', lineHeight: 1.22, maxWidth: 640 }}>
               {q.title}
             </h2>
             {q.sub && (
-              <p style={{ fontSize: 16, color: '#6b7280', textAlign: 'center', marginBottom: 36, lineHeight: 1.65, maxWidth: 500, margin: '0 auto 36px' }}>
+              <p style={{ fontSize: 16, color: 'rgba(13,13,11,.6)', textAlign: 'center', marginBottom: 36, lineHeight: 1.65, maxWidth: 520, margin: '0 auto 36px' }}>
                 {q.sub}
               </p>
             )}

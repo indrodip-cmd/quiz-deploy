@@ -5,24 +5,24 @@ import { useParams } from 'next/navigation'
 
 const VIDEO_CONFIG = {
   v1: {
-    title: 'You Are Closer Than You Think',
-    subtitle: 'For women just starting out or with an idea not yet launched',
-    description: 'This video is for you. You have everything you need. You are just missing the roadmap.',
+    title: 'The Pioneer — Your First Client Is Closer Than You Think',
+    subtitle: 'You have the expertise. You are building the bridge to your first paying client.',
+    description: 'This video is for you. You have everything you need. The roadmap is what has been missing.',
   },
   v2: {
-    title: 'You Have Started. Here Is Why It Has Not Clicked Yet.',
-    subtitle: 'For women who have launched but income is not consistent',
-    description: 'You have done the hard part. Starting. Now let us fix the specific thing holding you back.',
+    title: 'The Pathfinder — Here Is Why It Has Not Clicked Yet',
+    subtitle: 'You have clients and proof. Now you need consistency and a system.',
+    description: 'You have done the hard part. Now let us fix the specific thing that keeps the income inconsistent.',
   },
   v3: {
-    title: 'You Are Ready For Your Next Level',
-    subtitle: 'For women who are getting clients and want consistent growth',
-    description: 'You have proven the concept. This video shows you exactly how to scale without burning out.',
+    title: 'The Builder — The Ceiling You Are Hitting Is Architectural',
+    subtitle: 'You are operating and growing. The next level requires a different architecture.',
+    description: 'You have proven the concept. This video shows you exactly how to build the structure that scales.',
   },
   v4: {
-    title: 'You Are Ready For Your Next Level',
-    subtitle: 'For women who are established and scaling',
-    description: 'You have proven the concept. This video shows you exactly how to scale without burning out.',
+    title: 'The Luminary — Your Next Level Requires a Different Strategy',
+    subtitle: 'You are established and ready for a completely different scale of impact.',
+    description: 'You are already winning. This video shows you what the next level actually looks like from here.',
   },
 }
 
