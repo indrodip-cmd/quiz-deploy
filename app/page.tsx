@@ -1170,7 +1170,7 @@ const LP_CSS = `
   color:#fff;opacity:.18;pointer-events:none;}
 
 /* ─── dark CTA ─── */
-.qp-dark-cta{background:#1c4a32;padding:100px 60px;text-align:center;}
+.qp-dark-cta{background:#1c4a32;padding:80px 60px;text-align:center;}
 .qp-dark-inner{max-width:680px;margin:0 auto;}
 .qp-btn-dark-gold{display:inline-flex;align-items:center;justify-content:center;
   background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
@@ -1212,7 +1212,7 @@ const LP_CSS = `
   .qp-h1{font-size:clamp(40px,5.5vw,58px) !important;}
   .qp-arch-section{padding:160px 40px 80px;}
   .qp-about-section{padding:80px 40px;}
-  .qp-dark-cta{padding:80px 40px;}
+  .qp-dark-cta{padding:64px 40px;}
   .qp-footer{padding:48px 40px 32px;}
 }
 @media(max-width:768px){
@@ -1225,7 +1225,7 @@ const LP_CSS = `
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
   .qp-about-section{padding:60px 24px;}
   .qp-about-cards{grid-template-columns:1fr;gap:16px;}
-  .qp-dark-cta{padding:60px 24px;}
+  .qp-dark-cta{padding:48px 24px;}
   .qp-footer{padding:40px 24px 28px;}
   .qp-footer-top{flex-direction:column;align-items:flex-start;gap:24px;}
   .qp-footer-links{gap:24px;}
@@ -1369,17 +1369,15 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             But The Growth Strategy You're Following?
           </motion.h1>
 
-          <motion.div className="qp-hero-sub" {...up(0.32)} style={{
+          <motion.p className="qp-hero-sub" {...up(0.32)} style={{
             maxWidth: '520px',
-            fontSize: '17px',
+            fontSize: '20px',
             color: 'rgba(255,255,255,0.85)',
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            <p>Most coaches don't need another strategy.</p>
-            <p>They need the right one.</p>
-            <p>Discover your Expert Income Archetype™, identify what's slowing your growth, and get a personalised roadmap in minutes.</p>
-          </motion.div>
+            Most coaches don't need another strategy. They need the right one. Discover your Expert Income Archetype™, identify what's slowing your growth, and get a personalised roadmap in minutes.
+          </motion.p>
 
           <motion.div {...up(0.44)}>
             <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
@@ -1388,8 +1386,8 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </motion.button>
           </motion.div>
 
-          <motion.p className="qp-hero-sub" {...up(0.52)} style={{ fontSize: '13px', margin: '16px auto 0', opacity: 0.7 }}>
-            ✓ Personalised Archetype Analysis &nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp; ✓ Custom Growth Blueprint &nbsp; ✓ Instant Results &nbsp; ⏱ Takes 5 minutes
+          <motion.p className="qp-hero-sub" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
+            ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Blueprint &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ⏱ Takes 5 minutes
           </motion.p>
 
         </div>
@@ -1569,6 +1567,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               DISCOVER MY ARCHETYPE
             </motion.button>
+            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', marginTop: '24px', lineHeight: 1.7 }}>
+              ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Blueprint &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ⏱ Takes 5 minutes
+            </p>
           </motion.div>
         </div>
       </section>
