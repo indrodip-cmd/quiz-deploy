@@ -1077,12 +1077,12 @@ const LP_CSS = `
   padding:120px 40px 0;text-align:center;}
 .qp-hero-grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.055;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-.qp-hero-inner{max-width:700px;margin:0 auto;position:relative;z-index:1;}
+.qp-hero-inner{width:100%;max-width:1100px;padding:0 40px;margin:0 auto;position:relative;z-index:1;}
 .qp-annotation{font-family:'Caveat',cursive;font-size:22px;font-weight:600;
   color:rgba(255,255,255,.82);display:flex;align-items:center;
   justify-content:center;gap:8px;margin-bottom:6px;}
-.qp-h1{font-family:'Playfair Display',serif;font-size:clamp(48px,7.5vw,90px);
-  font-weight:900;line-height:1.02;color:#fff;letter-spacing:-2px;margin-bottom:24px;}
+.qp-h1{font-family:'Playfair Display',serif;font-size:clamp(52px,8vw,96px);
+  font-weight:900;line-height:1.0;color:#fff;letter-spacing:-2px;margin-bottom:24px;}
 .qp-hero-sub{font-size:18px;line-height:1.75;color:rgba(255,255,255,.75);
   max-width:520px;margin:0 auto 40px;}
 .qp-btn-gold{display:inline-flex;align-items:center;justify-content:center;
@@ -1204,7 +1204,7 @@ const LP_CSS = `
   .qp-nav{padding:14px 24px;}
   .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
   .qp-hero{padding:96px 24px 0;}
-  .qp-h1{font-size:clamp(40px,12vw,60px) !important;letter-spacing:-1px !important;}
+  .qp-h1{font-size:clamp(42px,10vw,64px) !important;letter-spacing:-1.5px !important;}
   .qp-arch-section{padding:140px 24px 60px;}
   .qp-arch-top-right{display:none;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
@@ -1217,6 +1217,8 @@ const LP_CSS = `
   .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
 }
 @media(max-width:480px){
+  .qp-h1{font-size:clamp(36px,11vw,52px) !important;}
+  .qp-hero-inner{padding:0 20px !important;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
   .qp-arch-img-wrap{height:150px;}
   .qp-white-card{padding:28px 22px;}
