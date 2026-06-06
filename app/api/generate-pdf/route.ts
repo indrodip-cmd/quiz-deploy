@@ -58,7 +58,16 @@ const buildRoadmapHtml = (roadmap: string): string => {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, email, roadmap, stage, goal, hours, videoSlug } = body
+    const { name, email, roadmap, stage, goal, hours, videoSlug, archetype, personality } = body
+
+    const personalityLabels: Record<string, string> = {
+      'action': 'The Driver',
+      'connection': 'The Flow Worker',
+      'ideas': 'The Deep Thinker',
+      'meaning': 'The Gentle Builder',
+    }
+    const personalityLabel = personalityLabels[personality as string] || 'The Driver'
+    const archetypeLabel = (archetype as string) || 'The Pioneer'
 
     if (!name || !email || !roadmap) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -82,6 +91,8 @@ export async function POST(req: NextRequest) {
           hours: hours || '10-20',
           video_url: videoUrl,
           roadmap,
+          archetype: archetypeLabel,
+          personality: personalityLabel,
         }),
         signal: AbortSignal.timeout(30000),
       })
@@ -137,21 +148,26 @@ export async function POST(req: NextRequest) {
     <div style="font-size:10px;font-weight:700;letter-spacing:2px;
       color:#1d5c3a;text-transform:uppercase;margin-bottom:12px;
       font-family:sans-serif;">
-      YOUR PERSONALISED BLUEPRINT
+      YOUR EXPERT ARCHETYPE BLUEPRINT
     </div>
     <div style="font-size:28px;font-weight:700;color:#0a0a0a;
       line-height:1.2;margin-bottom:4px;font-family:Georgia,serif;">
-      ${firstName}, here is your
+      ${firstName}, you are
     </div>
-    <div style="font-size:28px;font-weight:700;color:#1d5c3a;
-      font-style:italic;line-height:1.2;margin-bottom:20px;
+    <div style="font-size:28px;font-weight:700;color:#1c4a32;
+      font-style:italic;line-height:1.2;margin-bottom:8px;
       font-family:Georgia,serif;">
-      personalised blueprint.
+      ${archetypeLabel}.
+    </div>
+    <div style="display:inline-block;background:#8b7fcf;color:#fff;
+      font-size:11px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;padding:6px 16px;border-radius:50px;
+      margin-bottom:20px;font-family:sans-serif;">
+      ${personalityLabel}
     </div>
     <p style="font-size:14px;color:#6b6b6b;line-height:1.65;
       margin:0 0 28px;font-family:sans-serif;">
-      Based on your 20 quiz answers, The5th AI has mapped exactly
-      where you are and what needs to happen next.
+      Here is the strategy built specifically for your personality type.
       Your full personalised report is below.
     </p>
     <!-- Stat pills -->
@@ -161,23 +177,23 @@ export async function POST(req: NextRequest) {
         <td style="padding:12px 16px;border-right:1px solid #e0e0e0;">
           <div style="font-size:9px;font-weight:700;color:#888;
             letter-spacing:1px;text-transform:uppercase;
-            margin-bottom:4px;font-family:sans-serif;">STAGE</div>
-          <div style="font-size:13px;font-weight:700;color:#0a0a0a;
-            font-family:sans-serif;">${stage || 'Launched'}</div>
+            margin-bottom:4px;font-family:sans-serif;">ARCHETYPE</div>
+          <div style="font-size:13px;font-weight:700;color:#1c4a32;
+            font-family:sans-serif;">${archetypeLabel}</div>
         </td>
         <td style="padding:12px 16px;border-right:1px solid #e0e0e0;">
           <div style="font-size:9px;font-weight:700;color:#888;
             letter-spacing:1px;text-transform:uppercase;
-            margin-bottom:4px;font-family:sans-serif;">6-MONTH GOAL</div>
-          <div style="font-size:13px;font-weight:700;color:#0a0a0a;
-            font-family:sans-serif;">${goal || '$5K-$10K / month'}</div>
+            margin-bottom:4px;font-family:sans-serif;">PERSONALITY</div>
+          <div style="font-size:13px;font-weight:700;color:#8b7fcf;
+            font-family:sans-serif;">${personalityLabel}</div>
         </td>
         <td style="padding:12px 16px;">
           <div style="font-size:9px;font-weight:700;color:#888;
             letter-spacing:1px;text-transform:uppercase;
-            margin-bottom:4px;font-family:sans-serif;">HOURS / WEEK</div>
+            margin-bottom:4px;font-family:sans-serif;">6-MONTH GOAL</div>
           <div style="font-size:13px;font-weight:700;color:#9a7a1a;
-            font-family:sans-serif;">${hours || '10-20'} hrs</div>
+            font-family:sans-serif;">${goal || '$5K-$10K / month'}</div>
         </td>
       </tr>
     </table>
@@ -241,7 +257,7 @@ export async function POST(req: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: 'Indrodip at The5th <Indrodip@10kroadmap.org>',
       to: email,
-      subject: `${firstName}, your personalised blueprint is ready`,
+      subject: `${firstName}, your ${archetypeLabel} blueprint is ready`,
       html: emailHtml,
       attachments: pdfAttachment,
     })

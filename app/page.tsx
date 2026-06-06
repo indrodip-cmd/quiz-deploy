@@ -1334,21 +1334,21 @@ function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="qp-hero-inner">
 
           <motion.div {...up(0.08)}>
-            <Annotation>in less than 4 minutes</Annotation>
+            <Annotation>find out in 4 minutes</Annotation>
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)}>
-            Discover your<br />Expert Archetype
+            What if your coaching strategy<br />is working against your personality?
           </motion.h1>
 
           <motion.p className="qp-hero-sub" {...up(0.32)}>
-            You have spent years becoming exceptional at something. Most women never figure out how to turn that into real income. Your Archetype tells you exactly why — and exactly what to do next.
+            Most coaches fail not because they lack talent, but because they are using the wrong strategy for who they actually are. Your Expert Archetype reveals the approach built specifically for your personality type and the fastest path to $10K months.
           </motion.p>
 
           <motion.div {...up(0.44)}>
             <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
-              Take the Quiz
+              Discover My Archetype
             </motion.button>
           </motion.div>
 
@@ -1381,9 +1381,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 <path d="M14 2 C14 2 20 10 18 20 C17 26 10 28 10 28" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round"/>
                 <path d="M6 24 L10 29 L15 25" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="qp-sect-h">Which Expert Are <em style={{ fontStyle:'italic', color:'#1c4a32' }}>You?</em></h2>
+              <h2 className="qp-sect-h"><em style={{ fontStyle:'italic', color:'#1c4a32' }}>Four</em> Archetypes. One is yours.</h2>
               <p className="qp-sect-sub">
-                Most women with decades of expertise are sitting on an income they have not unlocked yet. Your Archetype is the map. Four profiles. One is yours. The quiz finds it in under 5 minutes.
+                Every coach has a natural way of selling, showing up, and scaling. When your strategy matches your Archetype, $10K months stop feeling impossible. When it does not, no amount of hard work closes the gap.
               </p>
             </div>
           </motion.div>
@@ -1445,6 +1445,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                   { t:'Understand what is really holding you back',   s:'It is almost never what you think it is.' },
                   { t:'Get a personalised roadmap for your exact stage', s:'Built from your answers, not a template.' },
                   { t:'7 days of free AI coaching included',        s:'Daily emails written specifically from your quiz answers.' },
+                  { t:'Free 7-day coaching built for YOUR personality', s:'We will not ask you to hustle if you are not a hustler. Every email is built for how you are actually wired.' },
                 ].map(({ t, s }, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-bullet-star">★</span>
@@ -1476,7 +1477,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 ))}
               </ul>
               <p className="qp-card-closing">
-                Whether you are just starting or already operating at a high level, your archetype tells you exactly what to do next.
+                Whether you thrive on action or need a gentler path, your 7 days of coaching will never ask you to be someone you are not. Built for your personality type. Built for your pace.
               </p>
             </motion.div>
           </div>

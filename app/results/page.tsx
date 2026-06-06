@@ -307,6 +307,8 @@ export default function ResultsPage() {
   const [noVideoClicked, setNoVideoClicked] = useState(false)
   const [msgIdx, setMsgIdx] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [archetype, setArchetype] = useState('')
+  const [personalityType, setPersonalityType] = useState('')
 
   // Cycle loading messages every 2 s
   useEffect(() => {
@@ -352,6 +354,8 @@ export default function ResultsPage() {
       })
       const data = await res.json()
       setRoadmap(data.roadmap || '')
+      if (data.archetype) setArchetype(data.archetype)
+      if (data.personality) setPersonalityType(data.personality)
 
       // Send blueprint email (fire-and-forget)
       fetch('/api/generate-pdf', {
@@ -364,7 +368,9 @@ export default function ResultsPage() {
           stage: a.q1 || 'launched',
           goal: a.q18 || '$5K-$10K / month',
           hours: a.q19 || '10-20',
-          videoSlug: getVideoSlug(a.q1)
+          videoSlug: getVideoSlug(a.q1),
+          archetype: data.archetype || 'The Pioneer',
+          personality: data.personality || 'action'
         })
       }).catch(err => console.error('Email send error:', err))
     } catch {
@@ -635,18 +641,27 @@ export default function ResultsPage() {
         {/* ─── HERO ─── */}
         <div className="fade-up" style={{ background: '#f8f7f4', borderRadius: 24, textAlign: 'center', padding: '52px 40px 56px', marginBottom: 48 }}>
           <div style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#b8960c', textTransform: 'uppercase', marginBottom: 24 }}>
-            Your Roadmap Is Ready
+            Your Archetype Blueprint Is Ready
           </div>
-          <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(38px, 5vw, 56px)', fontWeight: 900, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 20 }}>
-            {firstName}, here is your<br />
-            <span style={{ color: '#225840', fontStyle: 'italic' }}>personalised blueprint.</span>
+          <h1 style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(38px, 5vw, 56px)', fontWeight: 900, color: '#0a0a0a', lineHeight: 1.1, marginBottom: 12 }}>
+            {firstName}, you are
           </h1>
+          {archetype && (
+            <div style={{ fontFamily: 'Cormorant Garant, serif', fontSize: 'clamp(32px, 4.5vw, 48px)', fontWeight: 900, color: '#1c4a32', fontStyle: 'italic', marginBottom: 20 }}>
+              {archetype}.
+            </div>
+          )}
           <p style={{ fontSize: 16, color: '#555555', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 36px' }}>
-            Based on your 20 answers, The5th AI has mapped exactly where you are and what needs to happen next. We also sent your full PDF roadmap to your inbox.
+            Here is the strategy built specifically for your personality type. Your full PDF blueprint has been sent to your inbox.
           </p>
 
           {/* Stat pills */}
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {archetype && (
+              <div style={{ background: '#1c4a32', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff' }}>
+                {archetype}
+              </div>
+            )}
             {answers.q1 && (
               <div style={{ background: '#e8f5ee', borderRadius: 50, padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#225840' }}>
                 Stage: {formatStage(answers.q1)}
