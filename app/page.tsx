@@ -1051,91 +1051,200 @@ const LP_TESTIMONIALS = [
 ]
 
 const LP_CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-:root{--cream:#faf6f1;--ink:#0d0d0b;--forest:#1c4a32;--forest-mid:#2a6647;--sage:#4a8c64;--gold:#b8920a;--warm-grey:#8a8680;--border:rgba(28,74,50,0.12);}
-.lp2{min-height:100vh;background:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
-.lp2 *,.lp2 *::before,.lp2 *::after{box-sizing:border-box;margin:0;padding:0;}
-.lp2-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 64px;background:rgba(250,246,241,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
-.lp2-logo{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);letter-spacing:.04em;}
-.lp2-nav-right{display:flex;align-items:center;gap:24px;}
-.lp2-nav-hint{font-size:13px;color:var(--warm-grey);}
-.lp2-pill{background:var(--forest);color:#fff;font-size:11px;font-weight:600;padding:8px 20px;border-radius:50px;letter-spacing:.06em;text-transform:uppercase;cursor:none;border:none;font-family:'DM Sans',sans-serif;}
-.lp2-hero-wrap{position:relative;overflow:hidden;}
-.lp2-hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 64px 60px;gap:64px;max-width:1320px;margin:0 auto;position:relative;z-index:1;}
-.lp2-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:28px;}
-.lp2-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
-.lp2-h1{font-family:'Playfair Display',serif;font-size:clamp(44px,4.8vw,70px);font-weight:900;line-height:1.04;color:var(--ink);}
-.lp2-h1-accent{font-family:'Playfair Display',serif;font-size:clamp(44px,4.8vw,70px);font-weight:900;line-height:1.04;font-style:italic;color:var(--forest);display:block;margin-bottom:28px;}
-.lp2-sub{font-size:15px;line-height:1.82;color:var(--warm-grey);max-width:460px;margin-bottom:40px;}
-.lp2-cta-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:16px;}
-.lp2-cta{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:14px;background:var(--forest);color:#fff;font-size:15px;font-weight:600;padding:18px 36px;border-radius:4px;border:none;cursor:none;letter-spacing:.01em;font-family:'DM Sans',sans-serif;box-shadow:0 8px 32px rgba(28,74,50,0.28);}
-.lp2-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.1) 50%,transparent 100%);background-size:200% 100%;animation:lp2sh 2.8s linear infinite;}
-@keyframes lp2sh{0%{background-position:-200% center}100%{background-position:200% center}}
-.lp2-arrow{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.lp2-trust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.lp2-avatars{display:flex;}
-.lp2-av{width:32px;height:32px;border-radius:50%;border:2px solid var(--cream);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-left:-8px;}
-.lp2-av:first-child{margin-left:0;}
-.lp2-stars{color:var(--gold);font-size:13px;letter-spacing:1px;}
-.lp2-trust-txt{font-size:12px;color:var(--warm-grey);}
-.lp2-blob{position:absolute;width:480px;height:480px;background:radial-gradient(circle at 40% 40%,rgba(74,140,100,0.09),transparent 70%);pointer-events:none;z-index:0;}
-.lp2-stat-card{background:#fff;border:1px solid var(--border);border-left:3px solid var(--forest);border-radius:20px;padding:36px;box-shadow:0 24px 64px rgba(0,0,0,0.07);}
-.lp2-card-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:20px;}
-.lp2-big-num{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;line-height:1;color:var(--forest);}
-.lp2-big-sub{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--warm-grey);margin:6px 0 20px;}
-.lp2-bar-track{width:100%;height:5px;background:#f0efee;border-radius:3px;overflow:hidden;margin-bottom:4px;}
-.lp2-bar-fill{height:100%;background:linear-gradient(90deg,var(--forest),var(--sage));border-radius:3px;transition:width 1.8s cubic-bezier(0.16,1,0.3,1);}
-.lp2-bar-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--warm-grey);margin-bottom:24px;}
-.lp2-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.lp2-mini{background:var(--cream);border-radius:10px;padding:14px 16px;}
-.lp2-mini-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);line-height:1;margin-bottom:4px;}
-.lp2-mini-lbl{font-size:10px;color:var(--warm-grey);line-height:1.45;}
-.lp2-cq{padding:16px 18px;background:var(--cream);border-radius:10px;border-left:3px solid var(--forest);}
-.lp2-cq-txt{font-size:12px;color:#555;line-height:1.65;font-style:italic;}
-.lp2-cq-attr{font-size:11px;font-weight:700;color:var(--forest);margin-top:8px;}
-.lp2-ticker-wrap{background:var(--forest);padding:14px 0;overflow:hidden;-webkit-overflow-scrolling:touch;}
-.lp2-ticker-inner{display:flex;width:max-content;will-change:transform;-webkit-animation-play-state:running !important;animation-play-state:running !important;}
-.lp2-ticker-txt{font-size:11px;font-weight:600;color:rgba(255,255,255,0.82);padding:0 28px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
-.lp2-ticker-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;align-self:center;}
-.lp2-benefits-wrap{background:var(--cream);}
-.lp2-benefits{padding:120px 64px;max-width:1320px;margin:0 auto;}
-.lp2-sect-ey{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);text-align:center;margin-bottom:16px;}
-.lp2-sect-h{font-family:'Playfair Display',serif;font-size:clamp(36px,3.5vw,54px);font-weight:900;line-height:1.1;text-align:center;color:var(--ink);}
-.lp2-sect-h em{font-style:italic;color:var(--forest);}
-.lp2-sect-sub{text-align:center;font-size:15px;color:var(--warm-grey);line-height:1.8;max-width:520px;margin:18px auto 64px;}
-.lp2-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.lp2-benefit{background:#fff;border:1px solid var(--border);border-radius:14px;padding:40px 32px;position:relative;overflow:hidden;cursor:default;}
-.lp2-benefit::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--forest),var(--sage));transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
-.lp2-benefit:hover::before{transform:scaleX(1);}
-.lp2-benefit-num{font-family:'Playfair Display',serif;font-size:56px;font-weight:900;color:rgba(0,0,0,0.05);line-height:1;margin-bottom:16px;}
-.lp2-benefit-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:10px;font-family:'DM Sans',sans-serif;}
-.lp2-benefit-body{font-size:14px;color:var(--warm-grey);line-height:1.78;}
-.lp2-testi-section{background:var(--ink);padding:120px 64px;}
-.lp2-testi-inner{max-width:1320px;margin:0 auto;}
-.lp2-testi-h{font-family:'Playfair Display',serif;font-size:clamp(36px,3.5vw,52px);font-weight:900;color:#fff;text-align:center;margin-bottom:64px;line-height:1.12;}
-.lp2-testi-h em{color:#e8c84a;font-style:italic;}
-.lp2-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
-.lp2-testi{background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:32px;backdrop-filter:blur(4px);cursor:default;}
-.lp2-testi-q{font-size:13px;color:rgba(255,255,255,0.72);line-height:1.82;margin-bottom:24px;font-style:italic;}
-.lp2-testi-auth{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.lp2-testi-av{width:40px;height:40px;border-radius:50%;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.lp2-testi-name{font-size:13px;font-weight:700;color:#fff;}
-.lp2-testi-role{font-size:11px;color:rgba(255,255,255,0.42);margin-top:1px;}
-.lp2-testi-badge{margin-left:auto;background:rgba(74,140,100,0.22);color:rgba(160,220,160,0.9);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;flex-shrink:0;}
-.lp2-final{padding:140px 64px;text-align:center;background:var(--cream);position:relative;overflow:hidden;}
-.lp2-final-inner{max-width:640px;margin:0 auto;position:relative;z-index:1;}
-.lp2-final-ey{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:20px;}
-.lp2-final-h{font-family:'Playfair Display',serif;font-size:clamp(40px,4.5vw,60px);font-weight:900;line-height:1.1;color:var(--ink);margin-bottom:20px;}
-.lp2-final-h em{font-style:italic;color:var(--forest);}
-.lp2-final-sub{font-size:15px;color:var(--warm-grey);line-height:1.8;margin-bottom:44px;}
-.lp2-final-note{margin-top:16px;font-size:12px;color:var(--warm-grey);}
-.lp2-glow{position:absolute;width:640px;height:640px;background:radial-gradient(circle,rgba(28,74,50,0.06) 0%,transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-@media(max-width:1024px){.lp2-hero{gap:40px;padding:100px 40px 60px}.lp2-benefits{padding:80px 40px}.lp2-testi-section{padding:80px 40px}.lp2-final{padding:100px 40px}}
-@media(max-width:768px){.lp2-hero{grid-template-columns:1fr;padding:88px 24px 40px}.lp2-stat-card{display:none}.lp2-nav{padding:16px 24px}.lp2-benefits{padding:60px 24px}.lp2-grid3{grid-template-columns:1fr}.lp2-testi-section{padding:60px 24px}.lp2-grid2{grid-template-columns:1fr}.lp2-final{padding:80px 24px}.lp2{cursor:auto}.lp2-pill,.lp2-cta{cursor:pointer}.lp2-h1{font-size:38px !important;line-height:1.08 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:38px !important;line-height:1.08 !important;letter-spacing:-0.5px !important}}
-@media(max-width:480px){.lp2-h1{font-size:34px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:34px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}}
-@media(min-width:390px) and (max-width:480px){.lp2-h1{font-size:40px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:40px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}}
-@media(max-width:375px){.lp2-h1{font-size:30px !important;line-height:1.06 !important;letter-spacing:-0.5px !important}.lp2-h1-accent{font-size:30px !important;line-height:1.06 !important}}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Caveat:wght@400;600;700&display=swap');
+
+/* ─── reset for landing ─── */
+.qp *,.qp *::before,.qp *::after{box-sizing:border-box;margin:0;padding:0;}
+.qp{font-family:'DM Sans',sans-serif;color:#111;overflow-x:hidden;cursor:none;}
+
+/* ─── nav ─── */
+.qp-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:20px 60px;
+  background:rgba(139,127,207,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.qp-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
+  color:#fff;letter-spacing:.04em;}
+.qp-nav-btn{background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:700;padding:10px 24px;border-radius:50px;
+  border:none;cursor:none;letter-spacing:.03em;transition:transform .2s,box-shadow .2s;
+  box-shadow:0 4px 14px rgba(232,184,75,.38);}
+.qp-nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,184,75,.5);}
+
+/* ─── hero ─── */
+.qp-hero{background:#8b7fcf;position:relative;overflow:hidden;
+  padding:120px 40px 0;text-align:center;}
+.qp-hero-grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.qp-hero-inner{max-width:700px;margin:0 auto;position:relative;z-index:1;}
+.qp-annotation{font-family:'Caveat',cursive;font-size:22px;font-weight:600;
+  color:rgba(255,255,255,.82);display:flex;align-items:center;
+  justify-content:center;gap:8px;margin-bottom:6px;}
+.qp-h1{font-family:'Playfair Display',serif;font-size:clamp(48px,7.5vw,90px);
+  font-weight:900;line-height:1.02;color:#fff;letter-spacing:-2px;margin-bottom:24px;}
+.qp-hero-sub{font-size:18px;line-height:1.75;color:rgba(255,255,255,.75);
+  max-width:520px;margin:0 auto 40px;}
+.qp-btn-gold{display:inline-flex;align-items:center;justify-content:center;
+  background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
+  font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:none;
+  letter-spacing:.02em;box-shadow:0 8px 28px rgba(232,184,75,.45);
+  transition:transform .25s,box-shadow .25s;}
+.qp-btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(232,184,75,.55);}
+.qp-btn-ghost{display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
+  font-weight:700;padding:16px 48px;border-radius:50px;border:2px solid #111;
+  cursor:none;letter-spacing:.02em;transition:all .25s;}
+.qp-btn-ghost:hover{background:#111;color:#fff;transform:translateY(-2px);}
+.qp-hero-graphic{display:block;width:100%;max-width:900px;margin:48px auto 0;
+  position:relative;z-index:1;}
+
+/* ─── archetypes section ─── */
+.qp-arch-section{background:#fff;padding:100px 60px;}
+.qp-arch-inner{max-width:1200px;margin:0 auto;}
+.qp-arch-top{display:grid;grid-template-columns:1fr auto;gap:48px;
+  align-items:flex-start;margin-bottom:64px;}
+.qp-arch-top-left{max-width:640px;}
+.qp-arch-top-right{text-align:right;flex-shrink:0;}
+.qp-sect-h{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,60px);
+  font-weight:900;line-height:1.08;color:#111;margin-bottom:16px;}
+.qp-sect-sub{font-size:16px;color:#555;line-height:1.8;max-width:560px;}
+.qp-arch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-bottom:60px;}
+.qp-arch-card{text-align:center;}
+.qp-arch-img-wrap{height:200px;display:flex;align-items:flex-end;
+  justify-content:center;margin-bottom:20px;}
+.qp-arch-img{height:100%;width:auto;max-width:180px;object-fit:contain;display:block;}
+.qp-arch-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:#111;margin-bottom:8px;}
+.qp-arch-desc{font-size:14px;color:#666;line-height:1.72;font-style:italic;}
+.qp-arch-btn{text-align:center;}
+
+/* ─── about section ─── */
+.qp-about-section{background:#8b7fcf;position:relative;overflow:hidden;padding:100px 60px;}
+.qp-about-grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.qp-about-inner{max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+.qp-about-h{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,56px);
+  font-weight:900;color:#fff;text-align:center;margin-bottom:56px;line-height:1.1;}
+.qp-about-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:56px;}
+.qp-white-card{background:#fff;border-radius:20px;padding:40px 36px;}
+.qp-card-h{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:#111;margin-bottom:24px;line-height:1.3;}
+.qp-bullet-list{list-style:none;padding:0;margin:0;}
+.qp-bullet-li{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
+.qp-bullet-star{color:#e8b84b;font-size:20px;flex-shrink:0;margin-top:1px;line-height:1;}
+.qp-bullet-content{font-size:15px;color:#222;line-height:1.65;}
+.qp-bullet-title{font-weight:700;display:block;margin-bottom:2px;}
+.qp-step-num{width:26px;height:26px;border-radius:50%;background:#8b7fcf;
+  color:#fff;font-size:13px;font-weight:700;display:inline-flex;
+  align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.qp-card-closing{font-size:14px;color:#555;line-height:1.7;
+  margin-top:20px;padding-top:20px;border-top:1px solid #f0f0f0;font-style:italic;}
+.qp-about-btn{text-align:center;}
+
+/* ─── transition section ─── */
+.qp-transition{background:#faf8f5;padding:80px 40px;text-align:center;
+  position:relative;overflow:hidden;}
+.qp-transition-inner{max-width:900px;margin:0 auto;position:relative;}
+.qp-transition-img{width:100%;max-width:700px;display:block;margin:0 auto;}
+.qp-star-tl{position:absolute;top:24px;left:40px;font-size:42px;
+  color:#111;opacity:.12;line-height:1.1;pointer-events:none;}
+.qp-star-tr{position:absolute;top:24px;right:40px;font-size:42px;
+  color:#111;opacity:.12;line-height:1.1;pointer-events:none;}
+.qp-star-bl{position:absolute;bottom:24px;left:48px;font-size:28px;
+  color:#111;opacity:.1;pointer-events:none;}
+.qp-star-br{position:absolute;bottom:24px;right:48px;font-size:28px;
+  color:#111;opacity:.1;pointer-events:none;}
+
+/* ─── dark CTA ─── */
+.qp-dark-cta{background:#1a1a1a;padding:100px 60px;text-align:center;}
+.qp-dark-inner{max-width:680px;margin:0 auto;}
+.qp-dark-annotation{font-family:'Caveat',cursive;font-size:22px;font-weight:600;
+  color:rgba(255,255,255,.6);display:flex;align-items:center;
+  justify-content:center;gap:8px;margin-bottom:8px;}
+.qp-dark-h{font-family:'Playfair Display',serif;font-size:clamp(32px,4.5vw,58px);
+  font-weight:900;line-height:1.1;color:#fff;margin-bottom:44px;}
+
+/* ─── footer ─── */
+.qp-footer{background:#111;padding:60px 60px 40px;}
+.qp-footer-top{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:32px;margin-bottom:48px;}
+.qp-footer-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;
+  color:#fff;letter-spacing:.04em;}
+.qp-footer-avs{display:flex;align-items:center;}
+.qp-footer-av{width:44px;height:44px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(255,255,255,.15);margin-left:-10px;flex-shrink:0;}
+.qp-footer-av:first-child{margin-left:0;}
+.qp-footer-av img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:contrast(.9);}
+.qp-footer-links{display:flex;gap:48px;flex-wrap:wrap;}
+.qp-footer-col h4{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+.qp-footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.55);
+  text-decoration:none;margin-bottom:8px;transition:color .2s;}
+.qp-footer-col a:hover{color:#fff;}
+.qp-footer-bottom{border-top:1px solid rgba(255,255,255,.08);
+  padding-top:24px;font-size:13px;color:rgba(255,255,255,.3);}
+
+/* ─── responsive ─── */
+@media(max-width:1024px){
+  .qp-nav{padding:16px 40px;}
+  .qp-hero{padding:110px 32px 0;}
+  .qp-arch-section{padding:80px 40px;}
+  .qp-about-section{padding:80px 40px;}
+  .qp-dark-cta{padding:80px 40px;}
+  .qp-footer{padding:48px 40px 32px;}
+}
+@media(max-width:768px){
+  .qp-nav{padding:14px 24px;}
+  .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
+  .qp-hero{padding:96px 24px 0;}
+  .qp-h1{font-size:clamp(40px,12vw,60px) !important;letter-spacing:-1px !important;}
+  .qp-arch-section{padding:60px 24px;}
+  .qp-arch-top{grid-template-columns:1fr;gap:0;}
+  .qp-arch-top-right{display:none;}
+  .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
+  .qp-about-section{padding:60px 24px;}
+  .qp-about-cards{grid-template-columns:1fr;gap:16px;}
+  .qp-dark-cta{padding:60px 24px;}
+  .qp-footer{padding:40px 24px 28px;}
+  .qp-footer-top{flex-direction:column;align-items:flex-start;gap:24px;}
+  .qp-footer-links{gap:24px;}
+  .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
+}
+@media(max-width:480px){
+  .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+  .qp-arch-img-wrap{height:150px;}
+  .qp-white-card{padding:28px 22px;}
+}
 `
+
+/* ─── Annotation + arrow helper ─── */
+function Annotation({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  const col = dark ? 'rgba(255,255,255,.62)' : 'rgba(255,255,255,.82)'
+  return (
+    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', marginBottom:4 }}>
+      <span style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600, color:col, lineHeight:1.2 }}>
+        {children}
+      </span>
+      <svg width="28" height="32" viewBox="0 0 28 32" fill="none" style={{ marginTop:4 }}>
+        <path d="M14 2 C14 2 22 10 20 22 C19 28 12 30 12 30" stroke={col} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M8 26 L12 31 L17 27" stroke={col} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
+  )
+}
+
+function AnnotationRight({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:6 }}>
+      <span style={{ fontFamily:"'Caveat',cursive", fontSize:20, fontWeight:600, color:'#555', textAlign:'right', lineHeight:1.3 }}>
+        {children}
+      </span>
+      <svg width="32" height="28" viewBox="0 0 32 28" fill="none" style={{ transform:'rotate(90deg)' }}>
+        <path d="M30 14 C30 14 18 6 8 12 C4 14 3 20 3 20" stroke="#888" strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M6 14 L3 20 L9 22" stroke="#888" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
+  )
+}
 
 /* ─── LandingPage component ─── */
 function LandingPage({ onStart }: { onStart: () => void }) {
@@ -1143,9 +1252,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
 
-  /* ── Custom cursor ── */
-  const dotX = useSpring(-100, { stiffness: 800, damping: 40 })
-  const dotY = useSpring(-100, { stiffness: 800, damping: 40 })
+  /* Custom cursor */
+  const dotX  = useSpring(-100, { stiffness: 800, damping: 40 })
+  const dotY  = useSpring(-100, { stiffness: 800, damping: 40 })
   const ringX = useSpring(-100, { stiffness: 140, damping: 22 })
   const ringY = useSpring(-100, { stiffness: 140, damping: 22 })
   const [hovering, setHovering] = useState(false)
@@ -1153,398 +1262,304 @@ function LandingPage({ onStart }: { onStart: () => void }) {
   useEffect(() => {
     if (prefersReduced) return
     const move = (e: MouseEvent) => {
-      dotX.set(e.clientX - 5)
-      dotY.set(e.clientY - 5)
-      ringX.set(e.clientX - 17)
-      ringY.set(e.clientY - 17)
+      dotX.set(e.clientX - 5); dotY.set(e.clientY - 5)
+      ringX.set(e.clientX - 17); ringY.set(e.clientY - 17)
     }
     window.addEventListener('mousemove', move)
     return () => window.removeEventListener('mousemove', move)
   }, [dotX, dotY, ringX, ringY, prefersReduced])
 
-  /* ── Scroll parallax ── */
-  const heroWrapRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: heroWrapRef, offset: ['start start', 'end start'] })
-  const headlineY   = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
-  const blobY       = useTransform(scrollYProgress, [0, 1], ['0px', '-70px'])
-  const statCardY   = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
+  /* Section in-view */
+  const archRef     = useRef<HTMLDivElement>(null)
+  const archInView  = useInView(archRef,   { once: true, amount: 0.08 })
+  const aboutRef    = useRef<HTMLDivElement>(null)
+  const aboutInView = useInView(aboutRef,  { once: true, amount: 0.08 })
+  const darkRef     = useRef<HTMLDivElement>(null)
+  const darkInView  = useInView(darkRef,   { once: true, amount: 0.1 })
 
-  /* ── Stat counters ── */
-  const statsRef  = useRef<HTMLDivElement>(null)
-  const statsInView = useInView(statsRef, { once: true, amount: 0.25 })
-  const [c98, setC98]     = useState(0)
-  const [c2400, setC2400] = useState(0)
-  const [c20, setC20]     = useState(0)
-  const [c7, setC7]       = useState(0)
-  const [barW, setBarW]   = useState('0%')
-
-  useEffect(() => {
-    if (!statsInView) return
-    setBarW('98%')
-    const run = (setter: (v: number) => void, target: number, frames: number) => {
-      let f = 0
-      const id = setInterval(() => {
-        f++
-        setter(Math.min(Math.round((f / frames) * target), target))
-        if (f >= frames) clearInterval(id)
-      }, 16)
-      return id
-    }
-    const t1 = run(setC98,   98,   90)
-    const t2 = run(setC2400, 2400, 125)
-    const t3 = run(setC20,   20,   50)
-    const t4 = run(setC7,    7,    50)
-    return () => [t1, t2, t3, t4].forEach(clearInterval)
-  }, [statsInView])
-
-  /* ── Section in-view refs ── */
-  const benefitsRef = useRef<HTMLDivElement>(null)
-  const benefitsInView = useInView(benefitsRef, { once: true, amount: 0.12 })
-  const testiRef    = useRef<HTMLDivElement>(null)
-  const testiInView = useInView(testiRef, { once: true, amount: 0.1 })
-  const finalRef    = useRef<HTMLDivElement>(null)
-  const finalInView = useInView(finalRef, { once: true, amount: 0.2 })
-
-  /* ── Magnetic buttons ── */
-  const ctaRef     = useRef<HTMLButtonElement>(null)
-  const pillRef    = useRef<HTMLButtonElement>(null)
-  const ctaMX  = useSpring(0, { stiffness: 200, damping: 20 })
-  const ctaMY  = useSpring(0, { stiffness: 200, damping: 20 })
-  const pillMX = useSpring(0, { stiffness: 200, damping: 20 })
-  const pillMY = useSpring(0, { stiffness: 200, damping: 20 })
-
-  const magMove = (
-    e: React.MouseEvent, el: HTMLElement | null,
-    mx: ReturnType<typeof useSpring>, my: ReturnType<typeof useSpring>
-  ) => {
-    if (prefersReduced || !el) return
-    const r = el.getBoundingClientRect()
-    mx.set((e.clientX - r.left - r.width / 2) * 0.28)
-    my.set((e.clientY - r.top  - r.height / 2) * 0.28)
-  }
-  const magLeave = (mx: ReturnType<typeof useSpring>, my: ReturnType<typeof useSpring>) => {
-    mx.set(0); my.set(0)
-  }
-
-  /* ── Shared transition helper ── */
   const ease = [0.22, 1, 0.36, 1] as const
-  const tr = (d = 0) => prefersReduced ? { duration: 0 } : { duration: 0.65, delay: d, ease }
-  const spr = { type: 'spring' as const, stiffness: 260, damping: 24 }
-  const fadeUp = (d = 0) => ({
-    initial: prefersReduced ? {} : { opacity: 0, y: 40 },
+  const tr   = (d = 0) => prefersReduced ? { duration: 0 } : { duration: 0.65, delay: d, ease }
+  const spr  = { type: 'spring' as const, stiffness: 260, damping: 24 }
+  const up   = (d = 0) => ({
+    initial: prefersReduced ? {} : { opacity: 0, y: 36 },
     animate: { opacity: 1, y: 0 },
     transition: tr(d),
   })
 
+  const HOV = { onMouseEnter: () => setHovering(true), onMouseLeave: () => setHovering(false) }
+
+  const ARCHETYPES = [
+    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You have the expertise. You are building the bridge to your first paying client.' },
+    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You have clients and proof. Now you need consistency and a system.' },
+    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You are operating and growing. The next level requires a different architecture.' },
+    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'You are established and ready for a completely different scale of impact.' },
+  ]
+
   return (
-    <div className="lp2">
+    <div className="qp">
       <style>{LP_CSS}</style>
 
-      {/* ── Cursor ── */}
+      {/* Cursor */}
       {!prefersReduced && (<>
         <motion.div style={{
           position:'fixed',top:0,left:0,width:10,height:10,borderRadius:'50%',
-          background:'var(--forest)',pointerEvents:'none',zIndex:9999,
-          x:dotX, y:dotY,
-        }}
-          animate={{ scale: hovering ? 3 : 1 }}
-          transition={{ type:'spring', stiffness:400, damping:20 }}
-        />
+          background:'#e8b84b',pointerEvents:'none',zIndex:9999, x:dotX, y:dotY,
+        }} animate={{ scale: hovering ? 2.4 : 1 }} transition={{ type:'spring', stiffness:400, damping:20 }} />
         <motion.div style={{
           position:'fixed',top:0,left:0,width:34,height:34,borderRadius:'50%',
-          border:'1.5px solid var(--forest)',pointerEvents:'none',zIndex:9998,
-          x:ringX, y:ringY, opacity:0.45,
-        }}
-          animate={{ scale: hovering ? 1.5 : 1 }}
-          transition={{ type:'spring', stiffness:300, damping:22 }}
-        />
+          border:'1.5px solid #e8b84b',pointerEvents:'none',zIndex:9998,
+          x:ringX, y:ringY, opacity:0.4,
+        }} animate={{ scale: hovering ? 1.4 : 1 }} transition={{ type:'spring', stiffness:300, damping:22 }} />
       </>)}
 
-      {/* ── Grain overlay ── */}
-      <motion.div style={{
-        position:'fixed',top:'-50%',left:'-50%',width:'200%',height:'200%',
-        backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`,
-        pointerEvents:'none',zIndex:9997,opacity:0.35,
-      }}
-        animate={prefersReduced ? {} : { x:[0,-4,6,-3,0], y:[0,-6,4,8,0] }}
-        transition={{ duration:8, repeat:Infinity, ease:'linear' }}
-      />
-
-      {/* ══ NAV ══════════════════════════════════ */}
-      <motion.nav className="lp2-nav"
-        initial={prefersReduced ? {} : { y:-64, opacity:0 }}
-        animate={{ y:0, opacity:1 }}
-        transition={tr(0)}
-      >
-        <div className="lp2-logo">The5th Consulting</div>
-        <div className="lp2-nav-right">
-          <span className="lp2-nav-hint">Free · 5 min quiz</span>
-          <motion.button ref={pillRef} className="lp2-pill"
-            onClick={onStart}
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => { setHovering(false); magLeave(pillMX, pillMY) }}
-            onMouseMove={e => magMove(e, pillRef.current, pillMX, pillMY)}
-            style={{ x:pillMX, y:pillMY }}
-            whileHover={prefersReduced ? {} : { scale:1.05, y:-2 }}
-            whileTap={{ scale:0.96 }}
-            transition={spr}
-          >Take The Quiz</motion.button>
-        </div>
+      {/* ══ NAV ══ */}
+      <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
+        <div className="qp-logo">The5th Consulting</div>
+        <motion.button className="qp-nav-btn" onClick={onStart} {...HOV}
+          whileHover={prefersReduced ? {} : { scale:1.06, y:-1 }} whileTap={{ scale:0.96 }} transition={spr}>
+          Take The Quiz
+        </motion.button>
       </motion.nav>
 
-      {/* ══ HERO ═════════════════════════════════ */}
-      <div className="lp2-hero-wrap" ref={heroWrapRef}>
-        <div className="lp2-hero">
+      {/* ══ HERO ══ */}
+      <section className="qp-hero">
+        <div className="qp-hero-grain" aria-hidden="true" />
+        <div className="qp-hero-inner">
 
-          {/* Morphing blob */}
-          <motion.div className="lp2-blob"
-            style={{ top:'-120px', right:'-80px', y:blobY }}
-            animate={prefersReduced ? {} : { borderRadius:[
-              '60% 40% 30% 70% / 60% 30% 70% 40%',
-              '40% 60% 70% 30% / 40% 70% 30% 60%',
-              '30% 70% 40% 60% / 50% 40% 60% 50%',
-              '70% 30% 60% 40% / 30% 60% 40% 70%',
-              '60% 40% 30% 70% / 60% 30% 70% 40%',
-            ]}}
-            transition={{ duration:16, repeat:Infinity, ease:'easeInOut' }}
-          />
-
-          {/* Left — copy */}
-          <motion.div style={{ position:'relative', zIndex:1, y: prefersReduced ? 0 : headlineY }}>
-            <motion.div className="lp2-eyebrow" {...fadeUp(0.1)}>
-              <div className="lp2-eyebrow-dot" />
-              Free AI Business Blueprint
-            </motion.div>
-
-            <motion.h1 className="lp2-h1" {...fadeUp(0.28)}>If you&apos;re over 40, you already have</motion.h1>
-            <motion.span className="lp2-h1-accent" {...fadeUp(0.44)}>what it takes.</motion.span>
-
-            <motion.p className="lp2-sub" {...fadeUp(0.52)}>
-              You&apos;ve spent years building real expertise. Maybe raising a family,
-              surviving a career shift, or simply living through things most people
-              only read about. That experience is worth something. Probably more than
-              you think. Take our 20-question quiz and get a free personalised roadmap
-              showing exactly how to turn what you know into consistent income.
-            </motion.p>
-
-            <motion.div className="lp2-cta-wrap"
-              initial={prefersReduced ? {} : { opacity:0, scale:0.9 }}
-              animate={{ opacity:1, scale:1 }}
-              transition={{ ...spr, delay:0.7 }}
-            >
-              <motion.button ref={ctaRef} className="lp2-cta"
-                onClick={onStart}
-                onMouseEnter={() => setHovering(true)}
-                onMouseLeave={() => { setHovering(false); magLeave(ctaMX, ctaMY) }}
-                onMouseMove={e => magMove(e, ctaRef.current, ctaMX, ctaMY)}
-                style={{ x:ctaMX, y:ctaMY }}
-                whileHover={prefersReduced ? {} : {
-                  scale:1.02, y:-3,
-                  boxShadow:'0 18px 48px rgba(28,74,50,0.38)',
-                }}
-                whileTap={{ scale:0.97 }}
-                transition={spr}
-              >
-                Find My Business Blueprint
-                <motion.div className="lp2-arrow"
-                  whileHover={prefersReduced ? {} : { x:4 }}
-                  transition={spr}
-                >&#8594;</motion.div>
-              </motion.button>
-
-              <div className="lp2-trust">
-                <div className="lp2-avatars">
-                  {[{i:'L',bg:'#d4e8d5'},{i:'A',bg:'#e8d5b7'},{i:'J',bg:'#d5d4e8'},{i:'M',bg:'#e8d5d5'},{i:'S',bg:'#d5e8e8'}]
-                    .map((a, idx) => (
-                      <div key={idx} className="lp2-av"
-                        style={{ background:a.bg, color:'#333', zIndex:5-idx }}>{a.i}</div>
-                    ))}
-                </div>
-                <span className="lp2-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                <span className="lp2-trust-txt">2,400+ women already got their blueprint</span>
-              </div>
-            </motion.div>
+          <motion.div {...up(0.08)}>
+            <Annotation>in less than 4 minutes</Annotation>
           </motion.div>
 
-          {/* Right — Stats card */}
-          <motion.div
-            ref={statsRef}
-            style={{ y: prefersReduced ? 0 : statCardY }}
-            initial={prefersReduced ? {} : { opacity:0, x:50 }}
-            animate={{ opacity:1, x:0 }}
+          <motion.h1 className="qp-h1" {...up(0.2)}>
+            Discover your<br />Expert Income Archetype
+          </motion.h1>
+
+          <motion.p className="qp-hero-sub" {...up(0.32)}>
+            Find out exactly where you are, what is holding you back, and the one move that changes everything.
+          </motion.p>
+
+          <motion.div {...up(0.44)}>
+            <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
+              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+              Take the Quiz
+            </motion.button>
+          </motion.div>
+
+        </div>
+
+        {/* Full-width doodle strip */}
+        <motion.img
+          src="/illustrations/hero-graphic.png"
+          alt=""
+          aria-hidden="true"
+          className="qp-hero-graphic"
+          initial={prefersReduced ? {} : { opacity:0, y:40 }}
+          animate={{ opacity:1, y:0 }}
+          transition={tr(0.6)}
+        />
+      </section>
+
+      {/* ══ ARCHETYPES ══ */}
+      <section className="qp-arch-section">
+        <div className="qp-arch-inner" ref={archRef}>
+
+          <motion.div className="qp-arch-top"
+            initial={prefersReduced ? {} : { opacity:0, y:32 }}
+            animate={archInView ? { opacity:1, y:0 } : {}}
+            transition={tr(0)}
+          >
+            <div className="qp-arch-top-left">
+              <h2 className="qp-sect-h">Which Expert Are You?</h2>
+              <p className="qp-sect-sub">
+                Every woman over 40 who has tried to monetise her expertise falls into one of four profiles.
+                Each one has a different strength, a different bottleneck, and a different next move.
+                The quiz finds yours in under 5 minutes.
+              </p>
+            </div>
+            <div className="qp-arch-top-right">
+              <AnnotationRight>find out{'\n'}which one you are</AnnotationRight>
+            </div>
+          </motion.div>
+
+          <div className="qp-arch-grid">
+            {ARCHETYPES.map(({ img, name, desc }, i) => (
+              <motion.div key={i} className="qp-arch-card"
+                initial={prefersReduced ? {} : { opacity:0, y:40 }}
+                animate={archInView ? { opacity:1, y:0 } : {}}
+                transition={tr(i * 0.1)}
+              >
+                <div className="qp-arch-img-wrap">
+                  <img src={img} alt={name} className="qp-arch-img" />
+                </div>
+                <div className="qp-arch-name">{name}</div>
+                <div className="qp-arch-desc">&ldquo;{desc}&rdquo;</div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div className="qp-arch-btn"
+            initial={prefersReduced ? {} : { opacity:0, y:24 }}
+            animate={archInView ? { opacity:1, y:0 } : {}}
             transition={tr(0.42)}
           >
-            <div className="lp2-stat-card">
-              <div className="lp2-card-lbl">Women who get offer clarity</div>
-              <div className="lp2-big-num">{c98}%</div>
-              <div className="lp2-big-sub">clarity rate</div>
-              <div className="lp2-bar-track">
-                <div className="lp2-bar-fill" style={{ width: barW }} />
-              </div>
-              <div className="lp2-bar-lbls">
-                <span>0%</span>
-                <span>{c2400.toLocaleString()} profiled</span>
-                <span>100%</span>
-              </div>
-              <div className="lp2-mini-grid">
-                {[
-                  { num:`${c20}`,   lbl:'Deep questions that reveal your path' },
-                  { num:`${c7}`,    lbl:'Business archetypes mapped' },
-                  { num:'$15M+',    lbl:'Real coaching data trained in' },
-                  { num:'45s',      lbl:'To generate your roadmap' },
-                ].map((s, i) => (
-                  <div key={i} className="lp2-mini">
-                    <div className="lp2-mini-num">{s.num}</div>
-                    <div className="lp2-mini-lbl">{s.lbl}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="lp2-cq">
-                <div className="lp2-cq-txt">
-                  &ldquo;I had spent over $10,000 on coaches before. None gave me the clarity
-                  Indrodip did. Six weeks later I closed my first client.&rdquo;
-                </div>
-                <div className="lp2-cq-attr">Jeanne T. &mdash; Business Coach</div>
-              </div>
-            </div>
+            <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
+              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+              Find Out Which One You Are
+            </motion.button>
           </motion.div>
 
         </div>
-      </div>
+      </section>
 
-      {/* ══ TICKER ═══════════════════════════════ */}
-      <div className="lp2-ticker-wrap">
-        <motion.div className="lp2-ticker-inner"
-          animate={prefersReduced ? {} : { x:['0%','-50%'] }}
-          transition={{ duration:25, repeat:Infinity, ease:'linear' }}
-          style={{ willChange: 'transform' }}
-        >
-          {[0, 1].map(pass => (
-            <div key={pass} style={{ display:'flex', alignItems:'center' }}>
-              {LP_TICKER.map((item, i) => (
-                <React.Fragment key={`${pass}-${i}`}>
-                  <span className="lp2-ticker-txt">{item}</span>
-                  <div className="lp2-ticker-dot" />
-                </React.Fragment>
-              ))}
-            </div>
-          ))}
-        </motion.div>
-      </div>
+      {/* ══ ABOUT ══ */}
+      <section className="qp-about-section">
+        <div className="qp-about-grain" aria-hidden="true" />
+        <div className="qp-about-inner" ref={aboutRef}>
 
-      {/* ══ BENEFITS ═════════════════════════════ */}
-      <div className="lp2-benefits-wrap">
-        <div className="lp2-benefits" ref={benefitsRef}>
           <motion.div
             initial={prefersReduced ? {} : { opacity:0, y:32 }}
-            animate={benefitsInView ? { opacity:1, y:0 } : {}}
+            animate={aboutInView ? { opacity:1, y:0 } : {}}
             transition={tr(0)}
           >
-            <div className="lp2-sect-ey">What You Get &mdash; Completely Free</div>
-            <h2 className="lp2-sect-h">
-              Not a generic quiz.<br /><em>Your actual blueprint.</em>
-            </h2>
-            <p className="lp2-sect-sub">
-              Most online quizzes put you in a box and hand you a PDF everyone else got too.
-              This is different. Each roadmap is written for you, about you,
-              around what you actually told us.
-            </p>
+            <Annotation dark>see the methodology</Annotation>
+            <h2 className="qp-about-h">About the Quiz</h2>
           </motion.div>
-          <div className="lp2-grid3">
-            {LP_BENEFITS.map((b, i) => (
-              <motion.div key={i} className="lp2-benefit"
-                initial={prefersReduced ? {} : { opacity:0, y:40 }}
-                animate={benefitsInView ? { opacity:1, y:0 } : {}}
-                transition={tr(i * 0.12)}
-                whileHover={prefersReduced ? {} : {
-                  y:-8,
-                  boxShadow:'0 20px 56px rgba(0,0,0,0.09)',
-                  borderColor:'rgba(28,74,50,0.24)',
-                }}
-              >
-                <div className="lp2-benefit-num">{b.num}</div>
-                <div className="lp2-benefit-title">{b.title}</div>
-                <div className="lp2-benefit-body">{b.body}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
 
-      {/* ══ TESTIMONIALS ═════════════════════════ */}
-      <section className="lp2-testi-section">
-        <div className="lp2-testi-inner" ref={testiRef}>
-          <motion.h2 className="lp2-testi-h"
-            initial={prefersReduced ? {} : { opacity:0, y:40 }}
-            animate={testiInView ? { opacity:1, y:0 } : {}}
-            transition={tr(0)}
-          >
-            Real women.<br /><em>Real results.</em>
-          </motion.h2>
-          <div className="lp2-grid2">
-            {LP_TESTIMONIALS.map((t, i) => (
-              <motion.div key={i} className="lp2-testi"
-                initial={prefersReduced ? {} : { opacity:0, y:30 }}
-                animate={testiInView ? { opacity:1, y:0 } : {}}
-                transition={tr(i * 0.1)}
-                whileHover={prefersReduced ? {} : {
-                  y:-5,
-                  background:'rgba(255,255,255,0.075)',
-                  borderColor:'rgba(255,255,255,0.16)',
-                }}
-              >
-                <p className="lp2-testi-q">&ldquo;{t.quote}&rdquo;</p>
-                <div className="lp2-testi-auth">
-                  <div className="lp2-testi-av" style={{ background:t.bg, color:'#fff' }}>{t.init}</div>
-                  <div>
-                    <div className="lp2-testi-name">{t.name}</div>
-                    <div className="lp2-testi-role">{t.role}</div>
-                  </div>
-                  <div className="lp2-testi-badge">{t.badge}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ FINAL CTA ════════════════════════════ */}
-      <section className="lp2-final">
-        <div className="lp2-glow" />
-        <div className="lp2-final-inner" ref={finalRef}>
-          <motion.div
-            initial={prefersReduced ? {} : { opacity:0, y:40 }}
-            animate={finalInView ? { opacity:1, y:0 } : {}}
-            transition={tr(0)}
-          >
-            <div className="lp2-final-ey">Start Now &mdash; It Is Free</div>
-            <h2 className="lp2-final-h">
-              You already have<br /><em>what it takes.</em>
-            </h2>
-            <p className="lp2-final-sub">
-              You just need the roadmap. 20 questions. 45 seconds to generate.
-              A plan built entirely around your experience, your goals,
-              and where you actually are right now.
-            </p>
-            <motion.button className="lp2-cta"
-              onClick={onStart}
-              onMouseEnter={() => setHovering(true)}
-              onMouseLeave={() => setHovering(false)}
-              style={{ margin:'0 auto' }}
-              whileHover={prefersReduced ? {} : {
-                scale:1.02, y:-3,
-                boxShadow:'0 18px 48px rgba(28,74,50,0.38)',
-              }}
-              whileTap={{ scale:0.97 }}
-              transition={spr}
+          <div className="qp-about-cards">
+            <motion.div className="qp-white-card"
+              initial={prefersReduced ? {} : { opacity:0, x:-28 }}
+              animate={aboutInView ? { opacity:1, x:0 } : {}}
+              transition={tr(0.1)}
             >
-              Take The Free Quiz
-              <div className="lp2-arrow">&#8594;</div>
+              <div className="qp-card-h">Why take the Expert Income Quiz?</div>
+              <ul className="qp-bullet-list">
+                {[
+                  { t:'Get real clarity on where you actually are', s:'Stop guessing and get an honest picture of your stage.' },
+                  { t:'Understand what is really in your way',       s:'It is almost never what you think it is.' },
+                  { t:'Get a personalised roadmap for your exact stage', s:'Not a generic plan. A specific next move.' },
+                  { t:'7 days of free AI coaching included',        s:'Daily emails built from your exact quiz answers.' },
+                ].map(({ t, s }, i) => (
+                  <li key={i} className="qp-bullet-li">
+                    <span className="qp-bullet-star">★</span>
+                    <span className="qp-bullet-content">
+                      <span className="qp-bullet-title">{t}</span>
+                      {s}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div className="qp-white-card"
+              initial={prefersReduced ? {} : { opacity:0, x:28 }}
+              animate={aboutInView ? { opacity:1, x:0 } : {}}
+              transition={tr(0.15)}
+            >
+              <div className="qp-card-h">How it works</div>
+              <ul className="qp-bullet-list">
+                {[
+                  'Answer 20 honest questions about where you are right now',
+                  'Receive your Expert Income Archetype and personalised blueprint sent directly to your inbox',
+                  'Get 7 days of free AI coaching emails written specifically from your answers — your niche, your stage, your exact next move',
+                ].map((s, i) => (
+                  <li key={i} className="qp-bullet-li">
+                    <span className="qp-step-num">{i + 1}</span>
+                    <span className="qp-bullet-content">{s}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="qp-card-closing">
+                Whether you are just starting out or already operating at a high level, your archetype is your roadmap to the next stage. Plus you get 7 days of real AI coaching completely free.
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div className="qp-about-btn"
+            initial={prefersReduced ? {} : { opacity:0, y:24 }}
+            animate={aboutInView ? { opacity:1, y:0 } : {}}
+            transition={tr(0.28)}
+          >
+            <motion.button className="qp-btn-ghost" onClick={onStart} {...HOV}
+              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+              See It In Action
             </motion.button>
-            <div className="lp2-final-note">Free &middot; 5 minutes &middot; No credit card</div>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* ══ TRANSITION ══ */}
+      <section className="qp-transition">
+        <div className="qp-star-tl" aria-hidden="true">✦<br/>✦ ✦</div>
+        <div className="qp-star-tr" aria-hidden="true">✦<br/>✦ ✦</div>
+        <div className="qp-star-bl" aria-hidden="true">✦ ✦ ✦</div>
+        <div className="qp-star-br" aria-hidden="true">✦ ✦ ✦</div>
+        <div className="qp-transition-inner">
+          <img src="/illustrations/footer-graphic.png" alt="" aria-hidden="true" className="qp-transition-img" />
+        </div>
+      </section>
+
+      {/* ══ DARK CTA ══ */}
+      <section className="qp-dark-cta">
+        <div className="qp-dark-inner" ref={darkRef}>
+          <motion.div
+            initial={prefersReduced ? {} : { opacity:0, y:32 }}
+            animate={darkInView ? { opacity:1, y:0 } : {}}
+            transition={tr(0)}
+          >
+            <div className="qp-dark-annotation">
+              <span style={{ fontFamily:"'Caveat',cursive", fontSize:22, fontWeight:600 }}>only takes 4 minutes</span>
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <path d="M13 2 C13 2 20 9 18 18 C17 22 11 24 11 24" stroke="rgba(255,255,255,.55)" strokeWidth="1.8" strokeLinecap="round"/>
+                <path d="M7 21 L11 25 L15 21" stroke="rgba(255,255,255,.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h2 className="qp-dark-h">
+              Ready to find out<br />which expert you are?
+            </h2>
+            <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
+              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+              Discover Now
+            </motion.button>
           </motion.div>
         </div>
       </section>
+
+      {/* ══ FOOTER ══ */}
+      <footer className="qp-footer">
+        <div className="qp-footer-top">
+          <div className="qp-footer-logo">The5th Consulting</div>
+          <div className="qp-footer-avs">
+            {[
+              '/illustrations/advocate.png',
+              '/illustrations/diplomat.png',
+              '/illustrations/innovator.png',
+              '/illustrations/confidant.png',
+            ].map((src, i) => (
+              <div key={i} className="qp-footer-av" style={{ zIndex: 4 - i }}>
+                <img src={src} alt="" />
+              </div>
+            ))}
+          </div>
+          <div className="qp-footer-links">
+            <div className="qp-footer-col">
+              <h4>Product</h4>
+              <a href="#">Quiz</a>
+              <a href="#">Platform</a>
+              <a href="#">Coaching</a>
+            </div>
+            <div className="qp-footer-col">
+              <h4>Resources</h4>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+              <a href="#">Support</a>
+            </div>
+          </div>
+        </div>
+        <div className="qp-footer-bottom">
+          &copy; 2026 The5th Consulting. All rights reserved.
+        </div>
+      </footer>
 
     </div>
   )
