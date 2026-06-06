@@ -81,6 +81,10 @@ export async function POST(req: NextRequest) {
     let pdfAttachment: Array<{ filename: string; content: string }> | undefined = undefined
 
     try {
+      // Wake up Render service (free tier cold-starts up to 30s)
+      fetch(`${PDF_SERVICE_URL}/health`).catch(() => {})
+      await new Promise(r => setTimeout(r, 2000))
+
       const pdfRes = await fetch(`${PDF_SERVICE_URL}/generate-pdf`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -94,7 +98,7 @@ export async function POST(req: NextRequest) {
           archetype: archetypeLabel,
           personality: personalityLabel,
         }),
-        signal: AbortSignal.timeout(30000),
+        signal: AbortSignal.timeout(55000),
       })
       if (pdfRes.ok) {
         const pdfBytes = await pdfRes.arrayBuffer()

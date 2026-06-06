@@ -13,7 +13,16 @@ function ThankYouContent() {
 
   useEffect(() => {
     const n = sessionStorage.getItem('video_name') || sessionStorage.getItem('quiz_name') || ''
+    const e = sessionStorage.getItem('quiz_email') || ''
     setName(n)
+    // Stop email sequence now that they have booked
+    if (e) {
+      fetch('/api/update-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: e, call_booked: true, sequence_assigned: null })
+      }).catch(() => {})
+    }
   }, [])
 
   const firstName = name.split(' ')[0] || 'there'
