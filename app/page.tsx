@@ -1204,7 +1204,7 @@ const LP_CSS = `
   .qp-nav{padding:14px 24px;}
   .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
   .qp-hero{padding:96px 24px 0;}
-  .qp-h1{font-size:clamp(42px,10vw,64px) !important;letter-spacing:-1.5px !important;}
+  .qp-h1{font-size:clamp(38px,8vw,56px) !important;letter-spacing:-1px !important;}
   .qp-arch-section{padding:140px 24px 60px;}
   .qp-arch-top-right{display:none;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
@@ -1217,7 +1217,7 @@ const LP_CSS = `
   .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
 }
 @media(max-width:480px){
-  .qp-h1{font-size:clamp(36px,11vw,52px) !important;}
+  .qp-h1{font-size:clamp(32px,9vw,44px) !important;letter-spacing:-0.5px !important;}
   .qp-hero-inner{padding:0 20px !important;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
   .qp-arch-img-wrap{height:150px;}
@@ -1339,11 +1339,29 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             <Annotation>find out in 4 minutes</Annotation>
           </motion.div>
 
-          <motion.h1 className="qp-h1" {...up(0.2)}>
-            What if your coaching strategy<br />is working against your personality?
+          <motion.h1 className="qp-h1" {...up(0.2)} style={{
+            fontSize: 'clamp(56px, 6.5vw, 88px)',
+            fontWeight: 700,
+            lineHeight: 1.02,
+            letterSpacing: '-2px',
+            color: '#ffffff',
+            textAlign: 'center',
+            maxWidth: '900px',
+            margin: '0 auto 24px',
+            fontFamily: "'Playfair Display', serif",
+          }}>
+            What if your coaching<br />
+            strategy is working<br />
+            against your personality?
           </motion.h1>
 
-          <motion.p className="qp-hero-sub" {...up(0.32)}>
+          <motion.p className="qp-hero-sub" {...up(0.32)} style={{
+            maxWidth: '520px',
+            fontSize: '17px',
+            color: 'rgba(255,255,255,0.85)',
+            lineHeight: 1.7,
+            margin: '0 auto 40px',
+          }}>
             Most coaches fail not because they lack talent, but because they are using the wrong strategy for who they actually are. Your Expert Archetype reveals the approach built specifically for your personality type and the fastest path to $10K months.
           </motion.p>
 
