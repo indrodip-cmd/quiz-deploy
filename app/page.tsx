@@ -1142,21 +1142,21 @@ const LP_CSS = `
 .qp-about-btn{text-align:center;}
 
 /* ─── transition section ─── */
-.qp-transition{background:#faf8f5;padding:80px 40px;text-align:center;
+.qp-transition{background:#8b7fcf;padding:80px 40px;text-align:center;
   position:relative;overflow:hidden;}
 .qp-transition-inner{max-width:900px;margin:0 auto;position:relative;}
 .qp-transition-img{width:100%;max-width:700px;display:block;margin:0 auto;}
 .qp-star-tl{position:absolute;top:24px;left:40px;font-size:42px;
-  color:#111;opacity:.12;line-height:1.1;pointer-events:none;}
+  color:#fff;opacity:.22;line-height:1.1;pointer-events:none;}
 .qp-star-tr{position:absolute;top:24px;right:40px;font-size:42px;
-  color:#111;opacity:.12;line-height:1.1;pointer-events:none;}
+  color:#fff;opacity:.22;line-height:1.1;pointer-events:none;}
 .qp-star-bl{position:absolute;bottom:24px;left:48px;font-size:28px;
-  color:#111;opacity:.1;pointer-events:none;}
+  color:#fff;opacity:.18;pointer-events:none;}
 .qp-star-br{position:absolute;bottom:24px;right:48px;font-size:28px;
-  color:#111;opacity:.1;pointer-events:none;}
+  color:#fff;opacity:.18;pointer-events:none;}
 
 /* ─── dark CTA ─── */
-.qp-dark-cta{background:#1a1a1a;padding:100px 60px;text-align:center;}
+.qp-dark-cta{background:#1c4a32;padding:100px 60px;text-align:center;}
 .qp-dark-inner{max-width:680px;margin:0 auto;}
 .qp-btn-dark-gold{display:inline-flex;align-items:center;justify-content:center;
   background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
@@ -1338,11 +1338,11 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)}>
-            Discover your<br />Expert Income Archetype
+            Discover your<br />Expert Archetype
           </motion.h1>
 
           <motion.p className="qp-hero-sub" {...up(0.32)}>
-            You have decades of expertise. Find out exactly how to turn it into consistent income — and what has been quietly standing in your way.
+            You have spent years becoming exceptional at something. Most women never figure out how to turn that into real income. Your Archetype tells you exactly why — and exactly what to do next.
           </motion.p>
 
           <motion.div {...up(0.44)}>
@@ -1383,7 +1383,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               </svg>
               <h2 className="qp-sect-h">Which Expert Are <em style={{ fontStyle:'italic', color:'#1c4a32' }}>You?</em></h2>
               <p className="qp-sect-sub">
-                Every woman over 40 who has tried to monetise her expertise falls into one of four archetypes. Each one has a different strength, a different blind spot, and a different path forward. Yours is waiting.
+                Most women with decades of expertise are sitting on an income they have not unlocked yet. Your Archetype is the map. Four profiles. One is yours. The quiz finds it in under 5 minutes.
               </p>
             </div>
           </motion.div>
