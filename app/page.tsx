@@ -76,13 +76,13 @@ const questions: Question[] = [
   },
   {
     id: 'q4', num: 4, title: 'What is the #1 pain your ideal client wakes up feeling?',
-    sub: 'Use their exact language. The more specific, the more powerful your blueprint.',
+    sub: 'Your answer directly shapes the quality of your blueprint. Think of this as briefing a world-class strategist — the more specific you are, the more precise and valuable your personalised growth plan becomes.',
     type: 'textarea',
     placeholder: "e.g. They feel stuck and invisible — they have so much to offer but can't figure out how to turn their expertise into income…"
   },
   {
     id: 'q5', num: 5, title: 'What is your zone of genius?',
-    sub: 'What do you do effortlessly that others find impossible? What have people always come to you for?',
+    sub: 'Your answer directly shapes the quality of your blueprint. Think of this as briefing a world-class strategist — the more specific you are, the more precise and valuable your personalised growth plan becomes.',
     type: 'textarea',
     placeholder: 'e.g. I have a gift for helping women identify their unique story and turn decades of experience into a focused, premium coaching offer…'
   },
@@ -2033,6 +2033,9 @@ export default function Page() {
                     value={textAnswers[q.id] || ''}
                     onChange={e => setTextAnswers(t => ({ ...t, [q.id]: e.target.value }))}
                   />
+                  <p style={{ fontSize: 13, color: 'rgba(13,13,11,0.5)', textAlign: 'center', margin: '8px 0 16px' }}>
+                    Most people who write 2–3 sentences get significantly more accurate results.
+                  </p>
                   {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 10 }}>{error}</p>}
                   <button className="gbtn" onClick={validateAndNext}>Continue →</button>
                 </>
@@ -2115,13 +2118,13 @@ export default function Page() {
                     })}
                   </div>
                   {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 8, marginTop: 4 }}>{error}</p>}
-                  <button className="gbtn" style={{ marginTop: 8 }} onClick={validateAndNext}>Continue →</button>
+                  <button className="gbtn" style={{ marginTop: 32 }} onClick={validateAndNext}>Continue →</button>
                 </>
               )}
 
               {/* Continue button for SELECT — fades in after selection */}
               {q.type === 'select' && (
-                <div style={{ marginTop: 4 }}>
+                <div style={{ marginTop: 32 }}>
                   {error && <p style={{ fontSize: 13, color: '#ef4444', marginBottom: 10 }}>{error}</p>}
                   <div style={{ opacity: hasAnswer ? 1 : 0, transform: hasAnswer ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.2s ease, transform 0.2s ease', pointerEvents: hasAnswer ? 'auto' : 'none' }}>
                     <button className="gbtn" onClick={validateAndNext}>Continue →</button>
