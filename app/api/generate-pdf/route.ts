@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
     try {
       // Wake up Render service (free tier cold-starts up to 30s)
       fetch(`${PDF_SERVICE_URL}/health`).catch(() => {})
-      await new Promise(r => setTimeout(r, 2000))
+      await new Promise(r => setTimeout(r, 5000))
 
       const pdfRes = await fetch(`${PDF_SERVICE_URL}/generate-pdf`, {
         method: 'POST',
@@ -98,18 +98,18 @@ export async function POST(req: NextRequest) {
           archetype: archetypeLabel,
           personality: personalityLabel,
         }),
-        signal: AbortSignal.timeout(55000),
+        signal: AbortSignal.timeout(90000),
       })
       if (pdfRes.ok) {
         const pdfBytes = await pdfRes.arrayBuffer()
         const pdfBase64 = Buffer.from(pdfBytes).toString('base64')
         pdfAttachment = [{ filename: `${firstName}-blueprint.pdf`, content: pdfBase64 }]
-        console.log('PDF generated successfully, size:', pdfBytes.byteLength)
+        console.log('PDF received, size:', pdfBytes.byteLength)
       } else {
         console.error('PDF service error:', pdfRes.status, await pdfRes.text())
       }
     } catch (err) {
-      console.error('PDF generation failed, sending email without PDF:', err)
+      console.error('PDF generation failed, sending without attachment:', err)
     }
 
     const emailHtml = `<!DOCTYPE html>
