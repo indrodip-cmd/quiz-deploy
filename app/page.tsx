@@ -694,7 +694,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: 
 function FlameLogo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-      <Image src="/logo-white.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} />
+      <Image src="/logo-color.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} />
     </div>
   )
 }
