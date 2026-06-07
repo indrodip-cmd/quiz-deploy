@@ -1344,7 +1344,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
       {/* ══ NAV ══ */}
       <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
-        <div className="qp-logo"><img src="/logo-white.png" alt="The5th Consulting" style={{ height: '32px', width: 'auto' }} /></div>
+        <div className="qp-logo">The5th Consulting</div>
         <motion.button className="qp-nav-btn" onClick={onStart} {...HOV}
           whileHover={prefersReduced ? {} : { scale:1.06, y:-1 }} whileTap={{ scale:0.96 }} transition={spr}>
           Take The Quiz
@@ -1361,10 +1361,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
-            fontSize: 'clamp(44px, 5vw, 68px)',
-            fontWeight: 300,
-            lineHeight: 1.05,
-            letterSpacing: '-1.5px',
+            fontSize: 'clamp(36px, 4.5vw, 60px)',
+            fontWeight: 900,
+            lineHeight: 1.08,
             color: '#ffffff',
             textAlign: 'center',
             margin: '0 auto 24px',
