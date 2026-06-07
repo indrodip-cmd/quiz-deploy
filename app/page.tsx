@@ -1219,8 +1219,8 @@ const LP_CSS = `
   .qp-nav{padding:14px 24px;}
   .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
   .qp-hero{padding:96px 24px 0;}
-  .qp-h1{font-size:clamp(34px,7vw,48px) !important;letter-spacing:-1px !important;line-height:1.25 !important;width:95vw !important;max-width:95vw !important;}
-  .qp-hero-graphic{min-height:210px !important;}
+  .qp-h1{font-size:36px !important;letter-spacing:-0.5px !important;line-height:1.25 !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
+  .qp-hero-graphic{height:auto !important;object-fit:contain !important;}
   .qp-arch-section{padding:140px 24px 60px;}
   .qp-arch-top-right{display:none;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
@@ -1233,7 +1233,7 @@ const LP_CSS = `
   .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
 }
 @media(max-width:480px){
-  .qp-h1{font-size:clamp(26px,8vw,36px) !important;letter-spacing:-0.5px !important;line-height:1.3 !important;width:95vw !important;max-width:95vw !important;}
+  .qp-h1{font-size:30px !important;letter-spacing:-0.5px !important;line-height:1.3 !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
   .qp-hero-inner{padding:0 20px !important;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
   .qp-arch-img-wrap{height:150px;}
