@@ -692,13 +692,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: 
 /* ─── Flame Logo ─── */
 function FlameLogo() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-      <svg width="32" height="36" viewBox="0 0 32 36" fill="none">
-        <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#2d6a4f"/>
-        <path d="M12 20C12 20 10 22 10 24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24C22 22 20 20 20 20C20 20 19 22 17 23C16.5 23.3 16 23.3 16 23.3C16 23.3 17 21 12 20Z" fill="#2d6a4f" opacity="0.7"/>
-        <path d="M14 25C14 25 13 26.5 13 27.5C13 29.4 14.3 31 16 31C17.7 31 19 29.4 19 27.5C19 26.5 18 25 18 25C18 25 17.5 26 16.5 26.5C16 26.7 16 26.7 16 26.7C16 26.7 16.5 25.5 14 25Z" fill="#1a4a35"/>
-      </svg>
-      <span className="site-header-logo-text" style={{ fontSize: 14, fontWeight: 800, color: '#225840', letterSpacing: '.06em', textTransform: 'uppercase' }}>THE5TH CONSULTING</span>
+    <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+      <img src="/logo-white.png" alt="The5th Consulting" style={{ height: '32px', width: 'auto', display: 'block' }} />
     </div>
   )
 }
@@ -1344,7 +1339,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
       {/* ══ NAV ══ */}
       <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
-        <div className="qp-logo">The5th Consulting</div>
+        <div className="qp-logo"><img src="/logo-white.png" alt="The5th Consulting" style={{ height: '32px', width: 'auto', display: 'block' }} /></div>
         <motion.button className="qp-nav-btn" onClick={onStart} {...HOV}
           whileHover={prefersReduced ? {} : { scale:1.06, y:-1 }} whileTap={{ scale:0.96 }} transition={spr}>
           Take The Quiz
