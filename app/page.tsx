@@ -1241,6 +1241,9 @@ const LP_CSS = `
   .qp-arch-img-wrap{height:150px;}
   .qp-white-card{padding:28px 22px;}
 }
+
+/* ─── Gelica headings ─── */
+.qp-h1,.qp-sect-h,.qp-arch-name,.qp-about-h,.qp-card-h,.qp-dark-h{font-family:'Gelica',serif !important;}
 `
 
 /* ─── Annotation + arrow helper ─── */
@@ -1359,13 +1362,13 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
             fontSize: 'clamp(44px, 5vw, 68px)',
-            fontWeight: 700,
+            fontWeight: 300,
             lineHeight: 1.05,
             letterSpacing: '-1.5px',
             color: '#ffffff',
             textAlign: 'center',
             margin: '0 auto 24px',
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: 'Gelica, serif',
           }}>
             What If The Real Reason You're Stuck Isn't Your Offer...<br />
             But The Growth Strategy You're Following?
