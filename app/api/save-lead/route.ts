@@ -35,8 +35,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Please use a real email address.' }, { status: 400 })
     }
 
+    const q1 = quiz_answers?.q1 || ''
+    let sequence_assigned = 'PIONEER'
+    if (q1 === 'launched') sequence_assigned = 'PATHFINDER'
+    else if (q1 === 'scaling') sequence_assigned = 'BUILDER'
+    else if (q1 === 'established') sequence_assigned = 'LUMINARY'
+    else sequence_assigned = 'PIONEER'
+
     const { data, error } = await supabase
-      .from('leads')
+      .from('quiz_leads')
       .upsert({
         name,
         email,
@@ -44,7 +51,7 @@ export async function POST(req: NextRequest) {
         video_assigned,
         video_requested: video_requested || false,
         no_video: no_video || false,
-        sequence_assigned: 'A',
+        sequence_assigned,
         last_email_day: -1,
         created_at: new Date().toISOString()
       }, { onConflict: 'email' })

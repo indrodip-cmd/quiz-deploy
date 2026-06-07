@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
     // Get all leads who are in an active sequence
     const { data: leads, error } = await supabase
-      .from('leads')
+      .from('quiz_leads')
       .select('*')
       .not('sequence_assigned', 'is', null)
       .eq('call_booked', false)
@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
           results.sent++
           // Update last_email_day in Supabase
           await supabase
-            .from('leads')
+            .from('quiz_leads')
             .update({ last_email_day: day })
             .eq('id', lead.id)
         } else {

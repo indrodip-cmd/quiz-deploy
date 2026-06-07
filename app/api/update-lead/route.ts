@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 })
 
     const { error } = await supabase
-      .from('leads')
+      .from('quiz_leads')
       .update(updates)
       .eq('email', email)
 
