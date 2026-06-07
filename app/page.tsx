@@ -686,18 +686,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: 
 }
 /* Quiz content area responsive */
 @media (max-width: 767px) {
-  .quiz-content-area { max-width: 640px !important; padding: 88px 20px 100px !important; }
+  .quiz-content-area { max-width: 640px !important; padding: 120px 20px 100px !important; }
 }
 `
-
-/* ─── Flame Logo ─── */
-function FlameLogo() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-      <Image src="/logo-white2.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} />
-    </div>
-  )
-}
 
 /* ─── Site Header (start / quiz / email / otp) ─── */
 function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) {
@@ -708,46 +699,42 @@ function SiteHeader({ screen, currentQ }: { screen: string; currentQ: number }) 
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
       background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)',
-      padding: '16px 40px',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      gap: 16,
       borderBottom: '1px solid #f0f0f0',
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      padding: '12px 40px 10px', gap: 8,
     }}>
-      {/* Left: Logo */}
-      <FlameLogo />
+      {/* Logo centered */}
+      <Image src="/logo-white2.png" alt="The5th Consulting" width={240} height={54} style={{ objectFit: 'contain' }} />
 
-      {/* Center: Progress dots */}
-      <div style={{ flex: 1, maxWidth: 480, position: 'relative', height: 10, margin: '0 16px' }}>
-        {/* Connecting line */}
-        <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: '#e0e0e0', transform: 'translateY(-50%)' }} />
-        {/* Dots */}
-        <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
-          {questions.map((_, i) => {
-            const done = allDone || (isQuiz && i < currentQ)
-            const cur = isQuiz && i === currentQ
-            return (
-              <div
-                key={i}
-                className={cur ? 'dot-cur' : ''}
-                style={{
-                  width: 10, height: 10, borderRadius: '50%', flexShrink: 0,
-                  background: done ? '#225840' : cur ? '#b8960c' : '#fff',
-                  border: `2px solid ${done ? '#225840' : cur ? '#b8960c' : '#e0e0e0'}`,
-                  transition: 'background 0.3s ease, border-color 0.3s ease',
-                }}
-              />
-            )
-          })}
+      {/* Progress dots + tag row */}
+      <div style={{ width: '100%', maxWidth: 640, display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ flex: 1, position: 'relative', height: 10 }}>
+          <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: '#e0e0e0', transform: 'translateY(-50%)' }} />
+          <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
+            {questions.map((_, i) => {
+              const done = allDone || (isQuiz && i < currentQ)
+              const cur = isQuiz && i === currentQ
+              return (
+                <div
+                  key={i}
+                  className={cur ? 'dot-cur' : ''}
+                  style={{
+                    width: 10, height: 10, borderRadius: '50%', flexShrink: 0,
+                    background: done ? '#225840' : cur ? '#b8960c' : '#fff',
+                    border: `2px solid ${done ? '#225840' : cur ? '#b8960c' : '#e0e0e0'}`,
+                    transition: 'background 0.3s ease, border-color 0.3s ease',
+                  }}
+                />
+              )
+            })}
+          </div>
         </div>
-      </div>
-
-      {/* Right: tag line — invisible during quiz to preserve layout */}
-      <div className="site-header-tag" style={{
-        fontSize: 13, color: '#999', whiteSpace: 'nowrap', flexShrink: 0,
-        visibility: isQuiz ? 'hidden' : 'visible',
-        minWidth: 110, textAlign: 'right',
-      }}>
-        Free · 3 min quiz
+        <div className="site-header-tag" style={{
+          fontSize: 13, color: '#999', whiteSpace: 'nowrap', flexShrink: 0,
+          visibility: isQuiz ? 'hidden' : 'visible',
+        }}>
+          Free · 3 min quiz
+        </div>
       </div>
     </header>
   )
@@ -1979,7 +1966,7 @@ export default function Page() {
         </div>
 
         {/* Content area */}
-        <div className="quiz-content-area" style={{ maxWidth: 800, margin: '0 auto', padding: '88px 40px 100px', position:'relative', zIndex:1 }}>
+        <div className="quiz-content-area" style={{ maxWidth: 800, margin: '0 auto', padding: '120px 40px 100px', position:'relative', zIndex:1 }}>
 
           {/* Animated question wrapper */}
           <div key={cardKey} className={slideDir}>
