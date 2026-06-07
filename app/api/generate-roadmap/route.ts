@@ -114,83 +114,74 @@ Generate a DETAILED personalised business strategy for ${name}.
 Use this EXACT structure with these EXACT section headers:
 
 ## YOUR SITUATION RIGHT NOW
-3 sentences. Mirror exactly where they are based on their archetype and personality. Make them feel deeply seen. Reference their specific answers.
+## YOUR SIGNATURE OFFER
+## YOUR LEAD MAGNET IDEA
+## YOUR DIGITAL PRODUCT IDEA
+## 7-DAY CONTENT PLAN
+## 30-DAY ACTION PLAN
+## YOUR PRICING STRATEGY
+## YOUR BIGGEST OPPORTUNITY
 
-## YOUR ARCHETYPE STRATEGY
-Based on their archetype (${archetype}) AND personality (${personality}), write 2-3 paragraphs explaining exactly why their current approach may not be working and what the personality-matched strategy looks like for them specifically. Be direct and honest. Reference their hustle relationship, outreach capacity, and work style specifically.
+CONTENT DEPTH REQUIREMENTS — this is critical:
+
+Each section must be substantial. Do not summarise. Do not use single sentences.
+
+## YOUR SITUATION RIGHT NOW
+Write 3-4 paragraphs. Describe exactly where this person is right now based on their quiz answers. Be specific about their stage, niche, audience, strengths, and the single biggest vulnerability holding them back. Name real patterns you see. Make them feel deeply understood.
 
 ## YOUR SIGNATURE OFFER
-Based on their zone of genius, niche, delivery preference, and personality:
-**Offer Name:** [specific name]
-**Tagline:** [one line]
-**Format:** [delivery format matching their preference]
-**Recommended Price:** [based on their stage and revenue goal]
-**Transformation Promise:** FROM [their client pain] TO [specific result]
-**Why this works for your personality:** [one sentence connecting offer to their personality type]
+Write a complete offer breakdown:
+- Offer name (creative, specific to their niche)
+- Tagline (one punchy line)
+- Format (exactly how it is delivered: 1:1, group, hybrid, async)
+- Duration (specific timeframe)
+- What is included (3-5 bullet points with detail)
+- Recommended price (specific number with payment plan option)
+- The transformation: FROM [current pain state] TO [desired outcome] in [timeframe]
+Write 2-3 paragraphs explaining why this offer is right for them specifically.
 
-## YOUR LEAD MAGNET
-**Title:** [specific title]
-**Format:** [format that suits their content style and personality]
-**Why it works for you:** [connect to their visibility comfort and content approach]
+## YOUR LEAD MAGNET IDEA
+Write a complete lead magnet brief:
+- Title (specific, compelling)
+- Format (PDF, video, quiz, checklist)
+- Exactly what it covers (3-5 points)
+- Why it works for their specific audience
+- How it connects to the signature offer
+Write 2 paragraphs on the strategy behind it.
 
-## YOUR DIGITAL PRODUCT
-**Title:** [specific title]
-**Format:** [format, price $27-97]
-**Why it works for you:** [connect to their work style and personality]
+## YOUR DIGITAL PRODUCT IDEA
+Write a complete digital product brief:
+- Product name
+- Format and price point
+- What is inside (5-7 specific items)
+- Who it is for and why they will buy it
+- How to position it as a complement to the high-ticket offer
 
-## YOUR 7-DAY ACTION PLAN
-This is the most important section. Every single task must match their personality type.
-If they cannot hustle, give them soft sustainable tasks.
-If they are a Driver, give them bold decisive tasks.
-If they are a Flow Worker, give them relationship and connection tasks.
-If they are a Deep Thinker, give them strategic thinking and quality-over-quantity tasks.
-If they are a Gentle Builder, give them one small meaningful task per day maximum.
+## 7-DAY CONTENT PLAN
+For each day write:
+DAY [N] - [PLATFORM]
+Hook: [specific attention-grabbing opening line]
+Content: [2-3 sentences describing exactly what to post]
+Goal: [what this post is designed to do — build trust, generate leads, drive DMs]
 
-Format each day exactly like this:
+All 7 days must be completely filled out. No placeholder text.
 
-**Day 1 — [Theme]**
-Main Task: [specific actionable task]
-Content: [one specific content idea with hook/opening line]
-Mindset: [one sentence addressing their specific fear or block]
-Time needed: [realistic time estimate matching their work style]
-
-**Day 2 — [Theme]**
-[same format]
-
-**Day 3 — [Theme]**
-[same format]
-
-**Day 4 — [Theme]**
-[same format]
-
-**Day 5 — [Theme]**
-[same format]
-
-**Day 6 — [Theme]**
-[same format]
-
-**Day 7 — [Theme]**
-Main Task: [their single most important next step]
-Content: [one piece of content to publish]
-Reflection: [one question to sit with going into week 2]
-Time needed: [realistic estimate]
-
-## YOUR CONTENT STRATEGY
-Based on their visibility comfort (${visibilityStyle}) and content approach (${consistencyStyle}), recommend:
-**Platform:** [primary platform for their personality]
-**Frequency:** [realistic frequency for their work style — do NOT say daily if they cannot sustain it]
-**Content pillars:** [3 specific content topics connected to their niche and zone of genius]
-**Best performing format for your personality:** [reel, carousel, long post, etc — match to their style]
-**One content idea to create this week:** [specific title, hook, and format]
+## 30-DAY ACTION PLAN
+Write a full 4-week plan:
+Week 1 - Foundation: 3-4 specific numbered tasks with detail on how to execute each
+Week 2 - Visibility: 3-4 specific numbered tasks
+Week 3 - Outreach: 3-4 specific numbered tasks
+Week 4 - Conversion: 3-4 specific numbered tasks
+Each task must be actionable enough to execute without further instruction.
 
 ## YOUR PRICING STRATEGY
-Based on their revenue goal (${answers.q18}) and pricing relationship (${answers.q15}):
-**Recommended starting price:** [specific number]
-**How to present it matching your personality:** [soft or direct approach based on their type]
-**Handling your specific pricing block:** [direct advice for their specific pricing answer]
+Write 3 paragraphs covering:
+- Exact recommended starting price and why
+- How to present the price on a sales call (specific language)
+- How to handle the most common objection for their archetype and personality type
 
 ## YOUR BIGGEST OPPORTUNITY
-One paragraph. The single highest-leverage move available to this specific person right now given their archetype AND their personality. Be brutally honest. This should feel like someone who truly sees them.
+Write 2-3 paragraphs. Identify the single highest-leverage move available to this person right now. Be specific. Name exactly what they should do in the next 7 days to capture this opportunity. Be direct and honest even if it is uncomfortable.
 
 RULES:
 - Speak directly to ${name} using you and your throughout
@@ -200,12 +191,12 @@ RULES:
 - If they are not a hustler, never suggest hustle
 - If they cannot do high outreach, never suggest high outreach
 - Be specific. Generic advice is useless.
-- Total length: 1200 words minimum. This should feel like a premium paid report.
+- TOTAL LENGTH: minimum 1800 words. If you are under 1800 words, you have not gone deep enough. Go deeper.
 - Start directly with the first section. No preamble.`
 
     const message = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 3000,
+      model: 'claude-sonnet-4-6',
+      max_tokens: 6000,
       messages: [{ role: 'user', content: prompt }]
     })
 
