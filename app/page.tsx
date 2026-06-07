@@ -694,7 +694,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: 
 function FlameLogo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-      <Image src="/logo-color.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} />
+      <Image src="/logo-white2.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} />
     </div>
   )
 }
@@ -1340,7 +1340,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
       {/* ══ NAV ══ */}
       <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
-        <div className="qp-logo"><Image src="/logo-white.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} /></div>
+        <div className="qp-logo"><Image src="/logo-white2.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} /></div>
         <motion.button className="qp-nav-btn" onClick={onStart} {...HOV}
           whileHover={prefersReduced ? {} : { scale:1.06, y:-1 }} whileTap={{ scale:0.96 }} transition={spr}>
           Take The Quiz
@@ -1577,7 +1577,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       {/* ══ FOOTER ══ */}
       <footer className="qp-footer">
         <div className="qp-footer-top">
-          <div className="qp-footer-logo"><img src="/logo-white.png" alt="The5th Consulting" style={{ height: '28px', width: 'auto' }} /></div>
+          <div className="qp-footer-logo"><img src="/logo-white2.png" alt="The5th Consulting" style={{ height: '28px', width: 'auto' }} /></div>
           <div className="qp-footer-avs">
             {[
               '/illustrations/advocate.png',
