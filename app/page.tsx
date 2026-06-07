@@ -1340,7 +1340,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
       {/* ══ NAV ══ */}
       <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
-        <div className="qp-logo"><Image src="/logo-white2.png" alt="The5th Consulting" width={200} height={46} style={{ objectFit: 'contain' }} /></div>
+        <div className="qp-logo"><Image src="/logo-white2.png" alt="The5th Consulting" width={240} height={54} style={{ objectFit: 'contain' }} /></div>
         <motion.button className="qp-nav-btn" onClick={onStart} {...HOV}
           whileHover={prefersReduced ? {} : { scale:1.06, y:-1 }} whileTap={{ scale:0.96 }} transition={spr}>
           Take The Quiz
@@ -1577,7 +1577,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       {/* ══ FOOTER ══ */}
       <footer className="qp-footer">
         <div className="qp-footer-top">
-          <div className="qp-footer-logo"><img src="/logo-white2.png" alt="The5th Consulting" style={{ height: '28px', width: 'auto' }} /></div>
+          <div className="qp-footer-logo"><Image src="/logo-white2.png" alt="The5th Consulting" width={240} height={54} style={{ objectFit: 'contain' }} /></div>
           <div className="qp-footer-avs">
             {[
               '/illustrations/advocate.png',
