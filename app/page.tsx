@@ -1219,7 +1219,8 @@ const LP_CSS = `
   .qp-nav{padding:14px 24px;}
   .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
   .qp-hero{padding:96px 24px 0;}
-  .qp-h1{font-size:30px !important;font-weight:900 !important;line-height:1.08 !important;letter-spacing:normal !important;width:95vw !important;max-width:none !important;padding:0 12px !important;box-sizing:border-box !important;text-align:center !important;}
+  .qp-hero-inner{text-align:center !important;width:100% !important;}
+  .qp-h1{font-size:36px !important;font-weight:900 !important;line-height:1.08 !important;letter-spacing:normal !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
   .qp-hero-graphic{height:auto !important;object-fit:contain !important;}
   .qp-arch-section{padding:140px 24px 60px;}
   .qp-arch-top-right{display:none;}
@@ -1233,7 +1234,8 @@ const LP_CSS = `
   .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
 }
 @media(max-width:480px){
-  .qp-h1{font-size:30px !important;font-weight:900 !important;line-height:1.08 !important;letter-spacing:normal !important;width:95vw !important;max-width:none !important;padding:0 12px !important;box-sizing:border-box !important;text-align:center !important;}
+  .qp-hero-inner{text-align:center !important;width:100% !important;}
+  .qp-h1{font-size:36px !important;font-weight:900 !important;line-height:1.08 !important;letter-spacing:normal !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
   .qp-hero-inner{padding:0 20px !important;}
   .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
   .qp-arch-img-wrap{height:150px;}
@@ -1362,7 +1364,6 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             letterSpacing: '-1.5px',
             color: '#ffffff',
             textAlign: 'center',
-            maxWidth: '900px',
             margin: '0 auto 24px',
             fontFamily: "'Playfair Display', serif",
           }}>
