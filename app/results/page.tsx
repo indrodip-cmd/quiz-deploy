@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 /* ─── Types ─── */
 interface Section { title: string; content: string }
@@ -491,7 +492,7 @@ export default function ResultsPage() {
           <svg width="22" height="26" viewBox="0 0 32 36" fill="none">
             <path d="M16 2C16 2 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 14 21 10 21 10C21 10 20 14 18 16C17 17 16 17 16 17C16 17 18 13 16 2Z" fill="#1c4a32"/>
           </svg>
-          <img src="/logo-white.png" alt="The5th Consulting" style={{ height: '32px', width: 'auto', display: 'block' }} />
+          <Image src="/logo-white.png" alt="The5th Consulting" width={140} height={32} style={{ objectFit: 'contain' }} />
         </div>
         {firstName && firstName !== 'there' && (
           <div style={{ background: '#f0f8f2', borderRadius: 50, padding: '5px 14px', fontSize: 12, fontWeight: 600, color: '#1c4a32' }}>
