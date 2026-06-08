@@ -1059,7 +1059,7 @@ const LP_CSS = `
 
 /* ─── nav ─── */
 .qp-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
-  justify-content:space-between;padding:20px 60px;
+  justify-content:center;padding:20px 60px;
   background:rgba(139,127,207,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .qp-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
   color:#fff;letter-spacing:.04em;}
@@ -1333,10 +1333,6 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       {/* ══ NAV ══ */}
       <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
         <div className="qp-logo"><Image src="/logo-white2.png" alt="The5th Consulting" width={240} height={54} style={{ objectFit: 'contain' }} /></div>
-        <motion.button className="qp-nav-btn" onClick={onStart} {...HOV}
-          whileHover={prefersReduced ? {} : { scale:1.06, y:-1 }} whileTap={{ scale:0.96 }} transition={spr}>
-          Take The Quiz
-        </motion.button>
       </motion.nav>
 
       {/* ══ HERO ══ */}
