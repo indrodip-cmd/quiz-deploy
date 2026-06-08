@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
 
 /* ─── Types ─── */
@@ -1055,7 +1055,7 @@ const LP_CSS = `
 
 /* ─── reset for landing ─── */
 .qp *,.qp *::before,.qp *::after{box-sizing:border-box;margin:0;padding:0;}
-.qp{font-family:'DM Sans',sans-serif;color:#111;overflow-x:hidden;cursor:none;}
+.qp{font-family:'DM Sans',sans-serif;color:#111;overflow-x:hidden;}
 
 /* ─── nav ─── */
 .qp-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
@@ -1065,7 +1065,7 @@ const LP_CSS = `
   color:#fff;letter-spacing:.04em;}
 .qp-nav-btn{background:#1c4a32;color:#fff;font-family:'DM Sans',sans-serif;
   font-size:13px;font-weight:700;padding:10px 24px;border-radius:50px;
-  border:none;cursor:none;letter-spacing:.03em;transition:transform .2s,box-shadow .2s;
+  border:none;cursor:pointer;letter-spacing:.03em;transition:transform .2s,box-shadow .2s;
   box-shadow:0 4px 14px rgba(28,74,50,.4);}
 .qp-nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(28,74,50,.5);}
 
@@ -1084,14 +1084,14 @@ const LP_CSS = `
   max-width:520px;margin:0 auto 40px;}
 .qp-btn-gold{display:inline-flex;align-items:center;justify-content:center;
   background:#1c4a32;color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;
-  font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:none;
+  font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:pointer;
   letter-spacing:.02em;box-shadow:0 8px 28px rgba(28,74,50,.4);
   transition:transform .25s,box-shadow .25s;}
 .qp-btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(28,74,50,.5);}
 .qp-btn-ghost{display:inline-flex;align-items:center;justify-content:center;
   background:transparent;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
   font-weight:700;padding:16px 48px;border-radius:50px;border:2px solid #111;
-  cursor:none;letter-spacing:.02em;transition:all .25s;}
+  cursor:pointer;letter-spacing:.02em;transition:all .25s;}
 .qp-btn-ghost:hover{background:#111;color:#fff;transform:translateY(-2px);}
 .qp-hero-graphic{display:block;width:100%;max-width:none;margin:48px auto -88px;
   position:relative;z-index:2;}
@@ -1157,7 +1157,7 @@ const LP_CSS = `
 .qp-dark-inner{max-width:680px;margin:0 auto;}
 .qp-btn-dark-gold{display:inline-flex;align-items:center;justify-content:center;
   background:#e8b84b;color:#111;font-family:'DM Sans',sans-serif;font-size:16px;
-  font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:none;
+  font-weight:700;padding:18px 48px;border-radius:50px;border:none;cursor:pointer;
   letter-spacing:.02em;box-shadow:0 8px 28px rgba(232,184,75,.45);
   transition:transform .25s,box-shadow .25s;}
 .qp-btn-dark-gold:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(232,184,75,.55);}
@@ -1270,23 +1270,6 @@ function LandingPage({ onStart }: { onStart: () => void }) {
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
 
-  /* Custom cursor */
-  const dotX  = useSpring(-100, { stiffness: 800, damping: 40 })
-  const dotY  = useSpring(-100, { stiffness: 800, damping: 40 })
-  const ringX = useSpring(-100, { stiffness: 140, damping: 22 })
-  const ringY = useSpring(-100, { stiffness: 140, damping: 22 })
-  const [hovering, setHovering] = useState(false)
-
-  useEffect(() => {
-    if (prefersReduced) return
-    const move = (e: MouseEvent) => {
-      dotX.set(e.clientX - 5); dotY.set(e.clientY - 5)
-      ringX.set(e.clientX - 17); ringY.set(e.clientY - 17)
-    }
-    window.addEventListener('mousemove', move)
-    return () => window.removeEventListener('mousemove', move)
-  }, [dotX, dotY, ringX, ringY, prefersReduced])
-
   /* Section in-view */
   const archRef     = useRef<HTMLDivElement>(null)
   const archInView  = useInView(archRef,   { once: true, amount: 0.08 })
@@ -1304,8 +1287,6 @@ function LandingPage({ onStart }: { onStart: () => void }) {
     transition: tr(d),
   })
 
-  const HOV = { onMouseEnter: () => setHovering(true), onMouseLeave: () => setHovering(false) }
-
   const ARCHETYPES = [
     { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You create momentum quickly. You love ideas, innovation, and opportunities. Your challenge is creating consistency and focus.' },
     { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You care deeply about helping people. You naturally build trust and transformation. Your challenge is turning expertise into predictable revenue.' },
@@ -1316,19 +1297,6 @@ function LandingPage({ onStart }: { onStart: () => void }) {
   return (
     <div className="qp">
       <style>{LP_CSS}</style>
-
-      {/* Cursor */}
-      {!prefersReduced && (<>
-        <motion.div style={{
-          position:'fixed',top:0,left:0,width:10,height:10,borderRadius:'50%',
-          background:'#e8b84b',pointerEvents:'none',zIndex:9999, x:dotX, y:dotY,
-        }} animate={{ scale: hovering ? 2.4 : 1 }} transition={{ type:'spring', stiffness:400, damping:20 }} />
-        <motion.div style={{
-          position:'fixed',top:0,left:0,width:34,height:34,borderRadius:'50%',
-          border:'1.5px solid #e8b84b',pointerEvents:'none',zIndex:9998,
-          x:ringX, y:ringY, opacity:0.4,
-        }} animate={{ scale: hovering ? 1.4 : 1 }} transition={{ type:'spring', stiffness:300, damping:22 }} />
-      </>)}
 
       {/* ══ NAV ══ */}
       <motion.nav className="qp-nav" initial={{ y:-64, opacity:0 }} animate={{ y:0, opacity:1 }} transition={tr(0)}>
@@ -1368,8 +1336,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.p>
 
           <motion.div {...up(0.44)}>
-            <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
-              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+            <motion.button className="qp-btn-gold" onClick={onStart}              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               DISCOVER MY ARCHETYPE
             </motion.button>
           </motion.div>
@@ -1435,8 +1402,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             animate={archInView ? { opacity:1, y:0 } : {}}
             transition={tr(0.42)}
           >
-            <motion.button className="qp-btn-gold" onClick={onStart} {...HOV}
-              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+            <motion.button className="qp-btn-gold" onClick={onStart}              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               TAKE THE ASSESSMENT
             </motion.button>
           </motion.div>
@@ -1513,8 +1479,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             animate={aboutInView ? { opacity:1, y:0 } : {}}
             transition={tr(0.28)}
           >
-            <motion.button className="qp-btn-ghost" onClick={onStart} {...HOV}
-              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+            <motion.button className="qp-btn-ghost" onClick={onStart}              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               See It In Action
             </motion.button>
           </motion.div>
@@ -1551,8 +1516,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             <h2 className="qp-dark-h">
               Discover The Growth Strategy That's Actually Aligned With You
             </h2>
-            <motion.button className="qp-btn-dark-gold" onClick={onStart} {...HOV}
-              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+            <motion.button className="qp-btn-dark-gold" onClick={onStart}              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               DISCOVER MY ARCHETYPE
             </motion.button>
             <p className="qp-trust-line" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', marginTop: '24px', lineHeight: 1.7 }}>

@@ -1,6 +1,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: #0a0f0a; min-height: 100vh; }
 
+@media (hover: none) and (pointer: coarse) {
+  .cursor, .cursor-dot, .cursor-follower, [class*="cursor"] {
+    display: none !important;
+  }
+}
+
 @font-face {
   font-family: 'Gelica';
   src: url('/fonts/gelica-light.otf') format('opentype');
