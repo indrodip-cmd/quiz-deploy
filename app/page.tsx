@@ -1199,28 +1199,33 @@ const LP_CSS = `
   .qp-footer{padding:48px 40px 32px;}
 }
 @media(max-width:768px){
-  .qp-nav{padding:14px 24px;}
-  .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost{cursor:pointer;}
-  .qp-hero{padding:96px 24px 0;}
-  .qp-hero-inner{text-align:center !important;width:100% !important;}
-  .qp-h1{font-size:36px !important;font-weight:900 !important;line-height:1.08 !important;letter-spacing:normal !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
+  .qp-nav{padding:14px 20px;}
+  .qp-nav-btn{font-size:12px !important;padding:8px 16px !important;border-radius:20px !important;}
+  .qp,.qp-nav-btn,.qp-btn-gold,.qp-btn-ghost,.qp-btn-dark-gold{cursor:pointer;}
+  .qp-hero{padding:96px 20px 0;}
+  .qp-hero-inner{text-align:center !important;width:100% !important;padding:0 20px !important;}
+  .qp-h1{font-size:clamp(26px,7vw,36px) !important;font-weight:800 !important;line-height:1.15 !important;letter-spacing:normal !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
+  .qp-hero-sub{font-size:15px !important;padding:0 20px !important;text-align:center !important;max-width:100% !important;}
+  .qp-trust-line{font-size:12px !important;white-space:normal !important;word-break:break-word !important;line-height:1.9 !important;padding:0 16px !important;}
   .qp-hero-graphic{height:auto !important;object-fit:contain !important;}
-  .qp-arch-section{padding:140px 24px 60px;}
+  .qp-arch-section{padding:140px 20px 60px !important;}
   .qp-arch-top-right{display:none;}
-  .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
-  .qp-about-section{padding:60px 24px;}
+  .qp-arch-grid{grid-template-columns:1fr !important;gap:20px !important;}
+  .qp-arch-card{max-width:420px;margin:0 auto;}
+  .qp-about-section{padding:60px 20px !important;}
   .qp-about-cards{grid-template-columns:1fr;gap:16px;}
-  .qp-dark-cta{padding:48px 24px;}
-  .qp-footer{padding:40px 24px 28px;}
+  .qp-dark-cta{padding:40px 20px !important;}
+  .qp-dark-h{font-size:clamp(24px,6vw,32px) !important;}
+  .qp-btn-dark-gold{width:calc(100% - 40px) !important;font-size:14px !important;padding:16px 24px !important;}
+  .qp-footer{padding:40px 20px 28px !important;}
   .qp-footer-top{flex-direction:column;align-items:flex-start;gap:24px;}
   .qp-footer-links{gap:24px;}
-  .qp-btn-gold,.qp-btn-ghost{width:100%;padding:16px 24px;}
+  .qp-btn-gold,.qp-btn-ghost{width:calc(100% - 40px) !important;font-size:14px !important;padding:16px 24px !important;}
 }
 @media(max-width:480px){
-  .qp-hero-inner{text-align:center !important;width:100% !important;}
-  .qp-h1{font-size:36px !important;font-weight:900 !important;line-height:1.08 !important;letter-spacing:normal !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
-  .qp-hero-inner{padding:0 20px !important;}
-  .qp-arch-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+  .qp-hero-inner{text-align:center !important;width:100% !important;padding:0 16px !important;}
+  .qp-h1{font-size:clamp(26px,7vw,36px) !important;font-weight:800 !important;line-height:1.15 !important;letter-spacing:normal !important;width:100% !important;max-width:100% !important;padding:0 16px !important;box-sizing:border-box !important;text-align:center !important;}
+  .qp-arch-grid{grid-template-columns:1fr !important;gap:16px !important;}
   .qp-arch-img-wrap{height:150px;}
   .qp-white-card{padding:28px 22px;}
 }
@@ -1373,7 +1378,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </motion.button>
           </motion.div>
 
-          <motion.p className="qp-hero-sub" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
+          <motion.p className="qp-hero-sub qp-trust-line" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
             ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Blueprint &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ⏱ Takes 5 minutes
           </motion.p>
 
@@ -1554,7 +1559,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               DISCOVER MY ARCHETYPE
             </motion.button>
-            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', marginTop: '24px', lineHeight: 1.7 }}>
+            <p className="qp-trust-line" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', marginTop: '24px', lineHeight: 1.7 }}>
               ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Blueprint &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ⏱ Takes 5 minutes
             </p>
           </motion.div>
