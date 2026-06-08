@@ -1344,9 +1344,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
-            fontSize: 'clamp(36px, 4.5vw, 60px)',
-            fontWeight: 900,
-            lineHeight: 1.08,
+            fontSize: 'clamp(36px, 4vw, 56px)',
+            fontWeight: 800,
+            lineHeight: 1.15,
             color: '#ffffff',
             textAlign: 'center',
             margin: '0 auto 24px',
