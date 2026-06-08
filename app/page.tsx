@@ -1242,7 +1242,13 @@ const LP_CSS = `
 .qp-proof-stars{color:#c9a84c;font-size:14px;margin-bottom:12px;}
 .qp-proof-quote{font-size:14px;color:#555;line-height:1.72;}
 @media(max-width:900px){.qp-proof-grid{grid-template-columns:repeat(2,1fr) !important;}}
-@media(max-width:600px){.qp-proof-grid{grid-template-columns:repeat(2,1fr) !important;} .qp-proof-section{padding:60px 20px !important;}}
+@media(max-width:640px){
+  .qp-proof-grid{grid-template-columns:1fr !important;gap:10px !important;}
+  .qp-proof-card{padding:16px 18px !important;}
+  .qp-proof-quote{font-size:14px !important;}
+  .qp-proof-heading .qp-sect-h{font-size:clamp(24px,5vw,36px) !important;margin-bottom:32px !important;}
+  .qp-proof-section{padding:60px 20px !important;}
+}
 `
 
 /* ─── Annotation + arrow helper ─── */
