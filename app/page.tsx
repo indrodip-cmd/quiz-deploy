@@ -1232,6 +1232,17 @@ const LP_CSS = `
 
 /* ─── Gelica headings ─── */
 .qp-h1,.qp-sect-h,.qp-arch-name,.qp-about-h,.qp-card-h,.qp-dark-h{font-family:'Gelica',serif !important;}
+
+/* ─── Social proof grid ─── */
+.qp-proof-section{background:#faf9f7;padding:80px 60px;border-top:1px solid #f0ece6;}
+.qp-proof-inner{max-width:1100px;margin:0 auto;}
+.qp-proof-heading{text-align:center;margin-bottom:48px;}
+.qp-proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.qp-proof-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:20px 24px;}
+.qp-proof-stars{color:#c9a84c;font-size:14px;margin-bottom:12px;}
+.qp-proof-quote{font-size:14px;color:#555;line-height:1.72;}
+@media(max-width:900px){.qp-proof-grid{grid-template-columns:repeat(2,1fr) !important;}}
+@media(max-width:600px){.qp-proof-grid{grid-template-columns:repeat(2,1fr) !important;} .qp-proof-section{padding:60px 20px !important;}}
 `
 
 /* ─── Annotation + arrow helper ─── */
@@ -1288,10 +1299,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
   })
 
   const ARCHETYPES = [
-    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:'You create momentum quickly. You love ideas, innovation, and opportunities. Your challenge is creating consistency and focus.' },
-    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:'You care deeply about helping people. You naturally build trust and transformation. Your challenge is turning expertise into predictable revenue.' },
-    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You are exceptional at solving problems and creating value. Your challenge is building systems that scale beyond your personal involvement.' },
-    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'People naturally trust your wisdom and perspective. Your challenge is turning influence into a reliable client acquisition engine.' },
+    { img:'/illustrations/advocate.png',  name:'The Pioneer',    desc:"You thrive on action, momentum, and bold moves. Your challenge isn't starting — it's creating consistency and sustainable growth." },
+    { img:'/illustrations/diplomat.png',  name:'The Pathfinder',  desc:"You're constantly learning and improving. Your next breakthrough comes from simplifying your expertise and creating a clear path for clients." },
+    { img:'/illustrations/innovator.png', name:'The Builder',     desc:'You naturally think in systems, processes, and scalability. Your opportunity is building assets that grow beyond your direct involvement.' },
+    { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'People trust your expertise and naturally look to you for guidance. Your next level comes from turning influence into a predictable client acquisition system.' },
   ]
 
   return (
@@ -1309,7 +1320,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="qp-hero-inner">
 
           <motion.div {...up(0.08)}>
-            <Annotation>AI-Powered Growth Assessment For Coaches & Experts</Annotation>
+            <Annotation>FOR COACHES, CONSULTANTS & EXPERTS ONLY</Annotation>
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
@@ -1321,8 +1332,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             margin: '0 auto 24px',
             fontFamily: 'Gelica, serif',
           }}>
-            What If The Real Reason You're Stuck Isn't Your Offer...<br />
-            But The Growth Strategy You're Following?
+            What If You're Not Stuck Because Of Your Offer... But Because You're Building Your Business The Wrong Way For You?
           </motion.h1>
 
           <motion.p className="qp-hero-sub" {...up(0.32)} style={{
@@ -1332,7 +1342,8 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            Most coaches don't need another strategy. They need the right one. Discover your Expert Income Archetype™, identify what's slowing your growth, and get a personalised roadmap in minutes.
+            Most coaches don't have an offer problem. They have an alignment problem. They're following growth strategies that work perfectly for someone else — but are completely misaligned with their strengths, personality, business stage, and goals. That's exactly what this assessment uncovers.<br /><br />
+            In less than 5 minutes, our AI-powered assessment identifies your Expert Income Archetype™, reveals the hidden bottlenecks slowing your growth, and creates a personalised roadmap showing exactly what to focus on next.
           </motion.p>
 
           <motion.div {...up(0.44)}>
@@ -1342,7 +1353,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.p className="qp-hero-sub qp-trust-line" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
-            ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Blueprint &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ⏱ Takes 5 minutes
+            ✓ Discover Your Expert Income Archetype™ &nbsp;&nbsp; ✓ Identify Your Biggest Growth Bottleneck &nbsp;&nbsp; ✓ Receive A Personalised Growth Roadmap &nbsp;&nbsp; ✓ Watch A Personalised Training Tailored To Your Results
+          </motion.p>
+          <motion.p {...up(0.58)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '10px auto 0', textAlign: 'center' }}>
+            Trusted by 500+ coaches, consultants & experts · Takes less than 5 minutes · Free assessment
           </motion.p>
 
         </div>
@@ -1357,6 +1371,30 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           animate={{ opacity:1, y:0 }}
           transition={tr(0.6)}
         />
+      </section>
+
+      {/* ══ SOCIAL PROOF ══ */}
+      <section className="qp-proof-section">
+        <div className="qp-proof-inner">
+          <div className="qp-proof-heading">
+            <h2 className="qp-sect-h">What coaches are saying</h2>
+          </div>
+          <div className="qp-proof-grid">
+            {[
+              'I implemented one recommendation from my roadmap and signed a $2,500 client within days. The assessment showed me exactly where I was making things harder than they needed to be.',
+              'I took the assessment, watched the personalised training, and immediately realised where I was overcomplicating my sales process. Within days, I closed two new clients.',
+              'The framework Indrodip shared completely transformed my content. People are responding differently, engaging more deeply, and I finally feel confident in my messaging.',
+              'My biggest breakthrough was realising that pricing — not my offer — was the real bottleneck. I finally feel comfortable charging $3,000 for my coaching.',
+              "I've taken dozens of business quizzes over the years. This was the first one that actually felt personalised and gave me practical next steps.",
+              'The roadmap felt like having a business strategist analyse my entire business and tell me exactly what to focus on next.',
+            ].map((quote, i) => (
+              <div key={i} className="qp-proof-card">
+                <div className="qp-proof-stars">★★★★★</div>
+                <p className="qp-proof-quote">{quote}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ══ ARCHETYPES ══ */}
@@ -1374,7 +1412,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 <path d="M14 2 C14 2 20 10 18 20 C17 26 10 28 10 28" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round"/>
                 <path d="M6 24 L10 29 L15 25" stroke="#8b7fcf" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="qp-sect-h"><em style={{ fontStyle:'italic', color:'#1c4a32' }}>Four</em> Archetypes. Four Different Ways To Build A Successful Coaching Business.</h2>
+              <h2 className="qp-sect-h"><em style={{ fontStyle:'italic', color:'#1c4a32' }}>Four</em> archetypes. Four different ways to build a successful coaching business.</h2>
               <p className="qp-sect-sub">
                 Most coaches are following advice that works perfectly for someone else. This assessment helps you discover the growth model that aligns with your natural strengths.
               </p>
@@ -1421,7 +1459,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             transition={tr(0)}
           >
             <Annotation dark>see the methodology</Annotation>
-            <h2 className="qp-about-h">This Is Not Another Personality Quiz</h2>
+            <h2 className="qp-about-h">This is not another personality quiz</h2>
           </motion.div>
 
           <div className="qp-about-cards">
@@ -1433,11 +1471,11 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               <div className="qp-card-h">Here's What You'll Discover</div>
               <ul className="qp-bullet-list">
                 {[
-                  { t:'Your Expert Income Archetype™', s:"Understand how you're naturally wired to grow your business." },
-                  { t:'Your Hidden Growth Bottleneck', s:'Identify the single biggest factor limiting your next level of growth.' },
-                  { t:'Your Personalised Growth Blueprint', s:'Receive strategic recommendations tailored to your strengths, business stage, and goals.' },
-                  { t:'Your Next Best Move', s:'Know exactly what to focus on next instead of chasing endless strategies.' },
-                  { t:'Your 7-Day Coaching Experience', s:'Receive personalised coaching insights designed around your results.' },
+                  { t:'Hidden Growth Bottlenecks', s:'Identify what is actually limiting your revenue at your specific business stage.' },
+                  { t:'Messaging Gaps', s:'Understand why your content and conversations are not converting the way they should.' },
+                  { t:'Business Model Mismatches', s:'Discover if you are building the right model for your strengths and lifestyle.' },
+                  { t:'Pricing Blind Spots', s:'See clearly what is stopping you from charging what your expertise is worth.' },
+                  { t:'Your Highest-Leverage Next Steps', s:'Know exactly what to focus on next to move your business forward fast.' },
                 ].map(({ t, s }, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-bullet-star">★</span>
@@ -1458,9 +1496,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               <div className="qp-card-h">How It Works</div>
               <ul className="qp-bullet-list">
                 {[
-                  'Answer 20 carefully designed questions about your business, goals, and growth challenges.',
-                  'Our AI analyses your responses and identifies patterns, strengths, blind spots, and opportunities.',
-                  'Receive your Expert Income Archetype™, growth diagnosis, and personalised blueprint instantly.',
+                  'Answer 20 carefully designed questions about your business, goals, strengths, challenges, and current growth stage.',
+                  'Our AI analyses your responses and identifies patterns, opportunities, bottlenecks, and growth drivers.',
+                  'Receive your Expert Income Archetype™, personalised roadmap, growth diagnosis, and custom recommendations instantly.',
                 ].map((s, i) => (
                   <li key={i} className="qp-bullet-li">
                     <span className="qp-step-num">{i + 1}</span>
@@ -1469,7 +1507,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 ))}
               </ul>
               <p className="qp-card-closing">
-                Apply your recommendations and continue receiving personalised coaching guidance over the next 7 days. Simple. Personalised. Actionable.
+                Apply your roadmap and start building your business around your strengths instead of forcing strategies that don't fit.
               </p>
             </motion.div>
           </div>
@@ -1514,13 +1552,16 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               </svg>
             </div>
             <h2 className="qp-dark-h">
-              Discover The Growth Strategy That's Actually Aligned With You
+              Discover the growth strategy that's actually aligned with you
             </h2>
             <motion.button className="qp-btn-dark-gold" onClick={onStart}              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
               DISCOVER MY ARCHETYPE
             </motion.button>
             <p className="qp-trust-line" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', marginTop: '24px', lineHeight: 1.7 }}>
-              ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Growth Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Blueprint &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ⏱ Takes 5 minutes
+              ✓ Personalised Archetype Analysis &nbsp;&nbsp; ✓ Hidden Bottleneck Diagnosis &nbsp;&nbsp; ✓ Custom Growth Roadmap &nbsp;&nbsp; ✓ Instant Results &nbsp;&nbsp; ✓ Free Assessment
+            </p>
+            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '12px' }}>
+              Trusted by 500+ coaches, consultants & experts
             </p>
           </motion.div>
         </div>
