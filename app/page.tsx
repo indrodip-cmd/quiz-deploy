@@ -1234,7 +1234,7 @@ const LP_CSS = `
 .qp-h1,.qp-sect-h,.qp-arch-name,.qp-about-h,.qp-card-h,.qp-dark-h{font-family:'Gelica',serif !important;}
 
 /* ─── Social proof grid ─── */
-.qp-proof-section{background:#faf9f7;padding:80px 60px;border-top:1px solid #f0ece6;}
+.qp-proof-section{background:#faf9f7;padding:80px 60px;border-top:1px solid #f0ece6;margin-top:80px;}
 .qp-proof-inner{max-width:1100px;margin:0 auto;}
 .qp-proof-heading{text-align:center;margin-bottom:48px;}
 .qp-proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
@@ -1342,8 +1342,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            Most coaches don't have an offer problem. They have an alignment problem. They're following growth strategies that work perfectly for someone else — but are completely misaligned with their strengths, personality, business stage, and goals. That's exactly what this assessment uncovers.<br /><br />
-            In less than 5 minutes, our AI-powered assessment identifies your Expert Income Archetype™, reveals the hidden bottlenecks slowing your growth, and creates a personalised roadmap showing exactly what to focus on next.
+            Most coaches don't have an offer problem — they have an alignment problem. They're following growth strategies that work perfectly for someone else, but are completely misaligned with their strengths, personality, business stage, and goals. In less than 5 minutes, this assessment uncovers exactly what's holding you back and provides a personalised roadmap for what to do next.
           </motion.p>
 
           <motion.div {...up(0.44)}>
