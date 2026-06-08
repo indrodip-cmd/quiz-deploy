@@ -214,31 +214,36 @@ export async function POST(req: NextRequest) {
     ${buildRoadmapHtml(roadmap)}
   </td></tr>
 
-  <!-- VIDEO CTA -->
+  <!-- BOOKING CTA -->
   <tr><td style="background:#060a07;padding:48px 40px;
     border-top:2px solid #1d5c3a;">
     <table width="100%" cellpadding="0" cellspacing="0">
       <tr><td align="center">
         <div style="font-size:9px;font-weight:700;letter-spacing:2px;
           color:#3a9a64;text-transform:uppercase;margin-bottom:12px;
-          font-family:sans-serif;">ONE MORE THING</div>
+          font-family:sans-serif;">YOUR NEXT STEP</div>
         <div style="font-size:22px;font-weight:700;color:#ffffff;
           margin-bottom:12px;font-family:Georgia,serif;">
-          Your personalised video is ready.
+          Let's build this together.
         </div>
-        <p style="font-size:13px;color:#8ab49a;line-height:1.65;
-          margin:0 0 28px;font-family:sans-serif;">
-          We created a short video based on exactly where you are,
-          because you deserve more than a generic answer.
+        <p style="font-size:13px;color:#8ab49a;line-height:1.75;
+          margin:0 0 28px;font-family:sans-serif;max-width:420px;">
+          Your blueprint shows you <em>what</em> to do. A 60-minute call with Indrodip shows you
+          <em>exactly how</em> to do it — in your business, at your stage, with your constraints.
+          No pitch. No pressure. Just clarity on your next move.
         </p>
-        <a href="${videoUrl}"
-          style="display:inline-block;background:#1d5c3a;color:#ffffff;
-          text-decoration:none;padding:14px 36px;font-weight:700;
-          font-size:14px;border-radius:4px;font-family:sans-serif;
-          letter-spacing:0.5px;">
-          Watch My Video &#8594;
+        <a href="https://cal.com/indrodip-ghosh-ut1vxh/60min"
+          style="display:inline-block;background:#8b7fcf;color:#ffffff;
+          text-decoration:none;padding:16px 40px;font-weight:700;
+          font-size:15px;border-radius:50px;font-family:sans-serif;
+          letter-spacing:0.3px;">
+          Book Your Free 60-Min Strategy Call &#8594;
         </a>
-        <div style="margin-top:32px;padding-top:20px;
+        <p style="color:#4a6a54;font-size:11px;margin:16px 0 0;
+          font-family:sans-serif;text-align:center;">
+          Free &nbsp;·&nbsp; 60 minutes &nbsp;·&nbsp; No obligation
+        </p>
+        <div style="margin-top:28px;padding-top:20px;
           border-top:1px solid #1a2a1e;">
           <p style="color:#4a6a54;font-size:11px;margin:0;
             font-family:sans-serif;text-align:center;">
