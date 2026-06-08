@@ -1355,7 +1355,10 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           <motion.p className="qp-hero-sub qp-trust-line" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
             ✓ Discover Your Expert Income Archetype™ &nbsp;&nbsp; ✓ Identify Your Biggest Growth Bottleneck &nbsp;&nbsp; ✓ Receive A Personalised Growth Roadmap &nbsp;&nbsp; ✓ Watch A Personalised Training Tailored To Your Results
           </motion.p>
-          <motion.p {...up(0.58)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '10px auto 0', textAlign: 'center' }}>
+          <motion.p {...up(0.58)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: '10px auto 0', textAlign: 'center', fontStyle: 'italic', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
+            Built using real-world coaching, consulting, messaging, sales, and client acquisition data from businesses responsible for over $15M in revenue.
+          </motion.p>
+          <motion.p {...up(0.62)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '10px auto 0', textAlign: 'center' }}>
             Trusted by 500+ coaches, consultants & experts · Takes less than 5 minutes · Free assessment
           </motion.p>
 
@@ -1562,6 +1565,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </p>
             <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '12px' }}>
               Trusted by 500+ coaches, consultants & experts
+            </p>
+            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginTop: '10px', textAlign: 'center', fontStyle: 'italic', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
+              Built using real-world coaching, consulting, messaging, sales, and client acquisition data from businesses responsible for over $15M in revenue.
             </p>
           </motion.div>
         </div>
