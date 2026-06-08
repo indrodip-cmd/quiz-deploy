@@ -1330,6 +1330,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             color: '#ffffff',
             textAlign: 'center',
             margin: '0 auto 24px',
+            maxWidth: '860px',
             fontFamily: 'Gelica, serif',
           }}>
             What If You're Not Stuck Because Of Your Offer... But Because You're Building Your Business The Wrong Way For You?
