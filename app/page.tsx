@@ -1452,9 +1452,16 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </motion.div>
           </motion.div>
 
-          <motion.p className="qp-hero-sub qp-trust-line" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
-            ✓ Discover Your Expert Income Archetype™ &nbsp;&nbsp; ✓ Identify Your Biggest Growth Bottleneck &nbsp;&nbsp; ✓ Receive A Personalised Growth Roadmap &nbsp;&nbsp; ✓ Watch A Personalised Training Tailored To Your Results
-          </motion.p>
+          <p style={{
+            textAlign: 'center',
+            fontSize: '14px',
+            color: 'rgba(255,255,255,0.7)',
+            fontWeight: '500',
+            letterSpacing: '0.02em',
+            marginTop: '12px',
+          }}>
+            Takes 5 Minutes&nbsp;&nbsp;•&nbsp;&nbsp;20 Questions&nbsp;&nbsp;•&nbsp;&nbsp;Instant Results
+          </p>
           <motion.p {...up(0.58)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: '10px auto 0', textAlign: 'center', fontStyle: 'italic', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
             Built using real-world coaching, consulting, messaging, sales, and client acquisition data from businesses responsible for over $15M in revenue.
           </motion.p>
@@ -1576,17 +1583,17 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                     flexDirection: 'row',
                     flexWrap: 'nowrap',
                     alignItems: 'center',
-                    gap: '64px',
-                    paddingRight: '64px',
+                    gap: '80px',
+                    paddingRight: '80px',
                     flexShrink: 0,
                   }}>
-                    <span style={{ fontSize: '22px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>Forbes</span>
-                    <span style={{ fontSize: '18px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>HuffPost</span>
-                    <span style={{ fontSize: '20px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>TEDx</span>
-                    <span style={{ fontSize: '18px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The Guardian</span>
-                    <span style={{ fontSize: '17px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>Yahoo Finance</span>
-                    <span style={{ fontSize: '18px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The New York Times</span>
-                    <span style={{ fontSize: '20px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>WSJ</span>
+                    <span style={{ fontSize: '28px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>Forbes</span>
+                    <span style={{ fontSize: '24px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>HuffPost</span>
+                    <span style={{ fontSize: '26px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>TEDx</span>
+                    <span style={{ fontSize: '24px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The Guardian</span>
+                    <span style={{ fontSize: '22px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>Yahoo Finance</span>
+                    <span style={{ fontSize: '24px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The New York Times</span>
+                    <span style={{ fontSize: '26px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>WSJ</span>
                   </div>
                 ))}
               </div>
