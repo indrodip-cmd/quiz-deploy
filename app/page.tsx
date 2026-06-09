@@ -1535,7 +1535,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 color: 'rgba(255,255,255,0.85)',
                 fontWeight: '500',
               }}>
-                <strong style={{ color: '#ffffff' }}>4.8 stars</strong> from 776 coaches
+                <strong style={{ color: '#ffffff' }}>4.8 stars</strong> from 776 coaches across 12 nations
               </span>
             </div>
           </motion.div>
