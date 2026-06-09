@@ -1615,7 +1615,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '16px',
+              gap: '20px',
               maxWidth: '1100px',
               margin: '48px auto 0',
               padding: '0 24px',
@@ -1623,72 +1623,32 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             className="testimonials-grid-responsive"
           >
             {[
-              {
-                name: 'Jennifer Collins',
-                date: '1 June',
-                result: '$3,500 client signed',
-                text: 'I honestly wasn\'t expecting much when I took the quiz. But this one was different. I implemented one recommendation immediately and within days signed a new client worth over $3,500. For the first time, I finally had a roadmap that fit me and my strengths.',
-              },
-              {
-                name: 'Michelle Roberts',
-                date: '19 May',
-                result: '2 clients upgraded in 24 hours',
-                text: 'I took the quiz and almost didn\'t watch the personalized training afterward. Thankfully, I did. Within 24 hours, two members upgraded into higher-level support and became paying clients. The quiz didn\'t just give me information. It gave me clarity and confidence.',
-              },
-              {
-                name: 'Amanda Pierce',
-                date: '21 May',
-                result: 'Now charging $3,000 for 1:1',
-                text: 'My biggest takeaway was discovering that pricing was actually my bottleneck. I had been undercharging because I wasn\'t fully convinced of my value. For the first time, I genuinely believe I can confidently charge $3,000 for my 1:1 coaching.',
-              },
-              {
-                name: 'Heather Lawson',
-                date: '15 May',
-                result: 'Messaging clarity, sales confidence',
-                text: 'After taking the quiz, I realized my offer wasn\'t the problem. My messaging was. The personalized roadmap helped me simplify my message, and now I feel significantly more confident talking about what I do. Sales conversations no longer feel awkward or forced.',
-              },
-              {
-                name: 'Kristin Walker',
-                date: '26 May',
-                result: 'Content engagement transformed',
-                text: 'The framework Indrodip shared during one of our live calls was an absolute game changer. My posts suddenly felt deeper, more emotional, and aligned with what my audience was actually experiencing. People started commenting and messaging me saying I was speaking directly to them.',
-              },
-              {
-                name: 'Melissa Hartman',
-                date: '4 June',
-                result: 'Clarity after months of confusion',
-                text: 'The quiz gave me something I had been searching for for months: clarity. Instead of trying ten different strategies at once, I now know exactly what I need to focus on. My confidence has grown, my content is stronger, and I finally feel like I\'m building a business that reflects who I am.',
-              },
-            ].map((t, i) => (
+              '/testimonials/T1__1_.png',
+              '/testimonials/T2__1_.png',
+              '/testimonials/T3__1_.png',
+              '/testimonials/T4__1_.png',
+              '/testimonials/T5__1_.png',
+              '/testimonials/T6__1_.png',
+            ].map((src, i) => (
               <motion.div
                 key={i}
                 variants={cardFadeUp}
                 style={{
-                  background: 'rgba(255,255,255,0.12)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
                   borderRadius: '16px',
-                  padding: '24px',
+                  overflow: 'hidden',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
                 }}
               >
-                <div style={{display:'flex', gap:'4px', marginBottom:'12px'}}>
-                  {[...Array(5)].map((_, s) => (
-                    <span key={s} style={{color:'#c9a84c', fontSize:'14px'}}>★</span>
-                  ))}
-                </div>
-                <p style={{
-                  fontSize:'14px',
-                  color:'rgba(255,255,255,0.9)',
-                  lineHeight:'1.75',
-                  marginBottom:'16px',
-                  fontStyle:'italic',
-                }}>&ldquo;{t.text}&rdquo;</p>
-                <div style={{borderTop:'1px solid rgba(255,255,255,0.15)', paddingTop:'12px'}}>
-                  <p style={{fontSize:'13px', fontWeight:'700', color:'#ffffff', margin:0}}>{t.name}</p>
-                  <p style={{fontSize:'11px', color:'rgba(255,255,255,0.5)', margin:'2px 0 0'}}>
-                    {t.result} · {t.date}
-                  </p>
-                </div>
+                <img
+                  src={src}
+                  alt={`Testimonial ${i + 1}`}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    borderRadius: '16px',
+                  }}
+                />
               </motion.div>
             ))}
           </motion.div>
