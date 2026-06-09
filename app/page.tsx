@@ -1542,13 +1542,49 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
             }}>
-              <div style={{
-                display: 'flex',
-                width: 'max-content',
-                animation: 'marquee 28s linear infinite',
-              }}>
-                <img src="/logo-marquee.webp" alt="Media logos" style={{ height: '28px', opacity: 0.5, filter: 'brightness(10)', flexShrink: 0 }} />
-                <img src="/logo-marquee.webp" alt="Media logos" style={{ height: '28px', opacity: 0.5, filter: 'brightness(10)', flexShrink: 0, marginLeft: '48px' }} />
+              <div className="marquee-track">
+                {[...Array(2)].map((_, dupIndex) => (
+                  <div key={dupIndex} style={{ display: 'flex', alignItems: 'center', gap: '64px', paddingRight: '64px', flexShrink: 0 }}>
+
+                    {/* Forbes */}
+                    <svg height="26" viewBox="0 0 90 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="22" fontFamily="Georgia, 'Times New Roman', serif" fontSize="24" fontWeight="700" fill="white" letterSpacing="-0.5">Forbes</text>
+                    </svg>
+
+                    {/* Huffington Post */}
+                    <svg height="26" viewBox="0 0 210 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="20" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="900" fill="white" letterSpacing="0.5">HuffPost</text>
+                    </svg>
+
+                    {/* TEDx */}
+                    <svg height="26" viewBox="0 0 70 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="22" fontFamily="Arial, sans-serif" fontSize="22" fontWeight="900" fill="white" letterSpacing="-1">TED</text>
+                      <text x="52" y="22" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="700" fill="white">x</text>
+                    </svg>
+
+                    {/* The Guardian */}
+                    <svg height="26" viewBox="0 0 160 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="20" fontFamily="Georgia, serif" fontSize="17" fontWeight="700" fill="white" letterSpacing="0.3">The Guardian</text>
+                    </svg>
+
+                    {/* Yahoo Finance */}
+                    <svg height="26" viewBox="0 0 150 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="20" fontFamily="Arial, sans-serif" fontSize="15" fontWeight="900" fill="white" letterSpacing="-0.3">Yahoo</text>
+                      <text x="62" y="20" fontFamily="Arial, sans-serif" fontSize="15" fontWeight="400" fill="white" letterSpacing="-0.3">Finance</text>
+                    </svg>
+
+                    {/* New York Times */}
+                    <svg height="26" viewBox="0 0 180 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="20" fontFamily="Georgia, 'Times New Roman', serif" fontSize="16" fontWeight="700" fill="white" letterSpacing="0.2">The New York Times</text>
+                    </svg>
+
+                    {/* Wall Street Journal */}
+                    <svg height="26" viewBox="0 0 50 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
+                      <text x="0" y="20" fontFamily="Georgia, serif" fontSize="16" fontWeight="700" fill="white" letterSpacing="0.5">WSJ</text>
+                    </svg>
+
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>

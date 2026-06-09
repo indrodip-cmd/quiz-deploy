@@ -6,6 +6,16 @@ html, body { background: #0a0f0a; min-height: 100vh; }
   50% { box-shadow: 0 8px 40px rgba(15, 17, 23, 0.6), 0 0 20px rgba(15, 17, 23, 0.2); }
 }
 
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
