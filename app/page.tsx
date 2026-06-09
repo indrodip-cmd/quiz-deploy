@@ -1374,9 +1374,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero" style={{ padding: isMobile ? '100px 16px 40px' : 'clamp(80px, 10vw, 120px) clamp(16px, 5vw, 48px) 60px', overflow: 'hidden', position: 'relative' }}>
+      <section className="qp-hero" style={{ paddingTop: isMobile ? '100px' : '80px', paddingBottom: isMobile ? '60px' : '220px', paddingLeft: isMobile ? '16px' : 'clamp(16px, 5vw, 48px)', paddingRight: isMobile ? '16px' : 'clamp(16px, 5vw, 48px)', overflow: 'hidden', position: 'relative' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
-        <div className="qp-hero-inner">
+        <div className="qp-hero-inner" style={{ position: 'relative', zIndex: 2 }}>
 
           <motion.div initial="hidden" animate="visible" variants={scaleIn}>
             <div style={{display:'flex',justifyContent:'center',marginBottom:'28px'}}>
@@ -1629,14 +1629,11 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             bottom: 0,
             left: 0,
             width: '100%',
-            maxHeight: '60%',
-            objectFit: 'cover',
-            objectPosition: 'top',
+            height: 'auto',
             pointerEvents: 'none',
             zIndex: 0,
-            mixBlendMode: 'multiply',
-            background: 'transparent',
-            display: isMobile ? 'none' : undefined,
+            opacity: 1,
+            display: isMobile ? 'none' : 'block',
           }}
         />
       </section>
