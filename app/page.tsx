@@ -1336,11 +1336,11 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 display:'inline-flex',
                 alignItems:'center',
                 gap:'10px',
-                background:'rgba(220,38,38,0.12)',
-                border:'1px solid rgba(220,38,38,0.4)',
+                background:'#0f1117',
+                border:'1px solid rgba(255,255,255,0.12)',
                 borderRadius:'100px',
-                padding:'8px 20px',
-                boxShadow:'0 0 24px rgba(220,38,38,0.3), 0 0 48px rgba(220,38,38,0.15)',
+                padding:'10px 22px',
+                boxShadow:'0 0 32px rgba(0,0,0,0.4)',
               }}>
                 <span style={{
                   width:'8px',
@@ -1348,7 +1348,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                   borderRadius:'50%',
                   background:'#ef4444',
                   display:'inline-block',
-                  boxShadow:'0 0 8px #ef4444, 0 0 16px #ef4444',
+                  boxShadow:'0 0 8px #ef4444, 0 0 20px rgba(239,68,68,0.8)',
                   animation:'redpulse 1.5s ease-in-out infinite',
                   flexShrink:0,
                 }}></span>
@@ -1357,7 +1357,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                   fontWeight:'700',
                   letterSpacing:'0.1em',
                   textTransform:'uppercase',
-                  color:'#fca5a5',
+                  color:'#ffffff',
                 }}>NEW · The AI Assessment That Identifies Your Exact Growth Bottleneck In 5 Minutes</span>
               </div>
             </div>
