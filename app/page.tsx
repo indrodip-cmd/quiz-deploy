@@ -1454,20 +1454,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
           <p style={{
             textAlign: 'center',
-            fontSize: '14px',
+            fontSize: '16px',
             color: 'rgba(255,255,255,0.7)',
             fontWeight: '500',
             letterSpacing: '0.02em',
-            marginTop: '12px',
+            marginTop: '20px',
           }}>
             Takes 5 Minutes&nbsp;&nbsp;•&nbsp;&nbsp;20 Questions&nbsp;&nbsp;•&nbsp;&nbsp;Instant Results
           </p>
-          <motion.p {...up(0.58)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: '10px auto 0', textAlign: 'center', fontStyle: 'italic', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
-            Built using real-world coaching, consulting, messaging, sales, and client acquisition data from businesses responsible for over $15M in revenue.
-          </motion.p>
-          <motion.p {...up(0.62)} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '10px auto 0', textAlign: 'center' }}>
-            Trusted by 500+ coaches, consultants & experts · Takes less than 5 minutes · Free assessment
-          </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
