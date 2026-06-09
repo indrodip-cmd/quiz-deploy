@@ -1415,9 +1415,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.h1 className="qp-h1" initial="hidden" animate="visible" variants={fadeUp} custom={1} style={{
-            fontSize: 'clamp(28px, 7vw, 72px)',
+            fontSize: isMobile ? 'clamp(28px, 7vw, 42px)' : 'clamp(36px, 4vw, 58px)',
             fontWeight: 800,
-            lineHeight: 1.15,
+            lineHeight: isMobile ? 1.2 : 1.1,
             color: '#ffffff',
             textAlign: 'center',
             margin: '0 auto 24px',
