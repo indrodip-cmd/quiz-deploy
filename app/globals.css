@@ -35,3 +35,15 @@ html, body { background: #0a0f0a; min-height: 100vh; }
   font-style: normal;
   font-display: swap;
 }
+
+@media (max-width: 768px) {
+  .testimonials-grid-responsive {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .testimonials-grid-responsive {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
