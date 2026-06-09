@@ -1374,7 +1374,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero" style={{ paddingTop: isMobile ? '100px' : '80px', paddingBottom: isMobile ? '60px' : '220px', paddingLeft: isMobile ? '16px' : 'clamp(16px, 5vw, 48px)', paddingRight: isMobile ? '16px' : 'clamp(16px, 5vw, 48px)', overflow: 'hidden', position: 'relative' }}>
+      <section className="qp-hero" style={{ paddingTop: isMobile ? '100px' : '120px', paddingBottom: isMobile ? '60px' : '220px', paddingLeft: isMobile ? '16px' : 'clamp(16px, 5vw, 48px)', paddingRight: isMobile ? '16px' : 'clamp(16px, 5vw, 48px)', overflow: 'hidden', position: 'relative' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner" style={{ position: 'relative', zIndex: 2 }}>
 
@@ -1415,7 +1415,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           </motion.div>
 
           <motion.h1 className="qp-h1" initial="hidden" animate="visible" variants={fadeUp} custom={1} style={{
-            fontSize: isMobile ? 'clamp(28px, 7vw, 42px)' : 'clamp(36px, 4vw, 58px)',
+            fontSize: isMobile ? 'clamp(28px, 7vw, 42px)' : '52px',
             fontWeight: 800,
             lineHeight: isMobile ? 1.2 : 1.1,
             color: '#ffffff',
