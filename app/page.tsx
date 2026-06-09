@@ -1436,6 +1436,84 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             Trusted by 500+ coaches, consultants & experts · Takes less than 5 minutes · Free assessment
           </motion.p>
 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '12px',
+              marginTop: '32px',
+            }}
+          >
+            {/* Avatar strip */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {[
+                '/clients/c1.jpg',
+                '/clients/c2.jpg',
+                '/clients/c3.jpg',
+                '/clients/c4.jpg',
+                '/clients/c5.jpg',
+                '/clients/c6.jpg',
+                '/clients/c7.jpg',
+                '/clients/c8.jpg',
+                '/clients/c9.jpg',
+                '/clients/c10.jpg',
+                '/clients/c11.jpg',
+                '/clients/c12.jpg',
+              ].map((src, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid rgba(255,255,255,0.6)',
+                    marginLeft: i === 0 ? '0' : '-12px',
+                    zIndex: 12 - i,
+                    position: 'relative',
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={`Client ${i + 1}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'top center',
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Stars + rating */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}>
+              <div style={{ display: 'flex', gap: '2px' }}>
+                {[1,2,3,4].map((s) => (
+                  <span key={s} style={{ color: '#c9a84c', fontSize: '20px', lineHeight: 1 }}>★</span>
+                ))}
+                <span style={{ color: '#c9a84c', fontSize: '20px', lineHeight: 1, opacity: 0.5 }}>★</span>
+              </div>
+              <span style={{
+                fontSize: '14px',
+                color: 'rgba(255,255,255,0.85)',
+                fontWeight: '500',
+              }}>
+                <strong style={{ color: '#ffffff' }}>4.8 stars</strong> from 776 coaches
+              </span>
+            </div>
+          </motion.div>
+
         </div>
 
         {/* Full-width doodle strip */}
