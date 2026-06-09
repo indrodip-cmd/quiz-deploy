@@ -1514,6 +1514,45 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </div>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            style={{
+              marginTop: '28px',
+              width: '100%',
+              maxWidth: '780px',
+              margin: '28px auto 0',
+            }}
+          >
+            <p style={{
+              textAlign: 'center',
+              fontSize: '10px',
+              fontWeight: '700',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.45)',
+              marginBottom: '14px',
+            }}>
+              Our clients have been featured in
+            </p>
+            <div style={{
+              overflow: 'hidden',
+              width: '100%',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+            }}>
+              <div style={{
+                display: 'flex',
+                width: 'max-content',
+                animation: 'marquee 28s linear infinite',
+              }}>
+                <img src="/logo-marquee.webp" alt="Media logos" style={{ height: '28px', opacity: 0.5, filter: 'brightness(10)', flexShrink: 0 }} />
+                <img src="/logo-marquee.webp" alt="Media logos" style={{ height: '28px', opacity: 0.5, filter: 'brightness(10)', flexShrink: 0, marginLeft: '48px' }} />
+              </div>
+            </div>
+          </motion.div>
+
         </div>
 
         {/* Full-width doodle strip */}
