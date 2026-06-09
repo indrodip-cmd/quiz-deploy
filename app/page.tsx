@@ -1366,7 +1366,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero">
+      <section className="qp-hero" style={{ padding: 'clamp(48px, 10vw, 120px) clamp(16px, 5vw, 48px) clamp(40px, 8vw, 80px)' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner">
 
@@ -1379,8 +1379,9 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 background:'#0f1117',
                 border:'1px solid rgba(255,255,255,0.12)',
                 borderRadius:'100px',
-                padding:'10px 22px',
+                padding:'8px 14px',
                 boxShadow:'0 0 32px rgba(0,0,0,0.4)',
+                maxWidth:'90vw',
               }}>
                 <span style={{
                   width:'8px',
@@ -1393,20 +1394,22 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                   flexShrink:0,
                 }}></span>
                 <span style={{
-                  fontSize:'11px',
+                  fontSize:'clamp(9px, 2.2vw, 11px)',
                   fontWeight:'700',
                   letterSpacing:'0.1em',
                   textTransform:'uppercase',
                   color:'#ffffff',
+                  textAlign:'center',
+                  maxWidth:'90vw',
                 }}>NEW · The AI Assessment That Identifies Your Exact Growth Bottleneck In 5 Minutes</span>
               </div>
             </div>
           </motion.div>
 
           <motion.h1 className="qp-h1" initial="hidden" animate="visible" variants={fadeUp} custom={1} style={{
-            fontSize: 'clamp(28px, 3.2vw, 46px)',
+            fontSize: 'clamp(28px, 7vw, 72px)',
             fontWeight: 800,
-            lineHeight: 1.1,
+            lineHeight: 1.15,
             color: '#ffffff',
             textAlign: 'center',
             margin: '0 auto 24px',
@@ -1418,10 +1421,11 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
           <motion.p className="qp-hero-sub" initial="hidden" animate="visible" variants={fadeUp} custom={2} style={{
             maxWidth: '520px',
-            fontSize: '20px',
+            fontSize: 'clamp(14px, 3.5vw, 18px)',
             color: 'rgba(255,255,255,0.85)',
             lineHeight: 1.7,
             margin: '0 auto 40px',
+            padding: '0 8px',
           }}>
             Most coaches are following strategies built for someone else. In 5 minutes, this assessment identifies your Expert Income Archetype and shows you exactly what to do next.
           </motion.p>
@@ -1444,9 +1448,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               }}
               whileHover={{ scale: 1.04, opacity: 1 }}
               whileTap={{ scale: 0.97 }}
-              style={{ borderRadius: '999px', display: 'inline-block' }}
+              style={{ borderRadius: '999px', display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '420px', margin: '0 auto' }}
             >
-              <motion.button className="qp-btn-gold" onClick={onStart}>
+              <motion.button className="qp-btn-gold" onClick={onStart} style={{
+                width: '100%',
+                maxWidth: '420px',
+                fontSize: 'clamp(13px, 3.5vw, 16px)',
+                padding: '16px 24px',
+              }}>
                 DISCOVER MY ARCHETYPE &amp; ROADMAP →
               </motion.button>
             </motion.div>
@@ -1454,11 +1463,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
           <p style={{
             textAlign: 'center',
-            fontSize: '16px',
+            fontSize: 'clamp(12px, 3vw, 16px)',
             color: 'rgba(255,255,255,0.7)',
             fontWeight: '500',
             letterSpacing: '0.02em',
             marginTop: '20px',
+            padding: '0 16px',
           }}>
             Takes 5 Minutes&nbsp;&nbsp;•&nbsp;&nbsp;20 Questions&nbsp;&nbsp;•&nbsp;&nbsp;Instant Results
           </p>
@@ -1476,7 +1486,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             }}
           >
             {/* Avatar strip */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', overflowX: 'hidden' }}>
               {[
                 '/clients/c1.jpg',
                 '/clients/c2.jpg',
@@ -1494,12 +1504,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 <div
                   key={i}
                   style={{
-                    width: '44px',
-                    height: '44px',
+                    width: 'clamp(32px, 8vw, 44px)',
+                    height: 'clamp(32px, 8vw, 44px)',
                     borderRadius: '50%',
                     overflow: 'hidden',
                     border: '2px solid rgba(255,255,255,0.6)',
-                    marginLeft: i === 0 ? '0' : '-12px',
+                    marginLeft: i === 0 ? '0' : '-10px',
                     zIndex: 12 - i,
                     position: 'relative',
                     flexShrink: 0,
@@ -1532,7 +1542,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 <span style={{ color: '#c9a84c', fontSize: '20px', lineHeight: 1, opacity: 0.5 }}>★</span>
               </div>
               <span style={{
-                fontSize: '14px',
+                fontSize: 'clamp(12px, 3vw, 14px)',
                 color: 'rgba(255,255,255,0.85)',
                 fontWeight: '500',
               }}>
@@ -1577,17 +1587,17 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                     flexDirection: 'row',
                     flexWrap: 'nowrap',
                     alignItems: 'center',
-                    gap: '80px',
-                    paddingRight: '80px',
+                    gap: 'clamp(28px, 6vw, 80px)',
+                    paddingRight: 'clamp(28px, 6vw, 80px)',
                     flexShrink: 0,
                   }}>
-                    <span style={{ fontSize: '28px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>Forbes</span>
-                    <span style={{ fontSize: '24px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>HuffPost</span>
-                    <span style={{ fontSize: '26px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>TEDx</span>
-                    <span style={{ fontSize: '24px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The Guardian</span>
-                    <span style={{ fontSize: '22px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>Yahoo Finance</span>
-                    <span style={{ fontSize: '24px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The New York Times</span>
-                    <span style={{ fontSize: '26px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>WSJ</span>
+                    <span style={{ fontSize: 'clamp(14px, 4vw, 28px)', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>Forbes</span>
+                    <span style={{ fontSize: 'clamp(12px, 3.5vw, 24px)', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>HuffPost</span>
+                    <span style={{ fontSize: 'clamp(14px, 4vw, 26px)', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>TEDx</span>
+                    <span style={{ fontSize: 'clamp(12px, 3.5vw, 24px)', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The Guardian</span>
+                    <span style={{ fontSize: 'clamp(12px, 3.5vw, 22px)', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>Yahoo Finance</span>
+                    <span style={{ fontSize: 'clamp(12px, 3.5vw, 24px)', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The New York Times</span>
+                    <span style={{ fontSize: 'clamp(14px, 4vw, 26px)', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>WSJ</span>
                   </div>
                 ))}
               </div>

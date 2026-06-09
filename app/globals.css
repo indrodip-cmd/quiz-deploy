@@ -34,6 +34,7 @@ html, body { background: #0a0f0a; min-height: 100vh; }
 @media (max-width: 768px) {
   .testimonials-grid-responsive {
     grid-template-columns: 1fr !important;
+    padding: 0 16px !important;
   }
 }
 
