@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView, type Variants } from 'framer-motion'
 import Image from 'next/image'
 
 /* ─── Types ─── */
@@ -1316,6 +1316,40 @@ function LandingPage({ onStart }: { onStart: () => void }) {
     { img:'/illustrations/confidant.png', name:'The Luminary',    desc:'People trust your expertise and naturally look to you for guidance. Your next level comes from turning influence into a predictable client acquisition system.' },
   ]
 
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }
+    })
+  }
+
+  const scaleIn: Variants = {
+    hidden: { opacity: 0, scale: 0.85 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
+  const staggerContainer: Variants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.1 }
+    }
+  }
+
+  const cardFadeUp: Variants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
   return (
     <div className="qp">
       <style>{LP_CSS}</style>
@@ -1330,7 +1364,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner">
 
-          <motion.div {...up(0.08)}>
+          <motion.div initial="hidden" animate="visible" variants={scaleIn}>
             <div style={{display:'flex',justifyContent:'center',marginBottom:'28px'}}>
               <div style={{
                 display:'inline-flex',
@@ -1363,7 +1397,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </div>
           </motion.div>
 
-          <motion.h1 className="qp-h1" {...up(0.2)} style={{
+          <motion.h1 className="qp-h1" initial="hidden" animate="visible" variants={fadeUp} custom={1} style={{
             fontSize: 'clamp(28px, 3.2vw, 46px)',
             fontWeight: 800,
             lineHeight: 1.1,
@@ -1376,7 +1410,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             What If You're Not Stuck Because Of Your Offer... But Because You're Building Your Business The Wrong Way For You?
           </motion.h1>
 
-          <motion.p className="qp-hero-sub" {...up(0.32)} style={{
+          <motion.p className="qp-hero-sub" initial="hidden" animate="visible" variants={fadeUp} custom={2} style={{
             maxWidth: '520px',
             fontSize: '20px',
             color: 'rgba(255,255,255,0.85)',
@@ -1386,8 +1420,8 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             Most coaches are following strategies built for someone else. In 5 minutes, this assessment identifies your Expert Income Archetype and shows you exactly what to do next.
           </motion.p>
 
-          <motion.div {...up(0.44)}>
-            <motion.button className="qp-btn-gold" onClick={onStart}              whileHover={prefersReduced ? {} : { scale:1.03, y:-2 }} whileTap={{ scale:0.97 }} transition={spr}>
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={3} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <motion.button className="qp-btn-gold" onClick={onStart} style={{ animation: 'ctapulse 3s ease-in-out infinite' }}>
               DISCOVER MY ARCHETYPE
             </motion.button>
           </motion.div>
@@ -1422,7 +1456,13 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           <div className="qp-proof-heading">
             <h2 className="qp-sect-h">What coaches are saying</h2>
           </div>
-          <div className="qp-proof-grid">
+          <motion.div
+            className="qp-proof-grid"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
             {[
               'I implemented one recommendation from my roadmap and signed a $2,500 client within days. The assessment showed me exactly where I was making things harder than they needed to be.',
               'I took the assessment, watched the personalised training, and immediately realised where I was overcomplicating my sales process. Within days, I closed two new clients.',
@@ -1431,12 +1471,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               "I've taken dozens of business quizzes over the years. This was the first one that actually felt personalised and gave me practical next steps.",
               'The roadmap felt like having a business strategist analyse my entire business and tell me exactly what to focus on next.',
             ].map((quote, i) => (
-              <div key={i} className="qp-proof-card">
+              <motion.div key={i} className="qp-proof-card" variants={cardFadeUp}>
                 <div className="qp-proof-stars">★★★★★</div>
                 <p className="qp-proof-quote">{quote}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -1462,13 +1502,15 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             </div>
           </motion.div>
 
-          <div className="qp-arch-grid">
+          <motion.div
+            className="qp-arch-grid"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
             {ARCHETYPES.map(({ img, name, desc }, i) => (
-              <motion.div key={i} className="qp-arch-card"
-                initial={prefersReduced ? {} : { opacity:0, y:40 }}
-                animate={archInView ? { opacity:1, y:0 } : {}}
-                transition={tr(i * 0.1)}
-              >
+              <motion.div key={i} className="qp-arch-card" variants={cardFadeUp}>
                 <div className="qp-arch-img-wrap">
                   <img src={img} alt={name} className="qp-arch-img" />
                 </div>
@@ -1476,7 +1518,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 <div className="qp-arch-desc">&ldquo;{desc}&rdquo;</div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <motion.div className="qp-arch-btn"
             initial={prefersReduced ? {} : { opacity:0, y:24 }}

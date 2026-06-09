@@ -1,6 +1,11 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: #0a0f0a; min-height: 100vh; }
 
+@keyframes ctapulse {
+  0%, 100% { box-shadow: 0 8px 28px rgba(15, 17, 23, 0.35); }
+  50% { box-shadow: 0 8px 40px rgba(15, 17, 23, 0.6), 0 0 20px rgba(15, 17, 23, 0.2); }
+}
+
 @media (hover: none) and (pointer: coarse) {
   .cursor, .cursor-dot, .cursor-follower, [class*="cursor"] {
     display: none !important;
