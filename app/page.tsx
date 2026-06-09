@@ -1693,40 +1693,76 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '20px',
-              maxWidth: '1100px',
+              gap: '16px',
+              maxWidth: '1000px',
               margin: '48px auto 0',
               padding: '0 24px',
             }}
             className="testimonials-grid-responsive"
           >
             {[
-              '/testimonials/T1__1_.png',
-              '/testimonials/T2__1_.png',
-              '/testimonials/T3__1_.png',
-              '/testimonials/T4__1_.png',
-              '/testimonials/T5__1_.png',
-              '/testimonials/T6__1_.png',
-            ].map((src, i) => (
+              {
+                name: 'Jennifer Collins',
+                result: '$3,500 client signed within days',
+                text: 'I implemented one recommendation immediately and within days signed a new client worth over $3,500. For the first time, I finally had a roadmap that fit me and my strengths.',
+              },
+              {
+                name: 'Michelle Roberts',
+                result: '2 members upgraded in 24 hours',
+                text: 'Within 24 hours of making a few simple adjustments, two members upgraded into higher-level support and became paying clients. The quiz gave me clarity and confidence.',
+              },
+              {
+                name: 'Amanda Pierce',
+                result: 'Now confidently charging $3,000',
+                text: 'After speaking with Indrodip, I completely reframed how I saw my offer. For the first time I genuinely believe I can charge $3,000 for my 1:1 coaching.',
+              },
+              {
+                name: 'Heather Lawson',
+                result: 'Messaging fixed, sales feel natural',
+                text: 'I realized my offer was not the problem — my messaging was. The roadmap helped me simplify everything. Sales conversations no longer feel awkward or forced.',
+              },
+              {
+                name: 'Kristin Walker',
+                result: 'Audience engagement transformed',
+                text: 'After applying the framework, my posts felt deeper and more emotional. People started messaging me saying I was speaking directly to them.',
+              },
+              {
+                name: 'Melissa Hartman',
+                result: 'Months of confusion cleared instantly',
+                text: 'The quiz gave me something I had been searching for months: clarity. I now know exactly what to focus on. My confidence has grown and my content is stronger.',
+              },
+            ].map((t, i) => (
               <motion.div
                 key={i}
                 variants={cardFadeUp}
                 style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.25)',
                   borderRadius: '16px',
-                  overflow: 'hidden',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                  padding: '28px 24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
                 }}
               >
-                <img
-                  src={src}
-                  alt={`Testimonial ${i + 1}`}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    display: 'block',
-                    borderRadius: '16px',
-                  }}
-                />
+                <div style={{ display: 'flex', gap: '3px' }}>
+                  {[...Array(5)].map((_, s) => (
+                    <span key={s} style={{ color: '#c9a84c', fontSize: '16px' }}>★</span>
+                  ))}
+                </div>
+                <p style={{
+                  fontSize: '14px',
+                  color: 'rgba(255,255,255,0.95)',
+                  lineHeight: '1.7',
+                  fontStyle: 'italic',
+                  margin: 0,
+                  flex: 1,
+                }}>&ldquo;{t.text}&rdquo;</p>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '12px' }}>
+                  <p style={{ fontSize: '13px', fontWeight: '700', color: '#ffffff', margin: 0 }}>{t.name}</p>
+                  <p style={{ fontSize: '11px', color: '#c9a84c', margin: '3px 0 0', fontWeight: '600' }}>{t.result}</p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
