@@ -1538,12 +1538,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            style={{
-              marginTop: '28px',
-              width: '100%',
-              maxWidth: '780px',
-              margin: '28px auto 0',
-            }}
+            style={{ marginTop: '28px', width: '100%' }}
           >
             <p style={{
               textAlign: 'center',
@@ -1552,57 +1547,40 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.45)',
-              marginBottom: '14px',
+              marginBottom: '16px',
             }}>
               Our clients have been featured in
             </p>
             <div style={{
               overflow: 'hidden',
               width: '100%',
-              maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
             }}>
-              <div className="marquee-track">
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'nowrap',
+                width: 'max-content',
+                animation: 'marqueeScroll 30s linear infinite',
+              }}>
                 {[...Array(2)].map((_, dupIndex) => (
-                  <div key={dupIndex} style={{ display: 'flex', alignItems: 'center', gap: '64px', paddingRight: '64px', flexShrink: 0 }}>
-
-                    {/* Forbes */}
-                    <svg height="26" viewBox="0 0 90 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="22" fontFamily="Georgia, 'Times New Roman', serif" fontSize="24" fontWeight="700" fill="white" letterSpacing="-0.5">Forbes</text>
-                    </svg>
-
-                    {/* Huffington Post */}
-                    <svg height="26" viewBox="0 0 210 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="20" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="900" fill="white" letterSpacing="0.5">HuffPost</text>
-                    </svg>
-
-                    {/* TEDx */}
-                    <svg height="26" viewBox="0 0 70 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="22" fontFamily="Arial, sans-serif" fontSize="22" fontWeight="900" fill="white" letterSpacing="-1">TED</text>
-                      <text x="52" y="22" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="700" fill="white">x</text>
-                    </svg>
-
-                    {/* The Guardian */}
-                    <svg height="26" viewBox="0 0 160 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="20" fontFamily="Georgia, serif" fontSize="17" fontWeight="700" fill="white" letterSpacing="0.3">The Guardian</text>
-                    </svg>
-
-                    {/* Yahoo Finance */}
-                    <svg height="26" viewBox="0 0 150 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="20" fontFamily="Arial, sans-serif" fontSize="15" fontWeight="900" fill="white" letterSpacing="-0.3">Yahoo</text>
-                      <text x="62" y="20" fontFamily="Arial, sans-serif" fontSize="15" fontWeight="400" fill="white" letterSpacing="-0.3">Finance</text>
-                    </svg>
-
-                    {/* New York Times */}
-                    <svg height="26" viewBox="0 0 180 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="20" fontFamily="Georgia, 'Times New Roman', serif" fontSize="16" fontWeight="700" fill="white" letterSpacing="0.2">The New York Times</text>
-                    </svg>
-
-                    {/* Wall Street Journal */}
-                    <svg height="26" viewBox="0 0 50 26" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.6,flexShrink:0}}>
-                      <text x="0" y="20" fontFamily="Georgia, serif" fontSize="16" fontWeight="700" fill="white" letterSpacing="0.5">WSJ</text>
-                    </svg>
-
+                  <div key={dupIndex} style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'nowrap',
+                    alignItems: 'center',
+                    gap: '64px',
+                    paddingRight: '64px',
+                    flexShrink: 0,
+                  }}>
+                    <span style={{ fontSize: '22px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>Forbes</span>
+                    <span style={{ fontSize: '18px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>HuffPost</span>
+                    <span style={{ fontSize: '20px', fontWeight: '900', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>TEDx</span>
+                    <span style={{ fontSize: '18px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The Guardian</span>
+                    <span style={{ fontSize: '17px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>Yahoo Finance</span>
+                    <span style={{ fontSize: '18px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>The New York Times</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', fontFamily: 'Georgia, serif', whiteSpace: 'nowrap' }}>WSJ</span>
                   </div>
                 ))}
               </div>
