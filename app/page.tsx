@@ -1098,8 +1098,8 @@ const LP_CSS = `
   font-weight:700;padding:16px 48px;border-radius:50px;border:2px solid #111;
   cursor:pointer;letter-spacing:.02em;transition:all .25s;}
 .qp-btn-ghost:hover{background:#111;color:#fff;transform:translateY(-2px);}
-.qp-hero-graphic{display:block;width:100%;max-width:none;margin:48px auto -88px;
-  position:relative;z-index:2;}
+.qp-hero-graphic{display:block;width:100%;max-width:none;
+  position:absolute;bottom:0;left:0;z-index:0;pointer-events:none;}
 
 /* ─── archetypes section ─── */
 .qp-arch-section{background:#fff;padding:180px 60px 100px;}
@@ -1374,7 +1374,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero" style={{ padding: isMobile ? '100px 16px 40px' : 'clamp(80px, 10vw, 120px) clamp(16px, 5vw, 48px) 60px' }}>
+      <section className="qp-hero" style={{ padding: isMobile ? '100px 16px 40px' : 'clamp(80px, 10vw, 120px) clamp(16px, 5vw, 48px) 60px', overflow: 'hidden', position: 'relative' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner">
 
@@ -1624,7 +1624,20 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           initial={prefersReduced ? {} : { opacity:0, y:40 }}
           animate={{ opacity:1, y:0 }}
           transition={tr(0.6)}
-          style={{ mixBlendMode: 'multiply', background: 'transparent', display: isMobile ? 'none' : undefined }}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            maxHeight: '60%',
+            objectFit: 'cover',
+            objectPosition: 'top',
+            pointerEvents: 'none',
+            zIndex: 0,
+            mixBlendMode: 'multiply',
+            background: 'transparent',
+            display: isMobile ? 'none' : undefined,
+          }}
         />
       </section>
 
