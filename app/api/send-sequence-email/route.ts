@@ -98,26 +98,82 @@ function taskBox(title: string, content: string): string {
 }
 
 // ═══════════════════════════════════════════════════
-// DAY 0 — PDF DELIVERY (same for all segments)
+// DAY 0 — WELCOME + 7-DAY PREVIEW (per archetype)
 // ═══════════════════════════════════════════════════
-const day0 = {
-  subject: "your personalised blueprint just landed — read this first",
-  html: (name: string, _videoUrl: string) => buildEmail(name, `
-    <p>Your blueprint is in this email.</p>
-    <p>But before you open the PDF, I want to tell you something.</p>
-    <p>Most people who take this quiz read the blueprint, feel excited for about 20 minutes, and then close it and do nothing.</p>
-    <p>The blueprint doesn't change your income. What you do with it does.</p>
-    <p>So here's how I want you to use what you just received.</p>
-    <p>Read the whole thing once. Don't highlight. Don't take notes. Just read it like a story about your business — because that's exactly what it is. Every word in that PDF came from your 20 answers.</p>
-    <p>Then read it again. This time, circle the one section that makes you think "I already know this is the problem." That one section is your starting point.</p>
-    <p>Everything else can wait.</p>
-    <p>Starting tomorrow, you're going to receive 7 days of real coaching built specifically around your stage, your goal, and your growth block. One email every morning. One task every day. No fluff. No theory. Just the work that moves things forward.</p>
-    <p>This is not a newsletter. This is a coaching sequence. Treat it like one.</p>
-    <p>One more thing. If you already know you don't want to wait 7 days and you'd rather sit down with me directly and map the whole thing out in 60 minutes — that option exists. I open a limited number of strategy calls each month. They're free. They're real.</p>
-    ${ctaButton("Book a Free Strategy Call with Indrodip", CAL_LINK)}
-    <p>Your PDF blueprint is attached. Read it today.</p>
-    <p style="color:#888;font-size:13px;margin-top:24px;">P.S. Reply to this email with one word: the one area of your business you most need to fix right now. I read every reply.</p>
-  `)
+const ARCHETYPE_LABELS: Record<string, string> = {
+  PIONEER:    'The Pioneer',
+  PATHFINDER: 'The Pathfinder',
+  BUILDER:    'The Builder',
+  LUMINARY:   'The Luminary',
+}
+
+const WEEK_PREVIEWS: Record<string, string[]> = {
+  PIONEER: [
+    'Day 1 — Why you haven\'t started yet (it\'s not what you think)',
+    'Day 2 — What you\'re actually selling',
+    'Day 3 — The message that starts everything',
+    'Day 4 — What to do when someone responds',
+    'Day 5 — How to turn a 15-minute conversation into a paying client',
+    'Day 6 — A real story: zero clients for 11 months, then one conversation changed everything',
+    'Day 7 — Your 30-day commitment',
+  ],
+  PATHFINDER: [
+    'Day 1 — Why your income is inconsistent (it\'s structural, not personal)',
+    'Day 2 — Your offer is probably doing too much',
+    'Day 3 — Why your follow-up is killing your conversions',
+    'Day 4 — The pricing conversation you keep avoiding',
+    'Day 5 — How to stop starting from zero every month',
+    'Day 6 — A real story: sporadic income to £4,000 every single month',
+    'Day 7 — You\'re not starting. You\'re scaling.',
+  ],
+  BUILDER: [
+    'Day 1 — Why working harder won\'t break your ceiling',
+    'Day 2 — Your offer architecture is wrong — here\'s what it should look like',
+    'Day 3 — The lever that doubles revenue without doubling clients',
+    'Day 4 — The system that keeps your pipeline full while you sleep',
+    'Day 5 — The one hire that changes everything',
+    'Day 6 — A real story: £5K months to £12K months in 90 days',
+    'Day 7 — You\'re not building a business. You\'re building a machine.',
+  ],
+  LUMINARY: [
+    'Day 1 — You\'ve already proven it. Now let\'s make it untouchable.',
+    'Day 2 — Your brand needs to do more of the selling',
+    'Day 3 — The premium offer you\'re probably not charging enough for',
+    'Day 4 — Why the coaches beneath you are starting to catch up',
+    'Day 5 — How to get clients who refer other clients',
+    'Day 6 — A real story: turning expertise into a seven-figure platform',
+    'Day 7 — This is the beginning of the real work',
+  ],
+}
+
+function makeDay0(sequence: string): { subject: string; html: (name: string, _videoUrl: string) => string } {
+  const archetypeLabel = ARCHETYPE_LABELS[sequence] || 'The Pioneer'
+  const preview = WEEK_PREVIEWS[sequence] || WEEK_PREVIEWS.PIONEER
+  const previewHtml = preview.map(line =>
+    `<li style="padding:6px 0;font-size:13px;color:#3d3d3d;font-family:sans-serif;border-bottom:1px solid #efefef;">${line}</li>`
+  ).join('')
+  return {
+    subject: "your personalised blueprint just landed — read this first",
+    html: (name: string, _videoUrl: string) => buildEmail(name, `
+      <p>Your blueprint is attached. But before you open it, read this.</p>
+      <p>You just found out you are <strong>${archetypeLabel}</strong>.</p>
+      <p>That matters. Because every email you receive over the next 7 days is built specifically for where you are right now — your stage, your growth block, and the exact moves that work for someone at your level.</p>
+      <p>Most people who take this quiz feel excited for about 20 minutes, then close the PDF and do nothing.</p>
+      <p><strong>The blueprint doesn't change your income. What you do with it does.</strong></p>
+      <p>Here's how I want you to use what you just received: read the whole thing once without highlighting or taking notes. Read it like a story about your business — because that's exactly what it is. Every word in that PDF came from your 20 answers.</p>
+      <p>Then read it again. Circle the one section that makes you think "I already know this is the problem." That one section is your starting point. Everything else can wait.</p>
+      <div style="background:#f6f9f7;border-left:3px solid #1d5c3a;padding:20px 24px;margin:24px 0;border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px;font-weight:700;color:#1d5c3a;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-family:sans-serif;">Your Free 7-Day Coaching — What's Coming</p>
+        <p style="margin:0 0 14px;font-size:13px;color:#555;font-family:sans-serif;">One email. One task. No fluff. Built for ${archetypeLabel}.</p>
+        <ul style="margin:0;padding:0;list-style:none;">
+          ${previewHtml}
+        </ul>
+      </div>
+      <p>This is not a newsletter. This is a coaching sequence. Treat it like one.</p>
+      ${ctaButton("Book a Free Strategy Call with Indrodip", CAL_LINK)}
+      <p style="color:#888;font-size:13px;margin-top:24px;">P.S. If you already know you don't want to wait 7 days — book a free 60-minute strategy call now: <a href="${CAL_LINK}" style="color:#1d5c3a;">${CAL_LINK}</a>. I open a limited number of spots each month. They go fast.</p>
+    `)
+  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -129,7 +185,7 @@ const sequences: Record<string, Record<number, { subject: string; html: (name: s
   // PIONEER — no clients yet
   // ─────────────────────────────────────────────────
   PIONEER: {
-    0: day0,
+    0: makeDay0('PIONEER'),
     1: {
       subject: "Day 1 — the real reason you haven't started yet (it's not what you think)",
       html: (name, _videoUrl) => buildEmail(name, `
@@ -331,7 +387,7 @@ const sequences: Record<string, Record<number, { subject: string; html: (name: s
   // PATHFINDER — launched, inconsistent income
   // ─────────────────────────────────────────────────
   PATHFINDER: {
-    0: day0,
+    0: makeDay0('PATHFINDER'),
     1: {
       subject: "Day 1 — the real reason your income is inconsistent (it's structural, not personal)",
       html: (name, _videoUrl) => buildEmail(name, `
@@ -515,7 +571,7 @@ const sequences: Record<string, Record<number, { subject: string; html: (name: s
   // BUILDER — consistent clients, hitting ceiling
   // ─────────────────────────────────────────────────
   BUILDER: {
-    0: day0,
+    0: makeDay0('BUILDER'),
     1: {
       subject: "Day 1 — why you've hit a ceiling (and why working harder won't break it)",
       html: (name, _videoUrl) => buildEmail(name, `
@@ -691,7 +747,7 @@ const sequences: Record<string, Record<number, { subject: string; html: (name: s
   // LUMINARY — established, wants to expand
   // ─────────────────────────────────────────────────
   LUMINARY: {
-    0: day0,
+    0: makeDay0('LUMINARY'),
     1: {
       subject: "Day 1 — you've already proven it. now let's make it untouchable.",
       html: (name, _videoUrl) => buildEmail(name, `

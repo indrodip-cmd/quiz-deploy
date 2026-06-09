@@ -90,6 +90,7 @@ export async function POST(req: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name,
+          email,
           stage: stage || 'launched',
           goal: goal || '$5K-$10K / month',
           hours: hours || '10-20',
