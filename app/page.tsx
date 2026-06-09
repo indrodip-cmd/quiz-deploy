@@ -1420,10 +1420,30 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             Most coaches are following strategies built for someone else. In 5 minutes, this assessment identifies your Expert Income Archetype and shows you exactly what to do next.
           </motion.p>
 
-          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={3} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <motion.button className="qp-btn-gold" onClick={onStart} style={{ animation: 'ctapulse 3s ease-in-out infinite' }}>
-              DISCOVER MY ARCHETYPE
-            </motion.button>
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={3}>
+            <motion.div
+              animate={{
+                boxShadow: [
+                  '0 8px 32px rgba(15,17,23,0.4), 0 0 0px rgba(15,17,23,0)',
+                  '0 12px 48px rgba(15,17,23,0.7), 0 0 40px rgba(139,127,207,0.4)',
+                  '0 8px 32px rgba(15,17,23,0.4), 0 0 0px rgba(15,17,23,0)',
+                ],
+                opacity: [1, 0.88, 1],
+                scale: [1, 1.015, 1],
+              }}
+              transition={{
+                duration: 3.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              whileHover={{ scale: 1.04, opacity: 1 }}
+              whileTap={{ scale: 0.97 }}
+              style={{ borderRadius: '999px', display: 'inline-block' }}
+            >
+              <motion.button className="qp-btn-gold" onClick={onStart}>
+                DISCOVER MY ARCHETYPE &amp; ROADMAP →
+              </motion.button>
+            </motion.div>
           </motion.div>
 
           <motion.p className="qp-hero-sub qp-trust-line" {...up(0.52)} style={{ fontSize: '16px', margin: '16px auto 0', opacity: 0.7 }}>
