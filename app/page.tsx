@@ -1352,6 +1352,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
   return (
     <div className="qp">
+      <style>{`
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
       <style>{LP_CSS}</style>
 
       {/* ══ NAV ══ */}
