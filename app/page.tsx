@@ -1292,6 +1292,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
 
+  const [isMobile, setIsMobile] = React.useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
   /* Section in-view */
   const archRef     = useRef<HTMLDivElement>(null)
   const archInView  = useInView(archRef,   { once: true, amount: 0.08 })
@@ -1366,7 +1374,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero" style={{ padding: 'clamp(80px, 15vw, 140px) clamp(16px, 5vw, 48px) clamp(40px, 8vw, 80px)' }}>
+      <section className="qp-hero" style={{ padding: isMobile ? '100px 16px 60px' : 'clamp(80px, 10vw, 120px) clamp(16px, 5vw, 48px) clamp(40px, 8vw, 80px)' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner">
 
@@ -1615,7 +1623,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           initial={prefersReduced ? {} : { opacity:0, y:40 }}
           animate={{ opacity:1, y:0 }}
           transition={tr(0.6)}
-          style={{ mixBlendMode: 'multiply', background: 'transparent' }}
+          style={{ mixBlendMode: 'multiply', background: 'transparent', display: isMobile ? 'none' : undefined }}
         />
       </section>
 
@@ -1783,13 +1791,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             variants={staggerContainer}
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '16px',
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+              gap: isMobile ? '12px' : '16px',
               maxWidth: '1000px',
               margin: '48px auto 0',
-              padding: '0 24px',
+              padding: isMobile ? '0 12px' : '0 24px',
             }}
-            className="testimonials-grid-responsive"
           >
             {[
               {
