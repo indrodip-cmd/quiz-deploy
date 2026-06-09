@@ -1482,6 +1482,23 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             Takes 5 Minutes&nbsp;&nbsp;•&nbsp;&nbsp;20 Questions&nbsp;&nbsp;•&nbsp;&nbsp;Instant Results
           </p>
 
+          <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <span style={{
+              fontSize: '12px',
+              fontWeight: '700',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color: '#c9a84c',
+              background: 'rgba(201,168,76,0.12)',
+              border: '1px solid rgba(201,168,76,0.35)',
+              borderRadius: '100px',
+              padding: '5px 16px',
+              display: 'inline-block',
+            }}>
+              + Free 7-Day AI Coaching Included
+            </span>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1779,9 +1796,43 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                   </li>
                 ))}
               </ul>
+              <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginTop: '16px' }}>
+                <div style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  background: '#c9a84c',
+                  color: '#0f1117',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '13px',
+                  fontWeight: '800',
+                  flexShrink: 0,
+                }}>4</div>
+                <div>
+                  <p style={{ fontWeight: '700', fontSize: '15px', margin: '0 0 4px' }}>Your Free 7-Day AI Coaching Begins</p>
+                  <p style={{ fontSize: '14px', color: '#555', margin: 0, lineHeight: 1.6 }}>Every day for 7 days, you receive a personalised coaching email built around your archetype — one insight, one action, designed to help you make an extra $3K–$5K.</p>
+                </div>
+              </div>
               <p className="qp-card-closing">
                 Apply your roadmap and start building your business around your strengths instead of forcing strategies that don't fit.
               </p>
+              <div style={{
+                marginTop: '20px',
+                background: 'rgba(201,168,76,0.08)',
+                border: '1px solid rgba(201,168,76,0.3)',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+              }}>
+                <span style={{ fontSize: '20px' }}>🎁</span>
+                <p style={{ margin: 0, fontSize: '13px', fontWeight: '600', color: '#0f1117', lineHeight: 1.5 }}>
+                  <strong>100% Free.</strong> No credit card. No catch. Just 7 days of real coaching delivered to your inbox.
+                </p>
+              </div>
             </motion.div>
           </div>
 
