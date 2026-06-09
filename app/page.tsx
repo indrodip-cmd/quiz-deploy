@@ -1053,6 +1053,11 @@ const LP_TESTIMONIALS = [
 const LP_CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Caveat:wght@400;600;700&display=swap');
 
+@keyframes redpulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.3); }
+}
+
 /* ─── reset for landing ─── */
 .qp *,.qp *::before,.qp *::after{box-sizing:border-box;margin:0;padding:0;}
 .qp{font-family:'DM Sans',sans-serif;color:#111;overflow-x:hidden;}
@@ -1326,7 +1331,36 @@ function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="qp-hero-inner">
 
           <motion.div {...up(0.08)}>
-            <Annotation>FOR COACHES, CONSULTANTS & EXPERTS ONLY</Annotation>
+            <div style={{display:'flex',justifyContent:'center',marginBottom:'28px'}}>
+              <div style={{
+                display:'inline-flex',
+                alignItems:'center',
+                gap:'10px',
+                background:'rgba(220,38,38,0.12)',
+                border:'1px solid rgba(220,38,38,0.4)',
+                borderRadius:'100px',
+                padding:'8px 20px',
+                boxShadow:'0 0 24px rgba(220,38,38,0.3), 0 0 48px rgba(220,38,38,0.15)',
+              }}>
+                <span style={{
+                  width:'8px',
+                  height:'8px',
+                  borderRadius:'50%',
+                  background:'#ef4444',
+                  display:'inline-block',
+                  boxShadow:'0 0 8px #ef4444, 0 0 16px #ef4444',
+                  animation:'redpulse 1.5s ease-in-out infinite',
+                  flexShrink:0,
+                }}></span>
+                <span style={{
+                  fontSize:'11px',
+                  fontWeight:'700',
+                  letterSpacing:'0.1em',
+                  textTransform:'uppercase',
+                  color:'#fca5a5',
+                }}>NEW · The AI Assessment That Identifies Your Exact Growth Bottleneck In 5 Minutes</span>
+              </div>
+            </div>
           </motion.div>
 
           <motion.h1 className="qp-h1" {...up(0.2)} style={{
@@ -1349,7 +1383,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             lineHeight: 1.7,
             margin: '0 auto 40px',
           }}>
-            Most coaches don't have an offer problem — they have an alignment problem. They're following growth strategies that work perfectly for someone else, but are completely misaligned with their strengths, personality, business stage, and goals. In less than 5 minutes, this assessment uncovers exactly what's holding you back and provides a personalised roadmap for what to do next.
+            Most coaches are following strategies built for someone else. In 5 minutes, this assessment identifies your Expert Income Archetype and shows you exactly what to do next.
           </motion.p>
 
           <motion.div {...up(0.44)}>
