@@ -1366,7 +1366,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero" style={{ padding: 'clamp(48px, 10vw, 120px) clamp(16px, 5vw, 48px) clamp(40px, 8vw, 80px)' }}>
+      <section className="qp-hero" style={{ padding: 'clamp(80px, 15vw, 140px) clamp(16px, 5vw, 48px) clamp(40px, 8vw, 80px)' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner">
 
@@ -1615,6 +1615,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
           initial={prefersReduced ? {} : { opacity:0, y:40 }}
           animate={{ opacity:1, y:0 }}
           transition={tr(0.6)}
+          style={{ mixBlendMode: 'multiply', background: 'transparent' }}
         />
       </section>
 
