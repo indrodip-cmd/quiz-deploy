@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Discover Your Expert Income Archetype™ | The5th Consulting",
@@ -31,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0, background: '#0a0f0a' }}>{children}</body>
+      <body style={{ margin: 0, padding: 0, background: '#0a0f0a' }}>{children}<Analytics /></body>
     </html>
   );
 }

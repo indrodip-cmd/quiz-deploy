@@ -1456,13 +1456,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               }}
               whileHover={{ scale: 1.04, opacity: 1 }}
               whileTap={{ scale: 0.97 }}
-              style={{ borderRadius: '999px', display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '420px', margin: '0 auto' }}
+              style={{ borderRadius: '999px', display: 'flex', justifyContent: 'center', width: isMobile ? '100%' : 'auto', maxWidth: '420px', margin: '0 auto', minWidth: 0 }}
             >
               <motion.button className="qp-btn-gold" onClick={onStart} style={{
-                width: '100%',
-                maxWidth: '420px',
-                fontSize: 'clamp(13px, 3.5vw, 16px)',
-                padding: '16px 24px',
+                width: isMobile ? '100%' : 'auto',
+                minWidth: 0,
+                fontSize: isMobile ? '14px' : '16px',
+                padding: isMobile ? '16px 20px' : '18px 40px',
+                whiteSpace: 'nowrap',
               }}>
                 DISCOVER MY ARCHETYPE &amp; ROADMAP →
               </motion.button>
