@@ -1239,7 +1239,7 @@ const LP_CSS = `
 .qp-h1,.qp-sect-h,.qp-arch-name,.qp-about-h,.qp-card-h,.qp-dark-h{font-family:'Gelica',serif !important;}
 
 /* ─── Social proof grid ─── */
-.qp-proof-section{background:#faf9f7;padding:80px 60px;border-top:1px solid #f0ece6;margin-top:80px;}
+.qp-proof-section{background:#faf9f7;padding:80px 60px;border-top:1px solid #f0ece6;margin-top:0;}
 .qp-proof-inner{max-width:1100px;margin:0 auto;}
 .qp-proof-heading{text-align:center;margin-bottom:48px;}
 .qp-proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
@@ -1374,7 +1374,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
       </motion.nav>
 
       {/* ══ HERO ══ */}
-      <section className="qp-hero" style={{ padding: isMobile ? '100px 16px 60px' : 'clamp(80px, 10vw, 120px) clamp(16px, 5vw, 48px) clamp(40px, 8vw, 80px)' }}>
+      <section className="qp-hero" style={{ padding: isMobile ? '100px 16px 40px' : 'clamp(80px, 10vw, 120px) clamp(16px, 5vw, 48px) 60px' }}>
         <div className="qp-hero-grain" aria-hidden="true" />
         <div className="qp-hero-inner">
 
