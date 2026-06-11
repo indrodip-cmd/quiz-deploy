@@ -1424,7 +1424,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             maxWidth: '860px',
             fontFamily: 'Gelica, serif',
           }}>
-            What If You're Not Stuck Because Of Your Offer... But Because You're Building Your Business The Wrong Way For You?
+           What If You're Not Stuck Because Of Your Offer... But Because You're Following A Business Model That Doesn't Suit You?
           </motion.h1>
 
           <motion.p className="qp-hero-sub" initial="hidden" animate="visible" variants={fadeUp} custom={2} style={{
